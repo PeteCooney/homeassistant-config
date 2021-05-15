@@ -1,0 +1,3 @@
+surepetcare:
+  username: !secret surepet_username
+  password: !secret surepet_password

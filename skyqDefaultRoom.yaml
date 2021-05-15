@@ -74,6 +74,26 @@
           source: 'ITV2 HD'
       turn_off:
         service: script.placeholder
+    skyq_itv3hddefaultroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV3 HD in the Default Room'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.lounge_sky_q
+          source: 'ITV3 HD'
+      turn_off:
+        service: script.placeholder
+    skyq_itv4hddefaultroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV4 HD in the Default Room'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.lounge_sky_q
+          source: 'ITV4 HD'
+      turn_off:
+        service: script.placeholder
     skyq_channel4hddefaultroom:
       value_template: '{{"off"}}'
       friendly_name: 'Channel 4 HD in the Default Room'
@@ -114,6 +134,16 @@
           source: 'Sky Atlantic HD'
       turn_off:
         service: script.placeholder
+    skyq_cbbchddefaultroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'CBBC HD in the Default Room'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.lounge_sky_q
+          source: 'CBBC HD'
+      turn_off:
+        service: script.placeholder
     skyq_cbeebieshddefaultroom:
       value_template: '{{"off"}}'
       friendly_name: 'CBeebies HD in the Default Room'
@@ -132,35 +162,5 @@
         data:
           entity_id: media_player.lounge_sky_q
           source: 'CITV'
-      turn_off:
-        service: script.placeholder
-    skyq_nickjrhddefaultroom:
-      value_template: '{{"off"}}'
-      friendly_name: 'Nick Jr. HD in the Default Room'
-      turn_on:
-        service: media_player.select_source
-        data:
-          entity_id: media_player.lounge_sky_q
-          source: 'Nick Jr. HD'
-      turn_off:
-        service: script.placeholder
-    skyq_nickjrtoodefaultroom:
-      value_template: '{{"off"}}'
-      friendly_name: 'NickJr. Too in the Default Room'
-      turn_on:
-        service: media_player.select_source
-        data:
-          entity_id: media_player.lounge_sky_q
-          source: 'NickJr. Too'
-      turn_off:
-        service: script.placeholder
-    skyq_cbbchddefaultroom:
-      value_template: '{{"off"}}'
-      friendly_name: 'CBBC HD in the Default Room'
-      turn_on:
-        service: media_player.select_source
-        data:
-          entity_id: media_player.lounge_sky_q
-          source: 'CBBC HD'
       turn_off:
         service: script.placeholder
