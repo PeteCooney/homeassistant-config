@@ -1,0 +1,26 @@
+# Convert Switches to Lights
+- platform: switch
+  name: Kitchen Corner Light
+  entity_id: switch.kitchen_corner_lamp_mss210_main_channel
+
+- platform: switch
+  name: Lounge Corner Light
+  entity_id: switch.lounge_corner_light_mss210_main_channel
+
+- platform: switch
+  name: Lounge Side Light
+  entity_id: switch.lounge_side_light_mss210_main_channel
+
+# Light Groups
+- platform: group
+  name: Lounge Lamps
+  entities:
+    - light.lounge_corner_light
+    - light.lounge_side_light
+    
+- platform: group
+  name: Lounge Lights
+  entities:
+    - light.lounge_main_lights
+    - light.lounge_corner_light
+    - light.lounge_side_light

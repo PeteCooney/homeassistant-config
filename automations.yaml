@@ -1,0 +1,20 @@
+- id: '1609845736265'
+  alias: Restart Pi-Hole
+  description: Restart the Pi-Hole after it has been disabled for 1 minute
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: f32da5442dd8c71e58b91ba6883e123d
+    entity_id: switch.pi_hole
+    domain: switch
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition: []
+  action:
+  - type: turn_on
+    device_id: f32da5442dd8c71e58b91ba6883e123d
+    entity_id: switch.pi_hole
+    domain: switch
+  mode: single
