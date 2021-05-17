@@ -1,5 +1,6 @@
 # Master Bedroom Sky Q
 # Bedroom Sky Q
+switch:
 - platform: template
   switches:
     bedroom_sky_q:

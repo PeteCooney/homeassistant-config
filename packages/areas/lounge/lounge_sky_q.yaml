@@ -1,5 +1,6 @@
 # Lounge Sky Q
 # Basic on/off switch
+switch:
 - platform: template
   switches:
     lounge_sky_q:
