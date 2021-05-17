@@ -1,0 +1,5 @@
+# Convert Meross switches to Lights
+light:
+- platform: switch
+  name: Kitchen Corner Light
+  entity_id: switch.kitchen_corner_lamp_mss210_main_channel

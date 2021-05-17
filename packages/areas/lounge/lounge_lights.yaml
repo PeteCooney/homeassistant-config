@@ -1,8 +1,5 @@
-# Convert Switches to Lights
-- platform: switch
-  name: Kitchen Corner Light
-  entity_id: switch.kitchen_corner_lamp_mss210_main_channel
-
+# Convert Meross switches to Lights
+light:
 - platform: switch
   name: Lounge Corner Light
   entity_id: switch.lounge_corner_light_mss210_main_channel
@@ -11,7 +8,7 @@
   name: Lounge Side Light
   entity_id: switch.lounge_side_light_mss210_main_channel
 
-# Light Groups
+# Set up lighting groups
 - platform: group
   name: Lounge Lamps
   entities:

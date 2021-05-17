@@ -12,12 +12,9 @@ frontend:
   themes: !include_dir_merge_named themes
 
 # Import Entity Configuration Files
-group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-switch: !include switches.yaml
-light: !include lights.yaml
 
 homeassistant:
   packages: !include_dir_named packages
