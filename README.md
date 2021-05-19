@@ -15,3 +15,8 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Homebridge
 - [ ] Alexa
 - [ ] British Gas Smart Meter
+
+## YAML Lovelace Setup
+
+- [ ] Main UI
+- [ ] Lounge Sky Q Remote
