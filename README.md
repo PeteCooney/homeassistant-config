@@ -9,14 +9,16 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Meross (Switches used for lounge & kitchen lights)
 - [x] Tuya (Used for main lounge)
 - [ ] Shelly (Planned replacement for Tuya & Meross)
-- [ ] Hot Tub (Lay-Z-Spa)
+- [x] Hot Tub (Lay-Z-Spa)
 - [x] Sky Q
 - [x] Pi-Hole
-- [x] Homebridge
+- [x] Home Bridge (for Apple HomeKit)
+- [x] Plex Server
 - [ ] Alexa
 - [ ] British Gas Smart Meter
 
 ## YAML Lovelace Setup
 
-- [ ] Main UI
+- [x] Main UI
 - [ ] Lounge Sky Q Remote
+- [ ] Master Bedroom Sky Q Remote
