@@ -1,8 +1,6 @@
-# Pi-Hole
-
 # Automatically restart Pi-Hole after it has been switched off for 1 minute
 automation:
-- id: '1609845736265'
+- id: '20210519004'
   alias: Restart Pi-Hole
   description: Restart the Pi-Hole after it has been disabled for 1 minute
   trigger:

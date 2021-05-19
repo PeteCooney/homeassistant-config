@@ -1,0 +1,11 @@
+automation:
+- id: "20210519003"
+  alias: "Initialise 'input_number.hottub_target_temp'"
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.hottub_target_temp
+      value_template: "{{ states('sensor.hottub_temp_target') | int }}"    

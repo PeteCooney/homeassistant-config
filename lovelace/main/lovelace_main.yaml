@@ -1,0 +1,91 @@
+views:
+  - path: default_view
+    title: Home
+    panel: false
+    badges: []
+    cards:
+      - type: 'custom:vertical-stack-in-card'
+        title: Lounge
+        cards:
+          - type: entities
+            entities:
+              - entity: light.lounge_lights
+                name: Lights
+              - type: 'custom:slider-entity-row'
+                entity: light.53436805c44f33b7c569
+                name: Main Lights
+              - entity: light.lounge_corner_light
+                name: Corner Light
+              - entity: light.lounge_side_light
+                name: Side Light
+          - type: media-control
+            entity: media_player.lounge_sky_q
+        state_color: true
+      - type: 'custom:vertical-stack-in-card'
+        title: Master Bedroom
+        cards:
+          - type: media-control
+            entity: media_player.bedroom_sky_q
+      - type: 'custom:vertical-stack-in-card'
+        title: Garden
+        cards:
+          - type: glance
+            entities:
+              - entity: sensor.hottub_summary
+                name: Status
+              - entity: sensor.hottub_temp_current
+                name: Current
+              - entity: sensor.hottub_temp_target
+                name: Target
+            title: Hot Tub
+            state_color: true
+          - type: glance
+            entities:
+              - entity: switch.hottub_heater
+                name: Heater
+              - entity: switch.hottub_filter
+                name: Filter
+              - entity: switch.hottub_power
+                name: Power
+            state_color: true
+          - type: entities
+            entities:
+              - entity: input_number.hottub_target_temp
+                name: Target Temperature
+              - entity: switch.hottub_bubbles
+                name: Bubbles!
+            state_color: true
+            show_header_toggle: false
+      - type: 'custom:vertical-stack-in-card'
+        title: Kitchen
+        cards:
+          - type: entities
+            entities:
+              - entity: light.kitchen_corner_light
+          - type: glance
+            entities:
+              - entity: binary_sensor.cat_flap_pussy_flaps_connectivity
+                name: Cat Flap
+              - entity: sensor.cat_flap_pussy_flaps_battery_level
+                name: Flap Battery
+              - entity: binary_sensor.hub_home
+                name: Hub
+              - entity: binary_sensor.pet_beau
+                name: Beau
+            state_color: true
+      - type: 'custom:vertical-stack-in-card'
+        title: Office
+        cards:
+          - type: glance
+            entities:
+              - entity: switch.pi_hole
+                name: Ph-Hole
+              - entity: sensor.hacs
+                name: HACS
+              - entity: sensor.plex_titan
+                name: Plex
+            state_color: true
+          - type: 'custom:weather-card'
+            entity: weather.home
+            number_of_forecasts: '5'
+title: Home

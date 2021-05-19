@@ -1,0 +1,7 @@
+input_number:
+  hottub_target_temp:
+    name: Hot Target Temperature
+    min: 30
+    max: 40
+    step: 1
+    icon: mdi:thermometer

@@ -1,0 +1,23 @@
+automation:
+- id: '20210519002'
+  alias: Switch hot tub heater off overnight
+  trigger:
+  - platform: time
+    at: '23:00'
+  action:
+  - service: rest_command.hottub_command
+    data: 
+      hottub_command: turn_heat_off
+  - delay: 00:00:05
+  - service: homeassistant.update_entity
+    entity_id: sensor.hottub_status
+  - wait_for_trigger:
+    - platform: time
+      at: 07:00
+  - service: rest_command.hottub_command
+    data: 
+      hottub_command: turn_heat_on
+  - delay: 00:00:05
+  - service: homeassistant.update_entity
+    entity_id: sensor.hottub_status
+  mode: single
