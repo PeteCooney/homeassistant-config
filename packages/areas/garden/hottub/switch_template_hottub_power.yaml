@@ -15,14 +15,18 @@ switch:
         turn_on:
           - service: rest_command.hottub_command
             data: 
-              hottub_command: turn_on
+              command: turn_on
+              api_did: !secret hottub_api_did
+              payload: ""
           - delay: 00:00:05
           - service: homeassistant.update_entity
             entity_id: sensor.hottub_status
         turn_off:
           - service: rest_command.hottub_command
             data: 
-              hottub_command: turn_off
+              command: turn_off
+              api_did: !secret hottub_api_did
+              payload: ""
           - delay: 00:00:05
           - service: homeassistant.update_entity
             entity_id: sensor.hottub_status

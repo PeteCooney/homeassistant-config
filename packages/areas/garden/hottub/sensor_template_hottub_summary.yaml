@@ -18,7 +18,7 @@ sensor:
           {% elif is_state('switch.hottub_filter','on') %}
             Filtering
           {% elif is_state('switch.hottub_power','off') %}
-            Off
+            Switched Off
           {% else %}
             Unknown
           {% endif %}
