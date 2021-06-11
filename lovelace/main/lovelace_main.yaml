@@ -4,15 +4,15 @@ views:
     panel: false
     badges: []
     cards:
-      - type: 'custom:vertical-stack-in-card'
+      - type: custom:vertical-stack-in-card
         title: Lounge
         cards:
           - type: entities
             entities:
               - entity: light.lounge_lights
                 name: Lights
-              - type: 'custom:slider-entity-row'
-                entity: light.53436805c44f33b7c569
+              - type: custom:slider-entity-row
+                entity: light.lounge_main_lights
                 name: Main Lights
               - entity: light.lounge_corner_light
                 name: Corner Light
@@ -20,13 +20,63 @@ views:
                 name: Side Light
           - type: media-control
             entity: media_player.lounge_sky_q
+            name: Sky Q
+          - type: media-control
+            entity: media_player.lounge_tv
+            name: TV
+          - type: media-control
+            entity: media_player.lounge_soundbar
+            name: Soundbar
         state_color: true
-      - type: 'custom:vertical-stack-in-card'
+      - type: custom:vertical-stack-in-card
         title: Master Bedroom
         cards:
           - type: media-control
             entity: media_player.bedroom_sky_q
-      - type: 'custom:vertical-stack-in-card'
+            name: Sky Q
+          - type: media-control
+            entity: media_player.bedroom_tv
+            name: TV
+      - type: custom:vertical-stack-in-card
+        title: Kitchen
+        cards:
+          - type: entities
+            entities:
+              - entity: light.kitchen_corner_light
+          - type: glance
+            entities:
+              - entity: sensor.cat_flap_pussy_flaps
+                name: Cat Flap
+              - entity: sensor.cat_flap_pussy_flaps_battery_level
+                name: Flap Battery
+              - entity: binary_sensor.hub_home
+                name: Hub
+              - entity: binary_sensor.pet_beau
+                name: Beau
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        title: Office
+        cards:
+          - type: glance
+            entities:
+              - entity: switch.pi_hole
+                name: Ph-Hole
+              - entity: binary_sensor.updater
+                name: HA Updates
+              - entity: sensor.hacs
+                name: HACS
+              - entity: sensor.plex_titan
+                name: Plex
+            state_color: true
+          - type: custom:weather-card
+            entity: weather.home
+            number_of_forecasts: '5'
+  - title: Garden
+    path: garden
+    panel: false
+    badges: []
+    cards:
+      - type: custom:vertical-stack-in-card
         title: Garden
         cards:
           - type: glance
@@ -56,36 +106,4 @@ views:
                 name: Bubbles!
             state_color: true
             show_header_toggle: false
-      - type: 'custom:vertical-stack-in-card'
-        title: Kitchen
-        cards:
-          - type: entities
-            entities:
-              - entity: light.kitchen_corner_light
-          - type: glance
-            entities:
-              - entity: binary_sensor.cat_flap_pussy_flaps_connectivity
-                name: Cat Flap
-              - entity: sensor.cat_flap_pussy_flaps_battery_level
-                name: Flap Battery
-              - entity: binary_sensor.hub_home
-                name: Hub
-              - entity: binary_sensor.pet_beau
-                name: Beau
-            state_color: true
-      - type: 'custom:vertical-stack-in-card'
-        title: Office
-        cards:
-          - type: glance
-            entities:
-              - entity: switch.pi_hole
-                name: Ph-Hole
-              - entity: sensor.hacs
-                name: HACS
-              - entity: sensor.plex_titan
-                name: Plex
-            state_color: true
-          - type: 'custom:weather-card'
-            entity: weather.home
-            number_of_forecasts: '5'
 title: Home
