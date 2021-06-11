@@ -5,7 +5,7 @@ My Home Assistant Configuration for reference and restorative purposes.
 ## Wanted Integrations
 
 - [x] Sure Petcare (Cat Flap)
-- [ ] Ring
+- [x] Ring (configured via UI for now)
 - [x] Meross (Switches used for lounge & kitchen lights)
 - [x] Tuya (Used for main lounge)
 - [ ] Shelly (Planned replacement for Tuya & Meross)
@@ -15,7 +15,7 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Home Bridge (for Apple HomeKit)
 - [x] Plex Server
 - [ ] Alexa
-- [ ] British Gas Smart Meter
+- [ ] Octopus Agile
 
 ## YAML Lovelace Setup
 
