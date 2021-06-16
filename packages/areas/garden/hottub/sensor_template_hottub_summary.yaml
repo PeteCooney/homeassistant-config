@@ -24,7 +24,7 @@ sensor:
           {% endif %}
         icon_template: >
           {% if is_state('sensor.hottub_online','false') %}
-            mdi:access-point-network-off
+            mdi:wifi-off
           {% elif is_state('sensor.hottub_error','on') %}
             mdi:alert
           {% elif is_state('switch.hottub_bubbles','on') %}
