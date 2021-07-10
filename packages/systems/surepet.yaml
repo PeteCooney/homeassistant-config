@@ -1,3 +1,4 @@
+# Currently disabled as running beta version for improved functionality
 #surepetcare:
 #  username: !secret surepet_username
 #  password: !secret surepet_password
