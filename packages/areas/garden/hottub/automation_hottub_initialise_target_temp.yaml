@@ -1,5 +1,5 @@
 automation:
-- id: "20210519003"
+- id: "hottub_initialise_target_temp"
   alias: "Initialise 'input_number.hottub_target_temp'"
   description: Set the initial value for 'input_number.hottub_target_temp' based on 'sensor.hottub_temp_target' when Home Assistant starts up
   trigger:

@@ -1,5 +1,5 @@
 automation:
-- id: "20210519001"
+- id: "hottub_set_target_temp"
   alias: "Set hot tub temperature"
   description: Set the hot tub target temperature when 'input_number.hottub_target_temp' is changed
   trigger:

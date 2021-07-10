@@ -1,5 +1,5 @@
 automation:
-- id: '20210519002'
+- id: 'hottub_switch_off_overnight'
   alias: Switch hot tub off overnight
   description: Switch the hot tub off between 11pm and 7am
   trigger:
