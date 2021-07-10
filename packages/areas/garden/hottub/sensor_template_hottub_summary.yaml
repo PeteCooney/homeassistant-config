@@ -19,6 +19,8 @@ sensor:
             Filtering
           {% elif is_state('switch.hottub_power','off') %}
             Switched Off
+          {% elif is_state('switch.hottub_filter','off') %}
+            Standby
           {% else %}
             Unknown
           {% endif %}
@@ -37,6 +39,8 @@ sensor:
             mdi:air-filter
           {% elif is_state('switch.hottub_power','off') %}
             mdi:power
+          {% elif is_state('switch.hottub_filter','off') %}
+            mdi:sleep
           {% else %}
             mdi:help-circle
           {% endif %}
