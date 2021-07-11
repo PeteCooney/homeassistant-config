@@ -4,4 +4,4 @@ input_number:
     min: 30
     max: 40
     step: 1
-    icon: mdi:thermometer
+    icon: mdi:thermometer-plus
