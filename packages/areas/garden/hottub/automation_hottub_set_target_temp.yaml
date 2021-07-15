@@ -1,6 +1,6 @@
 automation:
-- id: "hottub_set_target_temp"
-  alias: "Set hot tub temperature"
+- id: hottub_set_target_temp
+  alias: Set hot tub temperature
   description: Set the hot tub target temperature when 'input_number.hottub_target_temp' is changed
   trigger:
     platform: state
