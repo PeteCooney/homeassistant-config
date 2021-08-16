@@ -1,5 +1,5 @@
 """Constants for the Sure Petcare component."""
-DOMAIN = "surepetcarebeta"
+DOMAIN = "sureha"
 
 SPC = "spc"
 
@@ -12,6 +12,9 @@ TOPIC_UPDATE = f"{DOMAIN}_data_update"
 
 # sure petcare api
 SURE_API_TIMEOUT = 60
+
+# device info
+SURE_MANUFACTURER = "Sure Petcare"
 
 # flap
 SURE_BATT_VOLTAGE_FULL = 1.6  # voltage
