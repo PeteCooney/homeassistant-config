@@ -1,5 +1,28 @@
 """Constants for SkyQ."""
 
+from homeassistant.components.homekit.const import (
+    KEY_ARROW_DOWN,
+    KEY_ARROW_LEFT,
+    KEY_ARROW_RIGHT,
+    KEY_ARROW_UP,
+    KEY_BACK,
+    KEY_INFORMATION,
+    KEY_NEXT_TRACK,
+    KEY_PREVIOUS_TRACK,
+    KEY_SELECT,
+)
+from homeassistant.components.media_player.const import (
+    SUPPORT_NEXT_TRACK,
+    SUPPORT_PAUSE,
+    SUPPORT_PLAY,
+    SUPPORT_PLAY_MEDIA,
+    SUPPORT_PREVIOUS_TRACK,
+    SUPPORT_SEEK,
+    SUPPORT_SELECT_SOURCE,
+    SUPPORT_STOP,
+    SUPPORT_TURN_OFF,
+    SUPPORT_TURN_ON,
+)
 from homeassistant.const import STATE_OFF, STATE_UNKNOWN
 
 DOMAIN = "skyq"
@@ -7,6 +30,7 @@ DOMAINBROWSER = "skyq_browser"
 SKYQREMOTE = "skyqremote"
 UNDO_UPDATE_LISTENER = "undo_update_listener"
 
+CONF_TV_DEVICE_CLASS = "tv_device_class"
 CONF_SOURCES = "sources"
 CONF_CHANNEL_SOURCES = "channel_sources"
 CONF_ROOM = "room"
@@ -29,13 +53,25 @@ CONST_DEFAULT = "Default"
 CONST_DEFAULT_EPGCACHELEN = 20
 LIST_EPGCACHELEN = [10, 20, 30, 50, 999]
 
-DEVICE_CLASS = "receiver"
-
 FEATURE_BASIC = 1
 FEATURE_IMAGE = 2
 FEATURE_LIVE_TV = 4
 FEATURE_SWITCHES = 8
 FEATURE_GET_LIVE_RECORD = 16
+FEATURE_TV_DEVICE_CLASS = 32
+
+FEATURE_BASE = (
+    SUPPORT_TURN_OFF
+    | SUPPORT_TURN_ON
+    | SUPPORT_PAUSE
+    | SUPPORT_PLAY
+    | SUPPORT_STOP
+    | SUPPORT_NEXT_TRACK
+    | SUPPORT_PREVIOUS_TRACK
+    | SUPPORT_SELECT_SOURCE
+    | SUPPORT_SEEK
+    | SUPPORT_PLAY_MEDIA
+)
 
 TIMEOUT = 2
 ERROR_TIMEOUT = 10
@@ -52,16 +88,28 @@ SKYQ_ICONS = {
     SKYQ_PVR: "mdi:movie-open",
     STATE_UNKNOWN: "mdi:alert-circle-outline",
 }
-APP_TITLES = {
-    "com.bskyb.epgui": "EPG",
-    "com.bskyb.news": "SkyNews",
-    "com.bskyb.vevo": "Vevo",
-    "com.roku": "Roku",
-    "com.skyita.dazn": "DAZN",
-    "com.spotify.spotify.tvv2": "Spotify",
-    "fiit.tv": "Fiit",
-    "mediasetplay": "MediasetPlay",
-    "play.works": "PlayWorks",
-    "prime.video": "PrimeVideo",
-}
+
 APP_IMAGE_URL_BASE = "/api/" + DOMAIN + "/static"
+
+BUTTON_PRESS_CHANNELUP = "channelup"
+BUTTON_PRESS_CHANNELDOWN = "channeldown"
+BUTTON_PRESS_SELECT = "select"
+BUTTON_PRESS_DISMISS = "dismiss"
+BUTTON_PRESS_I = "i"
+BUTTON_PRESS_TVGUIDE = "tvguide"
+BUTTON_PRESS_UP = "up"
+BUTTON_PRESS_DOWN = "down"
+BUTTON_PRESS_LEFT = "left"
+BUTTON_PRESS_RIGHT = "right"
+
+REMOTE_BUTTONS = {
+    KEY_ARROW_RIGHT: BUTTON_PRESS_RIGHT,
+    KEY_ARROW_LEFT: BUTTON_PRESS_LEFT,
+    KEY_ARROW_UP: BUTTON_PRESS_UP,
+    KEY_ARROW_DOWN: BUTTON_PRESS_DOWN,
+    KEY_SELECT: BUTTON_PRESS_SELECT,
+    KEY_BACK: BUTTON_PRESS_DISMISS,
+    KEY_INFORMATION: BUTTON_PRESS_TVGUIDE,
+    KEY_PREVIOUS_TRACK: BUTTON_PRESS_CHANNELDOWN,
+    KEY_NEXT_TRACK: BUTTON_PRESS_CHANNELUP,
+}

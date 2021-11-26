@@ -2,10 +2,7 @@
 
 import logging
 
-from homeassistant.components.media_player.const import (
-    ATTR_MEDIA_VOLUME_LEVEL,
-    ATTR_MEDIA_VOLUME_MUTED,
-)
+from homeassistant.components.media_player.const import ATTR_MEDIA_VOLUME_LEVEL, ATTR_MEDIA_VOLUME_MUTED
 from homeassistant.const import (
     ATTR_ENTITY_ID,
     ATTR_SUPPORTED_FEATURES,
@@ -22,15 +19,22 @@ _LOGGER = logging.getLogger(__name__)
 class Volume_Entity:
     """Class representing the volume entity."""
 
-    def __init__(self, volume_entity):
+    def __init__(self, hass, volume_entity, mpname):
         """Initialise the volume entity class."""
-        self.volume_level = None
-        self.is_volume_muted = None
-        self.supported_features = None
+        self._volume_level = None
+        self._mpname = mpname
+        self._is_volume_muted = None
         self._entity_name = volume_entity
         self._entity_name_error = False
+        self._supported_features = None
+        self._startup_error = True
+        self._startup = True
+        if self._entity_name:
+            state_obj = hass.states.get(self._entity_name)
+            if state_obj:
+                self._supported_features = state_obj.attributes.get(ATTR_SUPPORTED_FEATURES)
 
-    async def async_update_volume_state(self, hass, mpname):
+    async def async_update_volume_state(self, hass):
         """Get the volume entity state."""
         if not self._entity_name:
             return
@@ -38,22 +42,24 @@ class Volume_Entity:
         try:
             state_obj = hass.states.get(self._entity_name)
             if state_obj:
-                self.volume_level = state_obj.attributes.get(ATTR_MEDIA_VOLUME_LEVEL)
-                self.is_volume_muted = state_obj.attributes.get(ATTR_MEDIA_VOLUME_MUTED)
-                self.supported_features = state_obj.attributes.get(
-                    ATTR_SUPPORTED_FEATURES
-                )
+                self._volume_level = state_obj.attributes.get(ATTR_MEDIA_VOLUME_LEVEL)
+                self._is_volume_muted = state_obj.attributes.get(ATTR_MEDIA_VOLUME_MUTED)
+                self._supported_features = state_obj.attributes.get(ATTR_SUPPORTED_FEATURES)
                 if self._entity_name_error:
-                    _LOGGER.info(
-                        f"I0010V - Volume entity now exists: {mpname} - {self._entity_name}"
-                    )
+                    _LOGGER.info(f"I0010V - Volume entity now exists: {self._mpname} - {self._entity_name}")
                     self._entity_name_error = False
-            else:
-                if not self._entity_name_error:
-                    _LOGGER.warning(
-                        f"W0010V - Volume entity does not exist: {mpname} - {self._entity_name}"
-                    )
+                    self._startup_error = False
+                    self._startup = False
+                elif self._startup:
+                    _LOGGER.debug(f"D0010V - Volume entity connected: {self._mpname} - {self._entity_name}")
+                    self._startup = False
+            elif not self._entity_name_error:
+                if not self._startup_error:
+                    _LOGGER.warning(f"W0010V - Volume entity does not exist: {self._mpname} - {self._entity_name}")
                     self._entity_name_error = True
+                else:
+                    _LOGGER.debug(f"D0020V - Volume entity does not exist: {self._mpname} - {self._entity_name}")
+                    self._startup_error = False
             return
         except (TypeError, ValueError):
             return None
@@ -81,9 +87,11 @@ class Volume_Entity:
         await self._async_call_service(hass, SERVICE_VOLUME_DOWN, data)
 
     async def _async_call_service(self, hass, service_name, variable_data=None):
-        service_data = {}
-        service_data["service"] = "media_player." + service_name
-        service_data["data"] = variable_data
+        service_data = {
+            "service": "media_player." + service_name,
+            "data": variable_data,
+        }
+
         await async_call_from_config(
             hass,
             service_data,
@@ -91,3 +99,18 @@ class Volume_Entity:
             validate_config=False,
         )
         return
+
+    @property
+    def supported_features(self):
+        """Provide supported features of the volume entity."""
+        return self._supported_features
+
+    @property
+    def volume_level(self):
+        """Provide volume level of the volume entity."""
+        return self._volume_level
+
+    @property
+    def is_volume_muted(self):
+        """Provide mute status of the volume entity."""
+        return self._is_volume_muted

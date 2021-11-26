@@ -1,7 +1,7 @@
 **/__pycache__/
 **/secrets.yaml
 **/secrets.yaml.disabled
-**/*.log
+**/*.log*
 **/*.db*
 /!not used custom components
 /.HA_VERSION
