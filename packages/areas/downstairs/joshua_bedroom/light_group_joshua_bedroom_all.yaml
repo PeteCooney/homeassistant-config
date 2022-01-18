@@ -1,0 +1,6 @@
+light:
+- platform: group
+  name: Joshua - Bedroom Lights
+  unique_id: light_group_joshua_bedroom_all
+  entities:
+    - light.joshua_bedroom_main_lights

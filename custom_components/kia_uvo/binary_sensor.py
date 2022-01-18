@@ -118,6 +118,22 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             DEVICE_CLASS_PROBLEM,
         ),
         (
+            "smartKeyBatteryWarning",
+            "Smart Key Battery Warning",
+            "vehicleStatus.smartKeyBatteryWarning",
+            "mdi:battery",
+            "mdi:battery-alert",
+            DEVICE_CLASS_PROBLEM,
+        ),
+        (
+            "washerFluidStatus",
+            "Washer Fluid Warning",
+            "vehicleStatus.washerFluidStatus",
+            "mdi:wiper-wash",
+            "mdi:wiper-wash-alert",
+            DEVICE_CLASS_PROBLEM,
+        ),
+        (
             "airConditioner",
             "Air Conditioner",
             "vehicleStatus.airCtrlOn",
@@ -189,6 +205,14 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             "mdi:car-seat-heater",
             None,
         ),
+        (
+            "lowFuelLight",
+            "Low Fuel Light",
+            "vehicleStatus.lowFuelLight",
+            "mdi:gas-station-off",
+            "mdi:gas-station",
+            None,
+        ),
     ]
 
     if (
@@ -213,20 +237,6 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
                 None,
                 None,
                 DEVICE_CLASS_PLUG,
-            )
-        )
-    if (
-        vehicle.engine_type is VEHICLE_ENGINE_TYPE.PHEV
-        or vehicle.engine_type is VEHICLE_ENGINE_TYPE.IC
-    ):
-        BINARY_INSTRUMENTS.append(
-            (
-                "lowFuelLight",
-                "Low Fuel Light",
-                "vehicleStatus.lowFuelLight",
-                "mdi:gas-station-off",
-                "mdi:gas-station",
-                None,
             )
         )
 

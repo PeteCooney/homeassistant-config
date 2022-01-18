@@ -1,0 +1,11 @@
+sensor:
+- platform: template
+  sensors:
+    kia_uvo_sorento_mileage:
+      unique_id: kia_uvo_sorento_mileage
+      availability_template: "{{ states('sensor.sorento_odometer') }}"
+      friendly_name: "Sorento Mileage"
+      value_template: "{{ (states('sensor.sorento_odometer') | float / 1.609) | round(0) }}"
+      icon_template: mdi:counter
+      unit_of_measurement: Miles
+        

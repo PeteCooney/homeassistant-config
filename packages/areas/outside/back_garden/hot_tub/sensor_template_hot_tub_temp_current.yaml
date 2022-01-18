@@ -1,0 +1,10 @@
+sensor:
+- platform: template
+  sensors:
+    hot_tub_temp_current:
+      unique_id: hot_tub_temp_current
+      availability_template: "{{ states('sensor.hot_tub_online') }}"
+      friendly_name: "Hot Tub Current Temperature"
+      unit_of_measurement: '°C'
+      value_template: "{{ state_attr('sensor.hot_tub_api_status', 'temp_now') | int }}"
+      icon_template: mdi:thermometer

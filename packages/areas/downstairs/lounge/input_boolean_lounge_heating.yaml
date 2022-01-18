@@ -1,0 +1,3 @@
+input_boolean:
+  lounge_heating:
+    name: Lounge Heating

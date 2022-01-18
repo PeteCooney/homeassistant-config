@@ -1,0 +1,6 @@
+light:
+- platform: group
+  name: Master Bathroom - Lights
+  unique_id: light_group_master_bathroom_all
+  entities:
+    - light.master_bathroom_main_lights

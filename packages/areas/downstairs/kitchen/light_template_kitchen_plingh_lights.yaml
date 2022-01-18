@@ -1,0 +1,21 @@
+light:
+- platform: template
+  lights:
+    kitchen_plinth_lights:
+      friendly_name: Kitchen - Plinth Lights
+      unique_id: kitchen_plinth_lights
+      icon_template: mdi:wall-sconce-round
+      # value_template: >-
+      #   {% if is_state('light.dummy_light', 'on') %}
+      #     on
+      #   {% else %}
+      #     off
+      #   {% endif %}
+      turn_on:
+        service: light.turn_on
+        target:
+          entity_id: light.dummy_light
+      turn_off:
+        service: light.turn_off
+        target:
+          entity_id: light.dummy_light

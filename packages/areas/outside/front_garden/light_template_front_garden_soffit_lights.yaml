@@ -1,0 +1,21 @@
+light:
+- platform: template
+  lights:
+    front_garden_soffit_lights:
+      friendly_name: Front Garden - Soffit Lights
+      unique_id: front_garden_soffit_lights
+      icon_template: mdi:light-recessed
+      # value_template: >-
+      #   {% if is_state('switch.front_garden_christmas_lights', 'on') %}
+      #     on
+      #   {% else %}
+      #     off
+      #   {% endif %}
+      turn_on:
+        service: light.turn_on
+        target:
+          entity_id: light.dummy_light
+      turn_off:
+        service: light.turn_off
+        target:
+          entity_id: light.dummy_light

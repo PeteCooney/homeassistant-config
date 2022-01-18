@@ -1,0 +1,11 @@
+sensor:
+- platform: template
+  sensors:
+    kia_uvo_sorento_range:
+      unique_id: kia_uvo_sorento_range
+      availability_template: "{{ states('sensor.sorento_range_by_fuel') }}"
+      friendly_name: "Sorento Range"
+      value_template: "{{ (states('sensor.sorento_range_by_fuel') | float / 1.609) | round(0) }}"
+      icon_template: mdi:map-marker-distance
+      unit_of_measurement: Miles
+        

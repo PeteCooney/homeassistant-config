@@ -1,0 +1,18 @@
+# Lounge Sky Q
+# Basic on/off switch
+switch:
+- platform: template
+  switches:
+    lounge_sky_q:
+      friendly_name: Lounge - Sky Q
+      unique_id: lounge_sky_q
+      icon_template: mdi:satellite-variant
+      value_template: "{{ not is_state('media_player.lounge_sky_q', 'off') }}"
+      turn_on:
+        service: media_player.turn_on
+        data:
+          entity_id: media_player.lounge_sky_q
+      turn_off:
+        service: media_player.turn_off
+        data:
+          entity_id: media_player.lounge_sky_q

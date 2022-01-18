@@ -1,0 +1,6 @@
+rest_command:
+  hot_tub_command: 
+    method: POST
+    content_type: "application/x-www-form-urlencoded"
+    url: "https://mobileapi.lay-z-spa.co.uk/v1/gizwits/{{command}}"
+    payload: "&{{api_did}}{{payload}}"

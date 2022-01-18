@@ -43,6 +43,9 @@ DATA_CONFIG_UPDATE_LISTENER: str = (
     "config_update_listener"  # Config Options Update Listener Unsubcribe Caller
 )
 
+# action status delay constants
+INITIAL_STATUS_DELAY_AFTER_COMMAND: int = 15
+RECHECK_STATUS_DELAY_AFTER_COMMAND: int = 10
 # Retry Specific Constants
 START_FORCE_UPDATE_AFTER_COMMAND: int = 10  # Trigger first force update after a command
 INTERVAL_FORCE_UPDATE_AFTER_COMMAND: int = 30  # Consecutive force update calls interval
@@ -55,7 +58,6 @@ NOT_APPLICABLE: str = "Not Applicable"
 DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S.%f"
 DYNAMIC_DISTANCE_UNIT: str = "dynamic_distance_unit"
 DISTANCE_UNITS = {1: LENGTH_KILOMETERS, 3: LENGTH_MILES}
-DEFAULT_DISTANCE_UNIT = 1
 DYNAMIC_TEMP_UNIT: str = "dynamic_temp_unit"
 
 REGION_EUROPE = "Europe"
@@ -70,76 +72,8 @@ BRAND_HYUNDAI = "Hyundai"
 BRANDS = {1: BRAND_KIA, 2: BRAND_HYUNDAI}
 DEFAULT_BRAND = 1
 
-EU_TEMP_RANGE = [
-    14,
-    14.5,
-    15,
-    15.5,
-    16,
-    16.5,
-    17,
-    17.5,
-    18,
-    18.5,
-    19,
-    19.5,
-    20,
-    20.5,
-    21,
-    21.5,
-    22,
-    22.5,
-    23,
-    23.5,
-    24,
-    24.5,
-    25,
-    25.5,
-    26,
-    26.5,
-    27,
-    27.5,
-    28,
-    28.5,
-    29,
-    29.5,
-    30,
-]
-CA_TEMP_RANGE = [
-    16,
-    16.5,
-    17,
-    17.5,
-    18,
-    18.5,
-    19,
-    19.5,
-    20,
-    20.5,
-    21,
-    21.5,
-    22,
-    22.5,
-    23,
-    23.5,
-    24,
-    24.5,
-    25,
-    25.5,
-    26,
-    26.5,
-    27,
-    27.5,
-    28,
-    28.5,
-    29,
-    29.5,
-    30,
-    30.5,
-    31,
-    31.5,
-    32,
-]
+EU_TEMP_RANGE = [x * 0.5 for x in range(28, 60)]
+CA_TEMP_RANGE = [x * 0.5 for x in range(32, 64)]
 USA_TEMP_RANGE = range(62, 82)
 
 

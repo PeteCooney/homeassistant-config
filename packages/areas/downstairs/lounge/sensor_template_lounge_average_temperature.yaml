@@ -1,0 +1,15 @@
+template:
+  - sensor:
+    - name: Lounge - Average Temperature
+      unique_id: lounge_average_temperature
+      state: >
+        {{ ((((states('input_number.dining_room_radiator_temperature')| float) + (states('input_number.lounge_sofa_radiator_temperature')| float) + (states('input_number.lounge_feature_radiator_temperature')| float)) / 3) | float) | round(1, "half") }}
+      device_class: temperature
+      unit_of_measurement: °C
+      attributes:
+        Dining Room: >
+          {{ states('input_number.dining_room_radiator_temperature') }} °C
+        Sofa: >
+          {{ states('input_number.lounge_sofa_radiator_temperature') }} °C
+        Feature: >
+          {{ states('input_number.lounge_feature_radiator_temperature') }} °C

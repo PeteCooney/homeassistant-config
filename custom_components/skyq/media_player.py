@@ -4,35 +4,60 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from homeassistant.components.homekit.const import (
-    ATTR_KEY_NAME, EVENT_HOMEKIT_TV_REMOTE_KEY_PRESSED, KEY_FAST_FORWARD,
-    KEY_REWIND)
-from homeassistant.components.media_player import (DEVICE_CLASS_RECEIVER,
-                                                   DEVICE_CLASS_TV,
-                                                   MediaPlayerEntity)
-from homeassistant.components.media_player.const import (MEDIA_TYPE_APP,
-                                                         MEDIA_TYPE_TVSHOW,
-                                                         SUPPORT_BROWSE_MEDIA,
-                                                         SUPPORT_VOLUME_MUTE,
-                                                         SUPPORT_VOLUME_SET,
-                                                         SUPPORT_VOLUME_STEP)
-from homeassistant.const import (ATTR_ENTITY_ID, CONF_HOST, CONF_NAME,
-                                 STATE_OFF, STATE_PAUSED, STATE_PLAYING,
-                                 STATE_UNKNOWN)
-from pyskyqremote.const import (APP_EPG, SKY_STATE_OFF, SKY_STATE_ON,
-                                SKY_STATE_PAUSED, SKY_STATE_STANDBY)
+    ATTR_KEY_NAME,
+    EVENT_HOMEKIT_TV_REMOTE_KEY_PRESSED,
+    KEY_FAST_FORWARD,
+    KEY_REWIND,
+)
+from homeassistant.components.media_player import DEVICE_CLASS_RECEIVER, DEVICE_CLASS_TV, MediaPlayerEntity
+from homeassistant.components.media_player.const import (
+    MEDIA_TYPE_APP,
+    MEDIA_TYPE_TVSHOW,
+    SUPPORT_BROWSE_MEDIA,
+    SUPPORT_VOLUME_MUTE,
+    SUPPORT_VOLUME_SET,
+    SUPPORT_VOLUME_STEP,
+)
+from homeassistant.const import (
+    ATTR_ENTITY_ID,
+    CONF_HOST,
+    CONF_NAME,
+    STATE_OFF,
+    STATE_PAUSED,
+    STATE_PLAYING,
+    STATE_UNKNOWN,
+)
+from pyskyqremote.const import APP_EPG, SKY_STATE_OFF, SKY_STATE_ON, SKY_STATE_PAUSED, SKY_STATE_STANDBY
 from pyskyqremote.skyq_remote import SkyQRemote
 
 from .classes.config import Config
 from .classes.mediabrowser import Media_Browser
 from .classes.switchmaker import Switch_Maker
 from .classes.volumeentity import Volume_Entity
-from .const import (APP_IMAGE_URL_BASE, CONF_EPG_CACHE_LEN,
-                    CONST_DEFAULT_EPGCACHELEN, CONST_SKYQ_CHANNELNO,
-                    CONST_SKYQ_MEDIA_TYPE, DOMAIN, DOMAINBROWSER,
-                    ERROR_TIMEOUT, FEATURE_BASE, FEATURE_GET_LIVE_RECORD,
-                    FEATURE_IMAGE, FEATURE_LIVE_TV, FEATURE_SWITCHES,
-                    FEATURE_TV_DEVICE_CLASS, REMOTE_BUTTONS, SKYQ_APP,
-                    SKYQ_ICONS, SKYQ_LIVE, SKYQ_LIVEREC, SKYQ_PVR, SKYQREMOTE)
+from .const import (
+    APP_IMAGE_URL_BASE,
+    CONF_EPG_CACHE_LEN,
+    CONST_DEFAULT_EPGCACHELEN,
+    CONST_SKYQ_CHANNELNO,
+    CONST_SKYQ_MEDIA_TYPE,
+    DOMAIN,
+    DOMAINBROWSER,
+    ERROR_TIMEOUT,
+    FEATURE_BASE,
+    FEATURE_GET_LIVE_RECORD,
+    FEATURE_IMAGE,
+    FEATURE_LIVE_TV,
+    FEATURE_SWITCHES,
+    FEATURE_TV_DEVICE_CLASS,
+    REMOTE_BUTTONS,
+    SKYQ_APP,
+    SKYQ_ICONS,
+    SKYQ_LIVE,
+    SKYQ_LIVEREC,
+    SKYQ_PVR,
+    SKYQREMOTE,
+)
+from .entity import SkyQEntity
 from .utils import App_Image_Url, get_command
 
 _LOGGER = logging.getLogger(__name__)
@@ -110,7 +135,7 @@ async def _async_setup_platform_entry(config_item, async_add_entities, remote, u
     hass.bus.async_listen(EVENT_HOMEKIT_TV_REMOTE_KEY_PRESSED, _async_homekit_event)
 
 
-class SkyQDevice(MediaPlayerEntity):
+class SkyQDevice(SkyQEntity, MediaPlayerEntity):
     """Representation of a SkyQ Box."""
 
     def __init__(
@@ -120,8 +145,7 @@ class SkyQDevice(MediaPlayerEntity):
         config,
     ):
         """Initialise the SkyQRemote."""
-        self._config = config
-        self._unique_id = config.unique_id
+        super().__init__(remote, config)
         if config.volume_entity:
             self._volume_entity = Volume_Entity(hass, config.volume_entity, self._config.name)
         else:
@@ -137,11 +161,9 @@ class SkyQDevice(MediaPlayerEntity):
         self._imageUrl = None
         self._imageRemotelyAccessible = False
         self._season = None
-        self._remote = remote
         self._available = True
         self._errorTime = None
         self._startupSetup = True
-        self._deviceInfo = None
         self._channel_list = None
         self._use_internal = True
         self._switches_generated = False
@@ -154,15 +176,17 @@ class SkyQDevice(MediaPlayerEntity):
         self._supported_features = FEATURE_BASE
 
     @property
+    def device_info(self):
+        """Entity device information."""
+        return self.skyq_device_info
+
+    @property
     def supported_features(self):
         """Get the supported features."""
         if self._config.volume_entity:
             self._supported_features = self._supported_features | SUPPORT_VOLUME_MUTE
             self._supported_features = self._supported_features | SUPPORT_VOLUME_STEP
-            if (
-                self._volume_entity.supported_features
-                and self._volume_entity.supported_features & SUPPORT_VOLUME_SET
-            ):
+            if self._volume_entity.supported_features and self._volume_entity.supported_features & SUPPORT_VOLUME_SET:
                 self._supported_features = self._supported_features | SUPPORT_VOLUME_SET
         if len(self._config.source_list) > 0 and self.state not in (
             STATE_OFF,
@@ -265,27 +289,12 @@ class SkyQDevice(MediaPlayerEntity):
         return self._available
 
     @property
-    def device_info(self):
-        """Entity device information."""
-        return (
-            {
-                "identifiers": {(DOMAIN, self._deviceInfo.serialNumber)},
-                "name": self.name,
-                "manufacturer": self._deviceInfo.manufacturer,
-                "model": self._deviceInfo.hardwareModel,
-                "sw_version": f"{self._deviceInfo.ASVersion}:{self._deviceInfo.versionNumber}",
-            }
-            if self._deviceInfo
-            else None
-        )
-
-    @property
     def unique_id(self):
         """Entity unique id."""
         return self._unique_id
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return entity specific state attributes."""
         attributes = {CONST_SKYQ_MEDIA_TYPE: self._skyq_type}
         if self._skyq_channelno:
@@ -517,16 +526,10 @@ class SkyQDevice(MediaPlayerEntity):
             self._config.overrideCountry,
             self._config.test_channel,
         )
-        self._deviceInfo = await self.hass.async_add_executor_job(self._remote.getDeviceInformation)
-        if self._deviceInfo:
-            if not self._unique_id:
-                self._unique_id = self._deviceInfo.epgCountryCode + "".join(
-                    e for e in self._deviceInfo.serialNumber.casefold() if e.isalnum()
-                )
-
-            if not self._channel_list and len(self._config.channel_sources) > 0:
-                channelData = await self.hass.async_add_executor_job(self._remote.getChannelList)
-                self._channel_list = channelData.channels
+        await self._async_get_device_info(self.hass)
+        if self._deviceInfo and not self._channel_list and len(self._config.channel_sources) > 0:
+            channelData = await self.hass.async_add_executor_job(self._remote.getChannelList)
+            self._channel_list = channelData.channels
 
     def _setPowerStatus(self, powerStatus):
 

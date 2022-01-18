@@ -1,0 +1,8 @@
+light:
+- platform: group
+  name: Back Garden - Lights
+  unique_id: light_group_back_garden_all
+  entities:
+    - light.back_garden_house_lights
+    - light.back_garden_shed_lights
+    - light.back_garden_deck_lights

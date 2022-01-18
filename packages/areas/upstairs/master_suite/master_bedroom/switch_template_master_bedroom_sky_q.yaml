@@ -1,0 +1,17 @@
+# Master Bedroom Sky Q
+switch:
+- platform: template
+  switches:
+    master_bedroom_sky_q:
+      friendly_name: Master Bedroom - Sky Q
+      unique_id: master_bedroom_sky_q
+      icon_template: mdi:satellite-variant
+      value_template: "{{ not is_state('media_player.master_bedroom_sky_q', 'off') }}"
+      turn_on:
+        service: media_player.turn_on
+        data:
+          entity_id: media_player.master_bedroom_sky_q
+      turn_off:
+        service: media_player.turn_off
+        data:
+          entity_id: media_player.master_bedroom_sky_q

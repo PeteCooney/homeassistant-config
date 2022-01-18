@@ -1,0 +1,16 @@
+automation:
+- id: 'pihole_restart_after_disabled_for_1_minute'
+  alias: Pi-Hole - Restart after disabled for 1 minute
+  trigger:
+    entity_id: switch.pi_hole
+    platform: state
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition: []
+  action:
+  - entity_id: switch.pi_hole
+    service: switch.turn_on
+  mode: single

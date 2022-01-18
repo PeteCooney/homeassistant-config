@@ -1,0 +1,14 @@
+sensor:
+- platform: template
+  sensors:
+    hot_tub_error:
+      unique_id: hot_tub_error
+      availability_template: "{{ states('sensor.hot_tub_online') }}"
+      friendly_name: "Hot Tub Error"
+      icon_template: mdi:alert    
+      value_template: >-
+        {% if ( state_attr('sensor.hot_tub_api_status','system_err1') | int  + state_attr('sensor.hot_tub_api_status','system_err2') | int  + state_attr('sensor.hot_tub_api_status','system_err3') | int  + state_attr('sensor.hot_tub_api_status','system_err4') | int  + state_attr('sensor.hot_tub_api_status','system_err5') | int  + state_attr('sensor.hot_tub_api_status','system_err6') | int  + state_attr('sensor.hot_tub_api_status','system_err7') | int  + state_attr('sensor.hot_tub_api_status','system_err8') | int  + state_attr('sensor.hot_tub_api_status','system_err9') | int  + state_attr('sensor.hot_tub_api_status','earth') | int ) > 0 %}
+          on
+        {% else %}
+          off
+        {% endif %}

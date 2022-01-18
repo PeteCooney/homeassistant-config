@@ -12,11 +12,7 @@ import time
 
 from .const import (
     DOMAIN,
-    BRANDS,
-    BRAND_HYUNDAI,
-    BRAND_KIA,
     DATE_FORMAT,
-    VEHICLE_LOCK_ACTION,
 )
 from .KiaUvoApiImpl import KiaUvoApiImpl
 from .Token import Token
@@ -55,7 +51,11 @@ def request_with_active_session(func):
 def request_with_logging(func):
     def request_with_logging_wrapper(*args, **kwargs):
         url = kwargs["url"]
-        _LOGGER.debug(f"sending {url} request")
+        json_body = kwargs.get("json_body")
+        if json_body is not None:
+            _LOGGER.debug(f"sending {url} request with {json_body}")
+        else:
+            _LOGGER.debug(f"sending {url} request")
         response = func(*args, **kwargs)
         _LOGGER.debug(f"got response {response.text}")
         response_json = response.json()
@@ -87,6 +87,11 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
         super().__init__(
             username, password, region, brand, use_email_with_geocode_api, pin
         )
+        self.last_action_tracked = True
+        self.last_action_xid = None
+        self.last_action_completed = False
+
+        self.supports_soc_range = False
 
         # Randomly generate a plausible device id on startup
         self.device_id = (
@@ -153,7 +158,7 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
         username = self.username
         password = self.password
 
-        ### Sign In with Email and Password and Get Authorization Code ###
+        # Sign In with Email and Password and Get Authorization Code
 
         url = self.API_URL + "prof/authUser"
 
@@ -172,7 +177,7 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
             )
         _LOGGER.debug(f"got session id {session_id}")
 
-        ### Get Vehicles ###
+        # Get Vehicles
         url = self.API_URL + "ownr/gvl"
         headers = self.api_headers()
         headers["sid"] = session_id
@@ -235,10 +240,48 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
         )
 
         response_body = response.json()
+        vehicle_status = response_body["payload"]["vehicleInfoList"][0][
+            "lastVehicleInfo"
+        ]["vehicleStatusRpt"]["vehicleStatus"]
+
+        vehicle_status["time"] = vehicle_status["syncDate"]["utc"]
+
+        if vehicle_status["batteryStatus"].get("stateOfCharge"):
+            vehicle_status["battery"] = {
+                "batSoc": vehicle_status["batteryStatus"]["stateOfCharge"],
+            }
+
+        if vehicle_status.get("evStatus"):
+            vehicle_status["evStatus"]["remainTime2"] = {
+                "atc": vehicle_status["evStatus"]["remainChargeTime"][0]["timeInterval"]
+            }
+
+        vehicle_status["doorOpen"] = vehicle_status["doorStatus"]
+        vehicle_status["trunkOpen"] = vehicle_status["doorStatus"]["trunk"]
+        vehicle_status["hoodOpen"] = vehicle_status["doorStatus"]["hood"]
+
+        if vehicle_status.get("tirePressure"):
+            vehicle_status["tirePressureLamp"] = {
+                "tirePressureLampAll": vehicle_status["tirePressure"]["all"]
+            }
+
+        climate_data = vehicle_status["climate"]
+        vehicle_status["airCtrlOn"] = climate_data["airCtrl"]
+        vehicle_status["defrost"] = climate_data["defrost"]
+        vehicle_status["sideBackWindowHeat"] = climate_data["heatingAccessory"][
+            "rearWindow"
+        ]
+        vehicle_status["sideMirrorHeat"] = climate_data["heatingAccessory"][
+            "sideMirror"
+        ]
+        vehicle_status["steerWheelHeat"] = climate_data["heatingAccessory"][
+            "steeringWheel"
+        ]
+
+        vehicle_status["airTemp"] = climate_data["airTemp"]
+        vehicle_status["dte"] = vehicle_status["distanceToEmpty"]
         vehicle_data = {
-            "vehicleStatus": response_body["payload"]["vehicleInfoList"][0][
-                "lastVehicleInfo"
-            ]["vehicleStatusRpt"]["vehicleStatus"],
+            "vehicleStatus": vehicle_status,
             "odometer": {
                 "value": float(
                     response_body["payload"]["vehicleInfoList"][0]["vehicleConfig"][
@@ -251,45 +294,6 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
                 "lastVehicleInfo"
             ]["location"],
         }
-
-        vehicle_data["vehicleStatus"]["time"] = vehicle_data["vehicleStatus"][
-            "syncDate"
-        ]["utc"]
-
-        vehicle_data["vehicleStatus"]["doorOpen"] = vehicle_data["vehicleStatus"][
-            "doorStatus"
-        ]
-        vehicle_data["vehicleStatus"]["trunkOpen"] = vehicle_data["vehicleStatus"][
-            "doorStatus"
-        ]["trunk"]
-        vehicle_data["vehicleStatus"]["hoodOpen"] = vehicle_data["vehicleStatus"][
-            "doorStatus"
-        ]["hood"]
-
-        vehicle_data["vehicleStatus"]["tirePressureLamp"] = {
-            "tirePressureLampAll": vehicle_data["vehicleStatus"]["tirePressure"]["all"]
-        }
-
-        vehicle_data["vehicleStatus"]["airCtrlOn"] = vehicle_data["vehicleStatus"][
-            "climate"
-        ]["airCtrl"]
-        vehicle_data["vehicleStatus"]["defrost"] = vehicle_data["vehicleStatus"][
-            "climate"
-        ]["defrost"]
-        vehicle_data["vehicleStatus"]["sideBackWindowHeat"] = vehicle_data[
-            "vehicleStatus"
-        ]["climate"]["heatingAccessory"]["rearWindow"]
-        vehicle_data["vehicleStatus"]["sideMirrorHeat"] = vehicle_data["vehicleStatus"][
-            "climate"
-        ]["heatingAccessory"]["sideMirror"]
-        vehicle_data["vehicleStatus"]["steerWheelHeat"] = vehicle_data["vehicleStatus"][
-            "climate"
-        ]["heatingAccessory"]["steeringWheel"]
-
-        vehicle_data["vehicleStatus"]["airTemp"] = vehicle_data["vehicleStatus"][
-            "climate"
-        ]["airTemp"]
-
         return vehicle_data
 
     def get_location(self, token: Token):
@@ -307,19 +311,17 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
             token=token, url=url, json_body=body
         )
 
-    def check_action_status(self, token: Token, xid: str):
-        time.sleep(15)
-        completed = False
-        while not completed:
-            time.sleep(10)
-            url = self.API_URL + "cmm/gts"
-            body = {"xid": xid}
-            response = self.post_request_with_logging_and_active_session(
-                token=token, url=url, json_body=body
-            )
-            response_json = response.json()
-            completed = all(v == 0 for v in response_json["payload"].values())
-        return completed
+    def check_last_action_status(self, token: Token):
+        url = self.API_URL + "cmm/gts"
+        body = {"xid": self.last_action_xid}
+        response = self.post_request_with_logging_and_active_session(
+            token=token, url=url, json_body=body
+        )
+        response_json = response.json()
+        self.last_action_completed = all(
+            v == 0 for v in response_json["payload"].values()
+        )
+        return self.last_action_completed
 
     def lock_action(self, token: Token, action):
         _LOGGER.debug(f"Action for lock is: {action}")
@@ -330,13 +332,11 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
             url = self.API_URL + "rems/door/unlock"
             _LOGGER.debug(f"Calling unlock")
 
-        headers = self.authed_api_headers(token)
-
         response = self.get_request_with_logging_and_active_session(
-            token=token, url=url, headers=headers
+            token=token, url=url
         )
 
-        self.check_action_status(token, response.headers["Xid"])
+        self.last_action_xid = response.headers["Xid"]
 
     def start_climate(
         self, token: Token, set_temp, duration, defrost, climate, heating
@@ -364,14 +364,14 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
         response = self.post_request_with_logging_and_active_session(
             token=token, url=url, json_body=body
         )
-        self.check_action_status(token, response.headers["Xid"])
+        self.last_action_xid = response.headers["Xid"]
 
     def stop_climate(self, token: Token):
         url = self.API_URL + "rems/stop"
         response = self.get_request_with_logging_and_active_session(
             token=token, url=url
         )
-        self.check_action_status(token, response.headers["Xid"])
+        self.last_action_xid = response.headers["Xid"]
 
     def start_charge(self, token: Token):
         url = self.API_URL + "evc/charge"
@@ -379,11 +379,30 @@ class KiaUvoAPIUSA(KiaUvoApiImpl):
         response = self.post_request_with_logging_and_active_session(
             token=token, url=url, json_body=body
         )
-        self.check_action_status(token, response.headers["Xid"])
+        self.last_action_xid = response.headers["Xid"]
 
     def stop_charge(self, token: Token):
         url = self.API_URL + "evc/cancel"
         response = self.get_request_with_logging_and_active_session(
             token=token, url=url
         )
-        self.check_action_status(token, response.headers["Xid"])
+        self.last_action_xid = response.headers["Xid"]
+
+    def set_charge_limits(self, token: Token, ac_limit: int, dc_limit: int):
+        url = self.API_URL + "evc/sts"
+        body = {
+            "targetSOClist": [
+                {
+                    "plugType": 0,
+                    "targetSOClevel": dc_limit,
+                },
+                {
+                    "plugType": 1,
+                    "targetSOClevel": ac_limit,
+                },
+            ]
+        }
+        response = self.post_request_with_logging_and_active_session(
+            token=token, url=url, json_body=body
+        )
+        self.last_action_xid = response.headers["Xid"]

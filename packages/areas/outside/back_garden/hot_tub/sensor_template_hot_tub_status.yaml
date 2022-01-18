@@ -1,0 +1,47 @@
+sensor:
+- platform: template
+  sensors:
+    hot_tub_status:
+      unique_id: hot_tub_status
+      availability_template: "{{ states('sensor.hot_tub_online') }}"
+      friendly_name: "Hot Tub Status"
+      value_template: >-
+        {% if is_state('sensor.hot_tub_online','false') %}
+          Offline
+        {% elif is_state('sensor.hot_tub_error','on') %}
+          Error
+        {% elif is_state('switch.hot_tub_bubbles','on') %}
+          Bubbling
+        {% elif states('sensor.hot_tub_temp_current') | int >= states('sensor.hot_tub_temp_target') | int %}
+          Ready
+        {% elif is_state('switch.hot_tub_heater','on') %}
+          Heating
+        {% elif is_state('switch.hot_tub_filter','on') %}
+          Filtering
+        {% elif is_state('switch.hot_tub_power','off') %}
+          Switched Off
+        {% elif is_state('switch.hot_tub_filter','off') %}
+          Standby
+        {% else %}
+          Unknown
+        {% endif %}
+      icon_template: >-
+        {% if is_state('sensor.hot_tub_online','false') %}
+          mdi:wifi-off
+        {% elif is_state('sensor.hot_tub_error','on') %}
+          mdi:alert
+        {% elif is_state('switch.hot_tub_bubbles','on') %}
+          mdi:chart-bubble
+        {% elif states('sensor.hot_tub_temp_current') | int >= states('sensor.hot_tub_temp_target') | int %}
+          mdi:thermometer-lines
+        {% elif is_state('switch.hot_tub_heater','on') %}
+          mdi:fire
+        {% elif is_state('switch.hot_tub_filter','on') %}
+          mdi:air-filter
+        {% elif is_state('switch.hot_tub_power','off') %}
+          mdi:power
+        {% elif is_state('switch.hot_tub_filter','off') %}
+          mdi:sleep
+        {% else %}
+          mdi:help-circle
+        {% endif %}

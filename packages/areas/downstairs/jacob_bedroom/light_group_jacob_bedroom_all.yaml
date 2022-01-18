@@ -1,0 +1,7 @@
+light:
+- platform: group
+  name: Jacob - Bedroom Lights
+  unique_id: light_group_jacob_bedroom_all
+  entities:
+    - light.jacob_bedroom_main_lights
+    - light.jacob_bedroom_desk_lights

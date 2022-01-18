@@ -1,0 +1,26 @@
+light:
+- platform: template
+  lights:
+    kitchen_main_lights:
+      friendly_name: Kitchen - Main Lights
+      unique_id: kitchen_main_lights
+      icon_template: mdi:light-recessed
+      # value_template: >-
+      #   {% if is_state('light.dummy_light', 'on') %}
+      #     on
+      #   {% else %}
+      #     off
+      #   {% endif %}
+      turn_on:
+        service: light.turn_on
+        entity_id: light.kitchen_main_lights
+        data:
+          brightness: 100
+      turn_off:
+        service: light.turn_off
+        entity_id: light.kitchen_main_lights
+      set_level:
+        service: input_number.set_value
+        entity_id: input_number.dummy_input_number
+        data:
+          brightness: "{{ brightness }}"

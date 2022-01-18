@@ -1,0 +1,9 @@
+automation:
+- id: hot_tub_on_at_0700
+  alias: Hot Tub - Switch pump & heater on at 07:00am
+  trigger:
+    platform: time
+    at: "07:00"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.hot_tub_heater # Turning on the heater turns the filter on too

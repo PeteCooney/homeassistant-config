@@ -1,0 +1,32 @@
+switch:
+- platform: template
+  switches:
+    hot_tub_heater:
+      availability_template: "{{ states('sensor.hot_tub_online') }}"
+      unique_id: hot_tub_heater
+      friendly_name: Hot Tub Heater      
+      icon_template: mdi:coolant-temperature
+      value_template: >
+        {% if state_attr('sensor.hot_tub_api_status', 'heat_power') == 1 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      turn_on:
+        - service: rest_command.hot_tub_command          
+          data: 
+            command: turn_heat_on
+            api_did: !secret hottub_api_did
+            payload: ""
+        - delay: 00:00:05
+        - service: homeassistant.update_entity
+          entity_id: sensor.hot_tub_api_status
+      turn_off:
+        - service: rest_command.hot_tub_command
+          data: 
+            command: turn_heat_off
+            api_did: !secret hottub_api_did
+            payload: ""
+        - delay: 00:00:05
+        - service: homeassistant.update_entity
+          entity_id: sensor.hot_tub_api_status

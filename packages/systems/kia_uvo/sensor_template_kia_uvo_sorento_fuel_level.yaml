@@ -1,0 +1,10 @@
+sensor:
+- platform: template
+  sensors:
+    kia_uvo_sorento_fuel_level:
+      unique_id: kia_uvo_sorento_fuel_level
+      availability_template: "{{ states('binary_sensor.sorento_data') }}"
+      friendly_name: "Sorento Fuel Level"
+      value_template: "{{ states.binary_sensor.sorento_data.attributes.vehicle_data.vehicleStatus.fuelLevel }}"
+      icon_template: mdi:gas-station
+      unit_of_measurement: '%'

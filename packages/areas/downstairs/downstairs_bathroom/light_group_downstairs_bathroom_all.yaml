@@ -1,0 +1,7 @@
+light:
+- platform: group
+  name: Downstairs Bathroom - Lights
+  unique_id: light_group_downstairs_bathroom_all
+  entities:
+    - light.downstairs_bathroom_main_lights
+    - light.downstairs_bathroom_shower_alcove_light

@@ -1,0 +1,15 @@
+switch:
+- platform: template
+  switches:
+    front_garden_side_motion_sensor:
+      unique_id: front_garden_side_motion_sensor
+      friendly_name: Front Garden - Side Motion Sensor
+      icon_template: mdi:motion-sensor
+      turn_on:
+        service: light.turn_on
+        target:
+          entity_id: light.front_garden_side_lights
+      turn_off:
+        service: light.turn_off
+        target:
+          entity_id: light.front_garden_side_lights

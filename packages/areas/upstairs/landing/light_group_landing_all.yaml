@@ -1,0 +1,7 @@
+light:
+- platform: group
+  name: Hall/Landing Lights
+  unique_id: group_hall_landing_lights
+  entities:
+    - light.landing_main_lights
+    - light.landing_stair_lights
