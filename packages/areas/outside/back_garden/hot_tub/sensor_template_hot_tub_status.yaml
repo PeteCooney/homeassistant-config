@@ -12,7 +12,7 @@ sensor:
           Error
         {% elif is_state('switch.hot_tub_bubbles','on') %}
           Bubbling
-        {% elif states('sensor.hot_tub_temp_current') | int >= states('sensor.hot_tub_temp_target') | int %}
+        {% elif states('sensor.hot_tub_temp_current') | int(0) >= states('sensor.hot_tub_temp_target') | int(0) %}
           Ready
         {% elif is_state('switch.hot_tub_heater','on') %}
           Heating
@@ -32,7 +32,7 @@ sensor:
           mdi:alert
         {% elif is_state('switch.hot_tub_bubbles','on') %}
           mdi:chart-bubble
-        {% elif states('sensor.hot_tub_temp_current') | int >= states('sensor.hot_tub_temp_target') | int %}
+        {% elif states('sensor.hot_tub_temp_current') | int(0) >= states('sensor.hot_tub_temp_target') | int(0) %}
           mdi:thermometer-lines
         {% elif is_state('switch.hot_tub_heater','on') %}
           mdi:fire
