@@ -6,12 +6,8 @@ from datetime import timedelta
 from types import SimpleNamespace
 
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.const import (
-    CONF_HOST,
-    CONF_NAME,
-    DATA_GIGABYTES,
-    ENTITY_CATEGORY_DIAGNOSTIC,
-)
+from homeassistant.const import CONF_HOST, CONF_NAME, DATA_GIGABYTES
+from homeassistant.helpers.entity import EntityCategory
 
 from .classes.config import Config
 from .const import (
@@ -30,7 +26,7 @@ SCAN_INTERVAL = timedelta(minutes=5)
 
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
-    """Set up Sonos from a config entry."""
+    """Set up Sky Q from a config entry."""
     config = Config(
         config_entry.unique_id,
         config_entry.data[CONF_NAME],
@@ -47,7 +43,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class SkyQUsedStorage(SkyQEntity, SensorEntity):
     """Used Storage Entity for SkyQ Device."""
 
-    _attr_entity_category = ENTITY_CATEGORY_DIAGNOSTIC
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     def __init__(self, hass, remote, config):
         """Initialize the used storage sensor."""
@@ -122,12 +118,12 @@ class SkyQUsedStorage(SkyQEntity, SensorEntity):
     def _power_status_off_handling(self):
         if self._available:
             self._available = False
-            _LOGGER.warning("W0010S - Device is not available: %s", self.name)
+            _LOGGER.warning("W0010 - Device is not available: %s", self.name)
 
     def _power_status_on_handling(self):
         if not self._available:
             self._available = True
-            _LOGGER.info("I0020M - Device is now available: %s", self.name)
+            _LOGGER.info("I0010 - Device is now available: %s", self.name)
 
     def _read_state(self):
         if os.path.isfile(self._statefile):
