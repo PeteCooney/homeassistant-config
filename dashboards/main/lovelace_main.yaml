@@ -1,0 +1,391 @@
+views:
+  - path: home
+    title: Home
+    badges: []
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Lounge'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            state_color: true
+            entities:
+              - entity: light.lounge_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.lounge_main_lights
+                name: Main Lights
+              - entity: light.lounge_floor_lamps
+                name: Floor Lamps
+              - entity: light.lounge_christmas_tree
+                name: Christmas Tree
+              - entity: light.lounge_table_lamp
+                name: Table Lamp
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Multimedia'
+          - type: media-control
+            entity: media_player.lounge_sky_q
+            name: Sky Q
+          - type: media-control
+            entity: media_player.lounge_plex
+            name: Plex
+          - type: media-control
+            entity: media_player.lounge_tv
+            name: TV
+          - type: media-control
+            entity: media_player.lounge_soundbar
+            name: Soundbar
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Kitchen/Dining Room'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            state_color: true
+            entities:
+              - entity: light.kitchen_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.kitchen_main_lights
+                name: Main Lights
+              - entity: light.kitchen_pendant_lights
+                name: Pendant Lights
+              - entity: light.kitchen_counter_lights
+                name: Counter Lights
+              - entity: light.kitchen_plinth_lights
+                name: Plinth Lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Cat Flap'
+          - type: glance
+            entities:
+              - entity: sensor.cat_flap_pussy_flaps
+                name: Cat Flap
+              - entity: sensor.cat_flap_pussy_flaps_battery_level
+                name: Flap Battery
+              - entity: binary_sensor.hub_home
+                name: Hub
+              - entity: binary_sensor.pet_beau
+                name: Beau
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Master Bedroom Suite'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            state_color: true
+            entities:
+              - entity: light.master_suite_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - entity: light.master_bedroom_main_lights
+                name: Main Lights
+              - entity: light.master_bedroom_side_lights
+                name: Side Lights
+              - entity: light.master_bedroom_entrance_lights
+                name: Entrance Lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - entity: light.master_dressing_room_main_lights
+                name: Dressing Room Lights
+              - entity: light.master_bathroom_main_lights
+                name: Bathroom Lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Multimedia'
+          - type: media-control
+            entity: media_player.master_bedroom_sky_q
+            name: Sky Q
+          - type: media-control
+            entity: media_player.master_bedroom_plex
+            name: Plex
+          - type: media-control
+            entity: media_player.master_bedroom_tv
+            name: TV
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Brampton Road'
+          - type: markdown
+            content: '## Server Status'
+          - type: glance
+            entities:
+              - entity: switch.pi_hole
+                name: Pi-Hole
+              - entity: binary_sensor.updater
+                name: HA Updates
+              - entity: sensor.hacs
+                name: HACS
+              - entity: sensor.titan_intel_core_i3_4330_load_cpu_total
+                name: CPU Load
+                icon: mdi:chart-line
+              - entity: sensor.titan_intel_core_i3_4330_temperatures_cpu_package
+                name: CPU Temp
+            state_color: true
+          - type: entities
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Weather Forecast'
+          - type: custom:weather-card
+            entity: weather.home
+            number_of_forecasts: '5'
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Hall/Landing'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            entities:
+              - entity: light.hall_landing_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - entity: light.hall_main_lights
+                name: Hall Lights
+              - entity: light.landing_stair_lights
+                name: Stair Lights
+              - entity: light.landing_main_lights
+                name: Landing Lights
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Jacob''s Bedroom'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            entities:
+              - entity: light.jacob_bedroom_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.jacob_bedroom_main_lights
+                name: Main Light
+              - entity: light.jacob_bedroom_desk_lights
+                name: Desk Lights
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Joshua''s Bedroom'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            entities:
+              - entity: light.joshua_bedroom_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.joshua_bedroom_main_lights
+                name: Main Light
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Georgia''s Bedroom'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            entities:
+              - entity: light.georgia_bedroom_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.georgia_bedroom_main_lights
+                name: Main Light
+              - entity: light.georgia_bedroom_side_lights
+                name: Side Lights
+              - entity: light.georgia_bedroom_dressing_room_lights
+                name: Dressing Room Lights
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Beauty Room'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            entities:
+              - entity: light.beauty_room_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.beauty_room_main_lights
+                name: Main Light
+            state_color: true
+  - title: Outside
+    path: outside
+    icon: ''
+    badges: []
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Front Garden'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            entities:
+              - entity: light.front_garden_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - entity: light.front_garden_christmas_lights
+                name: Christmas Lights
+              - entity: light.front_garden_soffit_lights
+                name: Soffit Lights
+              - entity: light.front_garden_side_lights
+                name: Side Lights
+            state_color: true
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Back Garden'
+          - type: markdown
+            content: '## Lights'
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: light.back_garden_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - entity: light.back_garden_house_lights
+                name: House Lights
+              - entity: light.back_garden_shed_lights
+                name: Shed Lights
+              - entity: light.back_garden_deck_lights
+                name: Deck Lights
+            state_color: true
+          - type: entities
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Hot Tub'
+          - type: glance
+            entities:
+              - entity: sensor.hottub_summary
+                name: Status
+              - entity: sensor.hottub_temp_current
+                name: Current
+              - entity: sensor.hottub_temp_target
+                name: Target
+            state_color: true
+          - type: glance
+            entities:
+              - entity: switch.hottub_heater
+                name: Heater
+              - entity: switch.hottub_filter
+                name: Filter
+              - entity: switch.hottub_power
+                name: Power
+            state_color: true
+          - type: entities
+            entities:
+              - entity: input_number.hottub_target_temp
+                name: Target Temperature
+              - entity: switch.hottub_bubbles
+                name: Bubbles!
+            state_color: true
+            show_header_toggle: false
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Shed'
+          - type: markdown
+            content: '## Pete''s Office'
+          - type: entities
+            entities:
+              - entity: light.office_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - type: custom:slider-entity-row
+                entity: light.office_main_lights
+                name: Office Main Lights
+            state_color: true
+          - type: entities
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Workshop'
+          - type: entities
+            entities:
+              - entity: light.workshop_lights
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+              - entity: light.workshop_main_lights
+                name: Workshop Main Lights
+              - entity: light.workshop_workbench_lights
+                name: Workshop Workbench Lights
+            state_color: true
+title: Home
