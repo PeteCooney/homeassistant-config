@@ -1,8 +1,0 @@
-input_number:
-  lounge_feature_radiator_temperature:
-    name: Lounge - Feature Radiator Temperature
-    min: 10
-    max: 30
-    step: 0.5
-    unit_of_measurement: °C
-    icon: mdi:radiator
