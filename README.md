@@ -6,26 +6,26 @@ My Home Assistant Configuration for reference and restorative purposes.
 
 - [x] Sure Petcare (Cat Flap)
 - [x] Ring (configured via UI for now)
-- [x] Meross (Switches used for lounge & kitchen lights)
-- [x] Tuya (Used for main lounge)
-- [ ] Shelly (Planned replacement for Tuya & Meross)
+- [x] Meross (Smart plugs, used for table laps etc.)
 - [x] Hot Tub (Lay-Z-Spa)
 - [x] Sky Q
 - [x] Pi-Hole
 - [x] Home Bridge (for Apple HomeKit)
 - [x] Plex Server
+- [x] Honeywell Home Total Comfort Connect (evohome heating control)
+- [x] Kia Uvo (Integration for my Kia Sorento)
+- [x] Open Hardware Monitor (Used to monitor the server which hosts PLEX, VMs etc)
+- [x] Sonoff (Temporary solution for lights in Master Bedroom until I roll out Shelly devices)
+- [x] Samsung Smart TV (TVs throughout the house)
+- [ ] Shelly (Smart switches for lights - Partially implemented)
+- [ ] Home networking (UniFi or Omada, not sure which yet)
+- [ ] Homewhiz (Integration with Beko dishwasher)
+- [ ] CCTV cameras (Platform to be decided, possibly Blue Iris/ZoneMinder)
 - [ ] Alexa
-- [ ] Octopus Agile
 
-## YAML Lovelace Setup
+## YAML Dashboards Setup
 
 - [x] Main UI
-- [ ] Lounge Sky Q Remote
-- [ ] Master Bedroom Sky Q Remote
-
-## Future Plans
-
-I'm currently buying a new house so will likely need to update/change a lot of the existing configuration. I also have "plans" to do a more IoT in the new house including:
-
-- Shelly relays in as many light switches as possible
-- Integrate CCTV cameras with Home Assistant, assuming they can be supported (if not, I may just have to invest in a UniFi Dream Machine)
+- [ ] Sky Q Remotes:
+  - [ ] Master Bedroom
+  - [ ] Lounge
