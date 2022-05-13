@@ -1,0 +1,15 @@
+automation:
+- id: 'hot_tub_error_notification'
+  alias: Hot Tub Error Notification
+  trigger:
+    platform: state
+    entity_id: sensor.hot_tub_error
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.notify
+    data:
+      title: Hot Tub Error
+      message: Something is wrong with the hot tub
+  mode: single

@@ -1,0 +1,8 @@
+light:
+- platform: group
+  name: All - Lights
+  unique_id: light_group_all
+  entities:
+    - light.garden_all_lights
+    - light.house_all_lights
+    - light.shed_all_lights

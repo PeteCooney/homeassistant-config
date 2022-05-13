@@ -1,0 +1,14 @@
+automation:
+- id: hot_tub_target_temp_standby
+  alias: Hot Tub - Reset target temperature to standby
+  trigger:
+    platform: time
+    at: "23:00"
+  condition:
+    - condition: template
+      value_template: "{{ states('input_number.hot_tub_target_temp') | int  > states('input_number.hot_tub_standby_temp') | int }}"
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.hot_tub_target_temp
+      value: "{{ states('input_number.hot_tub_standby_temp') | int(0) }}"

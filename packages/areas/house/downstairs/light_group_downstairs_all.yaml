@@ -1,0 +1,12 @@
+light:
+- platform: group
+  name: House - Downstairs Lights
+  unique_id: light_group_downstairs_all
+  entities:
+    #- light.dining_room_lights
+    - light.downstairs_bathroom_lights
+    - light.hall_lights
+    - light.jacob_bedroom_lights
+    - light.joshua_bedroom_lights
+    - light.kitchen_lights
+    - light.lounge_lights

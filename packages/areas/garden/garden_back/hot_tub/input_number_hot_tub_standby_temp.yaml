@@ -1,0 +1,7 @@
+input_number:
+  hot_tub_standby_temp:
+    name: Hot Tub - Standby Temperature
+    min: 30
+    max: 40
+    step: 1
+    icon: mdi:sleep

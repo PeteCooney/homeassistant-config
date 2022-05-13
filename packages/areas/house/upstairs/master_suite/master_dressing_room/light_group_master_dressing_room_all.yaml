@@ -1,0 +1,7 @@
+light:
+- platform: group
+  name: Master Dressing Room - Lights
+  unique_id: light_group_master_dressing_room_all
+  entities:
+    - light.master_dressing_room_main_lights
+    - light.master_dressing_room_makeup_lights

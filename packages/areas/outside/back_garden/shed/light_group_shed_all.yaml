@@ -1,8 +1,0 @@
-light:
-- platform: group
-  name: Shed - Lights
-  unique_id: light_group_shed_all
-  entities:
-    - light.office_main_lights
-    - light.workshop_main_lights
-    - light.workshop_workbench_lights
