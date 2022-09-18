@@ -1,9 +1,9 @@
 light:
 - platform: template
   lights:
-    office_main_lights:
-      friendly_name: Office - Main Lights
-      unique_id: office_main_lights
+    dining_room_main_lights:
+      friendly_name: Dining Room - Main Lights
+      unique_id: dining_room_main_lights
       icon_template: mdi:light-recessed
       # value_template: >-
       #   {% if is_state('light.dummy_light', 'on') %}

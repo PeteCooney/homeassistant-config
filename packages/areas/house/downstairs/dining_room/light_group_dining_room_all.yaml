@@ -3,3 +3,4 @@ light:
   name: Dining Room - Lights
   unique_id: light_group_dining_room_all
   entities:
+    - light.dining_room_main_lights
