@@ -20,6 +20,7 @@ from ..light import *
 from ..remote import XRemote
 from ..sensor import *
 from ..switch import *
+from ..number import XPulseWidth
 
 # supported custom device_class
 DEVICE_CLASS = {
@@ -56,12 +57,43 @@ XSensor100 = spec(XSensor, multiply=0.01, round=2)
 Battery = spec(XSensor, param="battery")
 LED = spec(XToggle, param="sledOnline", uid="led", enabled=False)
 RSSI = spec(XSensor, param="rssi", enabled=False)
+PULSE = spec(XToggle, param="pulse", enabled=False)
+PULSEWIDTH = spec(XPulseWidth, param="pulseWidth", enabled=False)
 
-SPEC_SWITCH = [XSwitch, LED, RSSI]
+SPEC_SWITCH = [XSwitch, LED, RSSI, PULSE, PULSEWIDTH]
 SPEC_1CH = [Switch1, LED, RSSI]
 SPEC_2CH = [Switch1, Switch2, LED, RSSI]
 SPEC_3CH = [Switch1, Switch2, Switch3, LED, RSSI]
 SPEC_4CH = [Switch1, Switch2, Switch3, Switch4, LED, RSSI]
+
+Current1 = spec(XSensor100, param="current_00", uid="current_1")
+Current2 = spec(XSensor100, param="current_01", uid="current_2")
+Current3 = spec(XSensor100, param="current_02", uid="current_3")
+Current4 = spec(XSensor100, param="current_03", uid="current_4")
+Voltage1 = spec(XSensor100, param="voltage_00", uid="voltage_1")
+Voltage2 = spec(XSensor100, param="voltage_01", uid="voltage_2")
+Voltage3 = spec(XSensor100, param="voltage_02", uid="voltage_3")
+Voltage4 = spec(XSensor100, param="voltage_03", uid="voltage_4")
+Power1 = spec(XSensor100, param="actPow_00", uid="power_1")
+Power2 = spec(XSensor100, param="actPow_01", uid="power_2")
+Power3 = spec(XSensor100, param="actPow_02", uid="power_3")
+Power4 = spec(XSensor100, param="actPow_03", uid="power_4")
+Energy1 = spec(
+    XEnergySensor, param="kwhHistories_00", uid="energy_1",
+    get_params={"getKwh_00": 2}
+)
+Energy2 = spec(
+    XEnergySensor, param="kwhHistories_01", uid="energy_2",
+    get_params={"getKwh_01": 2}
+)
+Energy3 = spec(
+    XEnergySensor, param="kwhHistories_01", uid="energy_3",
+    get_params={"getKwh_02": 2}
+)
+Energy4 = spec(
+    XEnergySensor, param="kwhHistories_01", uid="energy_4",
+    get_params={"getKwh_03": 2}
+)
 
 # https://github.com/CoolKit-Technologies/eWeLink-API/blob/main/en/UIIDProtocol.md
 DEVICES = {
@@ -125,19 +157,16 @@ DEVICES = {
     104: [XLightB05B, RSSI],  # Sonoff B05-B RGB+CCT color bulb
     107: SPEC_1CH,
     126: [
-        Switch1, Switch2, RSSI,
-        spec(XSensor100, param="current_00", uid="current_1"),
-        spec(XSensor100, param="current_01", uid="current_2"),
-        spec(XSensor100, param="voltage_00", uid="voltage_1"),
-        spec(XSensor100, param="voltage_01", uid="voltage_2"),
-        spec(XSensor100, param="actPow_00", uid="power_1"),
-        spec(XSensor100, param="actPow_01", uid="power_2"),
-        spec(XEnergySensor, param="kwhHistories_00", uid="energy_1",
-             get_params={"getKwh_00": 2}),
-        spec(XEnergySensor, param="kwhHistories_01", uid="energy_2",
-             get_params={"getKwh_01": 2}),
+        Switch1, Switch2, RSSI, Current1, Current2, Voltage1, Voltage2,
+        Power1, Power2, Energy1, Energy2,
     ],  # Sonoff DualR3
     127: [XThermostat],  # https://github.com/AlexxIT/SonoffLAN/issues/358
+    128: [LED],  # SPM-Main
+    130: [
+        Switch1, Switch2, Switch3, Switch4, Current1, Current2, Current3,
+        Current4, Voltage1, Voltage2, Voltage3, Voltage4, Power1, Power2,
+        Power3, Power4, Energy1, Energy2, Energy3, Energy4
+    ],  # SPM-4Relay, https://github.com/AlexxIT/SonoffLAN/issues/658
     133: [
         # Humidity. ALWAYS 50... NSPanel DOESN'T HAVE HUMIDITY SENSOR
         # https://github.com/AlexxIT/SonoffLAN/issues/751
@@ -150,12 +179,23 @@ DEVICES = {
     165: [Switch1, Switch2, RSSI],  # DualR3 Lite, without power consumption
     174: [XRemoteButton],  # Sonoff R5 (6-key remote)
     177: [XRemoteButton],  # Sonoff S-Mate
+    181: [
+        XSwitchTH, XClimateTH, XTemperatureTH, XHumidityTH, LED, RSSI,
+    ],  # Sonoff THR320D or THR316D
     182: [
         Switch1, LED, RSSI,
         spec(XSensor, param="current"),
         spec(XSensor, param="power"),
         spec(XSensor, param="voltage"),
     ],  # Sonoff S40
+    190: [
+        Switch1, LED, RSSI,
+        spec(XSensor100, param="current"),
+        spec(XSensor100, param="power"),
+        spec(XSensor100, param="voltage"),
+        spec(XEnergySensor, param="hundredDaysKwhData", uid="energy",
+             get_params={"hundredDaysKwh": "get"}),
+    ],  # Sonoff POWR3
     1000: [XRemoteButton, Battery],  # zigbee_ON_OFF_SWITCH_1000
     1256: [spec(XSwitch, base="light")],  # ZCL_HA_DEVICEID_ON_OFF_LIGHT
     1770: [
@@ -182,6 +222,7 @@ POW_UI_ACTIVE = {
     5: (3600, {"uiActive": 7200}),
     32: (3600, {"uiActive": 7200}),
     126: (3600, {"uiActive": {"all": 1, "time": 7200}}),
+    130: (3600, {"uiActive": {"all": 1, "time": 7200}}),
     182: (0, {"uiActive": 180}),  # maximum for this model
 }
 
@@ -199,9 +240,13 @@ def get_spec(device: dict) -> list:
         classes = [XUnknown]
 
     # DualR3 in cover mode
-    if uiid in (126, 165) and device["params"].get("workMode") == 2:
+    if uiid in [126, 165] and device["params"].get("workMode") == 2:
         classes = [cls for cls in classes if XSwitches not in cls.__bases__]
         classes.append(XCoverDualR3)
+
+    # NSPanel Climate disable without switch configuration
+    if uiid in [133] and not device["params"].get("HMI_ATCDevice"):
+        classes = [cls for cls in classes if XClimateNS not in cls.__bases__]
 
     if "device_class" in device:
         classes = get_custom_spec(classes, device["device_class"])

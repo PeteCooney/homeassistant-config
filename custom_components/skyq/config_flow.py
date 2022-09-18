@@ -10,6 +10,7 @@ import voluptuous as vol
 from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_NAME
 from homeassistant.core import callback
+from homeassistant.data_entry_flow import AbortFlow, FlowResult
 from pyskyqremote.const import KNOWN_COUNTRIES, UNSUPPORTED_DEVICES
 from pyskyqremote.skyq_remote import SkyQRemote
 
@@ -105,6 +106,9 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
 
     def __init__(self, config_entry):
         """Initialize Sky Q options flow."""
+        _LOGGER.debug(
+            "D0010 - Config options flow initiated for: %s", config_entry.title
+        )
         self._name = config_entry.title
         self._config_entry = config_entry
         self._remote = None
@@ -135,8 +139,18 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
         self._channel_list = []
         self._user_input = None
 
-    async def async_step_init(self, user_input=None):  # pylint: disable=unused-argument
+    async def async_step_init(
+        self, user_input=None  # pylint: disable=unused-argument
+    ) -> FlowResult:
         """Set up the option flow."""
+        if self._config_entry.entry_id not in self.hass.data[DOMAIN]:
+            errmsg = (
+                "E0010 - Sky Q box has not been available "
+                f"since last Home Assistant restart: {self._config_entry.title}"
+            )
+            _LOGGER.error(errmsg)
+            raise AbortFlow(errmsg)
+
         self._remote = self.hass.data[DOMAIN][self._config_entry.entry_id][SKYQREMOTE]
 
         country_alphas = {
@@ -151,6 +165,11 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
             channel_data = await self.hass.async_add_executor_job(
                 self._remote.get_channel_list
             )
+            if not channel_data:
+                errmsg = f"E0020 - Sky Q box is unavailable: {self._config_entry.title}"
+                _LOGGER.error(errmsg)
+                raise AbortFlow(errmsg)
+
             self._channel_list = channel_data.channels
 
             for channel in self._channel_list:
@@ -176,7 +195,7 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
 
         return await self.async_step_retry()
 
-    async def async_step_user(self, user_input=None):
+    async def async_step_user(self, user_input=None) -> FlowResult:
         """Handle a flow initialized by the user."""
         errors = {}
 
@@ -197,7 +216,7 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
             errors=errors,
         )
 
-    async def async_step_advanced(self, user_input=None):
+    async def async_step_advanced(self, user_input=None) -> FlowResult:
         """Handle a flow initialized by the user."""
         errors = {}
 
