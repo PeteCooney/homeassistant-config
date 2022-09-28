@@ -1,32 +1,64 @@
 views:
   - path: home
     title: Home
+    theme: ''
     badges: []
     cards:
       - type: custom:vertical-stack-in-card
         cards:
-          - type: markdown
-            content: '# Lounge'
-          - type: markdown
-            content: '## Lights'
+          - type: entities
+            title: Lounge
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.lounge_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.lounge_main_lights
+                name: Main Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.lounge_floor_lamps
+                name: Floor Lamps
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.lounge_table_lamp
+                name: Table Lamp
           - type: entities
             state_color: true
             entities:
-              - entity: light.lounge_lights
               - type: divider
                 style:
                   width: 80%
                   margin-left: auto
                   margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.lounge_main_lights
-                name: Main Lights
-              - entity: light.lounge_floor_lamps
-                name: Floor Lamps
-              - entity: light.lounge_christmas_tree
-                name: Christmas Tree
-              - entity: light.lounge_table_lamp
-                name: Table Lamp
+          - type: markdown
+            content: '## Heating'
+          - type: custom:simple-thermostat
+            entity: climate.lounge
+            layout:
+              step: row
+            header: false
+            control: false
+          - type: entities
+            state_color: true
+            entities:
               - type: divider
                 style:
                   width: 80%
@@ -38,9 +70,6 @@ views:
             entity: media_player.lounge_sky_q
             name: Sky Q
           - type: media-control
-            entity: media_player.lounge_plex
-            name: Plex
-          - type: media-control
             entity: media_player.lounge_tv
             name: TV
           - type: media-control
@@ -48,76 +77,254 @@ views:
             name: Soundbar
       - type: custom:vertical-stack-in-card
         cards:
-          - type: markdown
-            content: '# Kitchen/Dining Room'
-          - type: markdown
-            content: '## Lights'
+          - type: entities
+            title: Kitchen/Dining Room
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.kitchen_dining_room_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.dining_room_main_lights
+                name: Main Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.kitchen_pendant_lights
+                name: Pendant Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.kitchen_counter_lights
+                name: Counter Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.kitchen_plinth_lights
+                name: Plinth Lights
           - type: entities
             state_color: true
             entities:
-              - entity: light.kitchen_lights
               - type: divider
                 style:
                   width: 80%
                   margin-left: auto
                   margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.kitchen_main_lights
-                name: Main Lights
-              - entity: light.kitchen_pendant_lights
-                name: Pendant Lights
-              - entity: light.kitchen_counter_lights
-                name: Counter Lights
-              - entity: light.kitchen_plinth_lights
-                name: Plinth Lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-          - type: markdown
-            content: '## Cat Flap'
-          - type: glance
-            entities:
-              - entity: sensor.cat_flap_pussy_flaps
-                name: Cat Flap
-              - entity: sensor.cat_flap_pussy_flaps_battery_level
+          - type: horizontal-stack
+            title: Cat Flap
+            cards:
+              - show_name: true
+                type: button
+                entity: sensor.pussy_flaps_battery_level
+                show_state: true
                 name: Flap Battery
-              - entity: binary_sensor.hub_home
-                name: Hub
-              - entity: binary_sensor.pet_beau
-                name: Beau
-            state_color: true
+              - type: button
+                entity: binary_sensor.home
+                name: SurePet Hub
+                show_state: true
+                tap_action:
+                  action: more-info
+              - type: button
+                entity: binary_sensor.beau
+                name: null
+                show_state: true
+                tap_action:
+                  action: more-info
       - type: custom:vertical-stack-in-card
         cards:
-          - type: markdown
-            content: '# Master Bedroom Suite'
-          - type: markdown
-            content: '## Lights'
+          - type: entities
+            title: Hall/Landing
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.hall_landing_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.hall_main_lights
+                name: Hallway
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.landing_stair_lights
+                name: Stairs
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.landing_main_lights
+                name: Landing
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Beauty Room
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.beauty_room_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.beauty_room_main_lights
+                name: Main Light
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
           - type: entities
             state_color: true
             entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Heating'
+          - type: custom:simple-thermostat
+            entity: climate.beauty_room
+            layout:
+              step: row
+            header: false
+            control: false
+  - title: Bedrooms
+    path: bedrooms
+    icon: ''
+    visible:
+      - user: c21044d1cf364ea4ac6dffb8baaa21bf
+    badges: []
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Master Suite
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
               - entity: light.master_suite_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - entity: light.master_bedroom_main_lights
-                name: Main Lights
-              - entity: light.master_bedroom_side_lights
-                name: Side Lights
-              - entity: light.master_bedroom_entrance_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_bedroom_entrance_lights
                 name: Entrance Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_bedroom_main_lights
+                name: Main Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_bedroom_side_lights
+                name: Floor Lamp
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_dressing_room_main_lights
+                name: Dressing
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_dressing_room_makeup_lights
+                name: Vanity
+                icon: mdi:desk
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_bathroom_main_lights
+                name: Bathroom
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.master_bathroom_shower_light
+                name: Shower
+          - type: entities
+            state_color: true
+            entities:
               - type: divider
                 style:
                   width: 80%
                   margin-left: auto
                   margin-right: auto
-              - entity: light.master_dressing_room_main_lights
-                name: Dressing Room Lights
-              - entity: light.master_bathroom_main_lights
-                name: Bathroom Lights
+          - type: thermostat
+            entity: climate.master_bed
+            card_mod:
+              style: |
+                .content {
+                  width: 50%;
+                  margin: auto;
+                }
+          - type: entities
+            state_color: true
+            entities:
               - type: divider
                 style:
                   width: 80%
@@ -129,31 +336,438 @@ views:
             entity: media_player.master_bedroom_sky_q
             name: Sky Q
           - type: media-control
-            entity: media_player.master_bedroom_plex
-            name: Plex
-          - type: media-control
             entity: media_player.master_bedroom_tv
             name: TV
       - type: custom:vertical-stack-in-card
         cards:
+          - type: entities
+            title: Jacob's Bedroom
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.jacob_bedroom_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.jacob_bedroom_main_lights
+                name: Main Light
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.jacob_bedroom_desk_lights
+                name: Desk Lights
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+          - type: entities
+            state_color: true
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
           - type: markdown
-            content: '# Brampton Road'
+            content: '## Heating'
+          - type: custom:simple-thermostat
+            entity: climate.jacob_bed
+            layout:
+              step: row
+            header: false
+            control: false
+          - type: entities
+            state_color: true
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
           - type: markdown
-            content: '## Server Status'
+            content: '## Multimedia'
+          - type: media-control
+            entity: media_player.jacobs_bedroom_tv
+            name: TV
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Joshua's Bedroom
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.joshua_bedroom_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.joshua_bedroom_main_lights
+                name: Main Light
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+          - type: entities
+            state_color: true
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Heating'
+          - type: custom:simple-thermostat
+            entity: climate.joshua_bed
+            layout:
+              step: row
+            header: false
+            control: false
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Georgia's Bedroom
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.georgia_bedroom_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.georgia_bedroom_main_lights
+                name: Main Light
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.georgia_bedroom_side_lights
+                name: Floor Lamp
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.georgia_bedroom_dressing_room_lights
+                name: Dressing
+          - type: entities
+            state_color: true
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: markdown
+            content: '## Heating'
+          - type: custom:simple-thermostat
+            entity: climate.georgia_bed
+            layout:
+              step: row
+            header: false
+            control: false
+  - title: Outside
+    path: outside
+    icon: ''
+    badges: []
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Pete's Office
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.office_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.office_main_lights
+                name: Main Lights
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+          - type: entities
+            state_color: true
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: thermostat
+            entity: climate.office
+            card_mod:
+              style: |
+                .content {
+                  width: 50%;
+                  margin: auto;
+                }
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Workshop
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.workshop_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.workshop_main_lights
+                name: Main Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.workshop_workbench_lights
+                name: Work Bench
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                style: |
+                  ha-card { pointer-events: none; }
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Front Garden
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.front_garden_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.front_garden_christmas_lights
+                name: Christmas
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.front_garden_side_lights
+                name: Side Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.front_garden_soffit_lights
+                name: Soffit Lights
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Back Garden
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.back_garden_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.back_garden_house_lights
+                name: House Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.back_garden_shed_lights
+                name: Shed Lights
+              - show_name: true
+                show_icon: true
+                type: light
+                tap_action:
+                  action: toggle
+                entity: light.back_garden_deck_lights
+                name: Deck Lights
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: '# Kia Sorento'
           - type: glance
             entities:
-              - entity: switch.pi_hole
+              - entity: sensor.kia_uvo_sorento_mileage
+                name: Mileage
+              - entity: sensor.kia_uvo_sorento_range
+                name: Range
+              - entity: sensor.kia_uvo_sorento_fuel_level
+                name: Fuel Level
+              - entity: lock.sorento_door_lock
+                name: Doors
+  - theme: Backend-selected
+    title: Overview
+    path: overview
+    icon: ''
+    badges: []
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: Brampton Road
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+            show_header_toggle: true
+            entities:
+              - entity: light.all_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+          - type: horizontal-stack
+            cards:
+              - type: button
+                entity: switch.pi_hole
                 name: Pi-Hole
-              - entity: binary_sensor.updater
-                name: HA Updates
-              - entity: sensor.hacs
-                name: HACS
-              - entity: sensor.titan_intel_core_i3_4330_load_cpu_total
-                name: CPU Load
+                show_state: true
+              - type: button
+                entity: binary_sensor.home_assistant_website_update_available
+                name: Home Assistant
+                icon: mdi:home-assistant
+                show_state: true
+                tap_action:
+                  action: more-info
+              - type: button
+                entity: sensor.titan_intel_core_i3_4330_load_cpu_total
                 icon: mdi:chart-line
-              - entity: sensor.titan_intel_core_i3_4330_temperatures_cpu_package
-                name: CPU Temp
-            state_color: true
+                name: CPU Utilisation
+                show_state: true
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                type: button
+                entity: binary_sensor.pi_hole_update_available
+                icon: mdi:pi-hole
+                show_state: true
+                name: Pi-Hole
+              - type: button
+                entity: sensor.hacs
+                name: Home Assistant
+                show_state: true
+                tap_action:
+                  action: more-info
+              - type: button
+                entity: sensor.titan_intel_core_i3_4330_temperatures_cpu_package
+                name: CPU Temperature
+                show_state: true
+                tap_action:
+                  action: more-info
+          - type: entities
+            entities:
+              - type: divider
+                style:
+                  width: 80%
+                  margin-left: auto
+                  margin-right: auto
+          - type: horizontal-stack
+            title: Home Security
+            cards:
+              - show_name: true
+                type: button
+                entity: sensor.front_door_battery
+                show_state: true
+                name: Ring Battery
+              - type: button
+                entity: sensor.front_door_last_motion
+                name: Ring Motion
+                icon: mdi:motion-sensor
+                show_state: true
+                tap_action:
+                  action: more-info
+              - type: button
+                entity: sensor.front_door_last_ding
+                name: Ring Ding
+                icon: mdi:bell-ring
+                show_state: true
+                tap_action:
+                  action: more-info
           - type: entities
             entities:
               - type: divider
@@ -166,226 +780,3 @@ views:
           - type: custom:weather-card
             entity: weather.home
             number_of_forecasts: '5'
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Hall/Landing'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            entities:
-              - entity: light.hall_landing_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - entity: light.hall_main_lights
-                name: Hall Lights
-              - entity: light.landing_stair_lights
-                name: Stair Lights
-              - entity: light.landing_main_lights
-                name: Landing Lights
-            state_color: true
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Jacob''s Bedroom'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            entities:
-              - entity: light.jacob_bedroom_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.jacob_bedroom_main_lights
-                name: Main Light
-              - entity: light.jacob_bedroom_desk_lights
-                name: Desk Lights
-            state_color: true
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Joshua''s Bedroom'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            entities:
-              - entity: light.joshua_bedroom_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.joshua_bedroom_main_lights
-                name: Main Light
-            state_color: true
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Georgia''s Bedroom'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            entities:
-              - entity: light.georgia_bedroom_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.georgia_bedroom_main_lights
-                name: Main Light
-              - entity: light.georgia_bedroom_side_lights
-                name: Side Lights
-              - entity: light.georgia_bedroom_dressing_room_lights
-                name: Dressing Room Lights
-            state_color: true
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Beauty Room'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            entities:
-              - entity: light.beauty_room_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.beauty_room_main_lights
-                name: Main Light
-            state_color: true
-  - title: Outside
-    path: outside
-    icon: ''
-    badges: []
-    cards:
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Front Garden'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            entities:
-              - entity: light.front_garden_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - entity: light.front_garden_christmas_lights
-                name: Christmas Lights
-              - entity: light.front_garden_soffit_lights
-                name: Soffit Lights
-              - entity: light.front_garden_side_lights
-                name: Side Lights
-            state_color: true
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Back Garden'
-          - type: markdown
-            content: '## Lights'
-          - type: entities
-            show_header_toggle: false
-            entities:
-              - entity: light.back_garden_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - entity: light.back_garden_house_lights
-                name: House Lights
-              - entity: light.back_garden_shed_lights
-                name: Shed Lights
-              - entity: light.back_garden_deck_lights
-                name: Deck Lights
-            state_color: true
-          - type: entities
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-          - type: markdown
-            content: '## Hot Tub'
-          - type: glance
-            entities:
-              - entity: sensor.hottub_summary
-                name: Status
-              - entity: sensor.hottub_temp_current
-                name: Current
-              - entity: sensor.hottub_temp_target
-                name: Target
-            state_color: true
-          - type: glance
-            entities:
-              - entity: switch.hottub_heater
-                name: Heater
-              - entity: switch.hottub_filter
-                name: Filter
-              - entity: switch.hottub_power
-                name: Power
-            state_color: true
-          - type: entities
-            entities:
-              - entity: input_number.hottub_target_temp
-                name: Target Temperature
-              - entity: switch.hottub_bubbles
-                name: Bubbles!
-            state_color: true
-            show_header_toggle: false
-      - type: custom:vertical-stack-in-card
-        cards:
-          - type: markdown
-            content: '# Shed'
-          - type: markdown
-            content: '## Pete''s Office'
-          - type: entities
-            entities:
-              - entity: light.office_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - type: custom:slider-entity-row
-                entity: light.office_main_lights
-                name: Office Main Lights
-            state_color: true
-          - type: entities
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-          - type: markdown
-            content: '## Workshop'
-          - type: entities
-            entities:
-              - entity: light.workshop_lights
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
-              - entity: light.workshop_main_lights
-                name: Workshop Main Lights
-              - entity: light.workshop_workbench_lights
-                name: Workshop Workbench Lights
-            state_color: true
-title: Home

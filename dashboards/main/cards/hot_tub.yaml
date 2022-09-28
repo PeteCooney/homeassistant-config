@@ -1,0 +1,31 @@
+card:
+  type: custom:vertical-stack-in-card
+  cards:
+    - type: markdown
+      content: '# Hot Tub'
+    - type: glance
+      entities:
+        - entity: sensor.hot_tub_status
+          name: Status
+        - entity: sensor.hot_tub_temp_current
+          name: Current
+        - entity: sensor.hot_tub_temp_target
+          name: Target
+        - entity: switch.hot_tub_heater
+          name: Heater
+        - entity: switch.hot_tub_filter
+          name: Filter
+        - entity: switch.hot_tub_power
+          name: Power
+      state_color: true
+      columns: 3
+    - type: entities
+      entities:
+        - entity: input_number.hot_tub_target_temp
+          name: Target Temperature
+        - entity: input_number.hot_tub_standby_temp
+          name: Standby Temperature
+        - entity: switch.hot_tub_bubbles
+          name: Bubbles!
+      state_color: true
+      show_header_toggle: false
