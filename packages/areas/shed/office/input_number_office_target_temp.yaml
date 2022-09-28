@@ -1,0 +1,7 @@
+input_number:
+  office_target_temp:
+    name: Office - Target Temperature
+    min: 15
+    max: 25
+    step: 0.5
+    icon: mdi:thermometer-plus

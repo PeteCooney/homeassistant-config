@@ -1,0 +1,7 @@
+input_number:
+  office_current_temp:
+    name: Office - Current Temperature
+    min: 0
+    max: 40
+    step: 0.5
+    icon: mdi:thermometer
