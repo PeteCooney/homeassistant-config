@@ -3,6 +3,6 @@ climate:
     unique_id: office
     name: Office
     heater: fan.office_fan_heater
-    target_sensor: input_number.office_current_temp
+    target_sensor: sensor.office_temperature
     precision: 0.5
     initial_hvac_mode: heat
