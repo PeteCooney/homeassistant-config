@@ -1,0 +1,40 @@
+automation:
+- id: hall_front_garden_light_switch_pressed
+  alias: Hall - Front Garden Light Switch Pressed
+  trigger:
+    - platform: state
+      entity_id:
+        - input_button.hall_front_garden_light_switch
+  action:
+    - if:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: light.front_garden_path_lights
+            state: "on"
+          - condition: state
+            entity_id: light.front_garden_soffit_lights
+            state: "on"
+      then:
+        - service: light.turn_off
+          target:
+            entity_id:
+            - light.front_garden_path_lights
+            - light.front_garden_soffit_lights
+        - service: automation.turn_off
+          target:
+            entity_id:
+            - automation.front_garden_path_lights_motion_triggered
+            - automation.front_garden_soffit_lights_motion_triggered
+        - service: automation.turn_on
+          target:
+            entity_id:
+            - automation.front_garden_path_lights_motion_triggered
+            - automation.front_garden_soffit_lights_motion_triggered
+      else:
+        - service: light.turn_on
+          target:
+            entity_id:
+            - light.front_garden_path_lights
+            - light.front_garden_soffit_lights
+  mode: single

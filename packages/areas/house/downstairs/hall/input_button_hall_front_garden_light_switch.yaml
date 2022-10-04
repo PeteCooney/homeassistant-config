@@ -1,0 +1,4 @@
+input_button:
+  hall_front_garden_light_switch:
+    name: Hall - Front Garden Light Switch
+    icon: mdi:light-switch
