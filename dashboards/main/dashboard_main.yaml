@@ -4,7 +4,7 @@ views:
     theme: ''
     badges: []
     cards:
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Lounge
@@ -19,35 +19,15 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.lounge_main_lights
                 name: Main Lights
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.lounge_floor_lamps
                 name: Floor Lamps
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.lounge_table_lamp
                 name: Table Lamp
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
           - type: thermostat
             entity: climate.lounge
             name: ' '
@@ -57,64 +37,43 @@ views:
                   width: 50%;
                   margin: auto;
                 }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
           - type: media-control
             entity: media_player.lounge_tv
             name: TV
           - type: media-control
             entity: media_player.lounge_sky_q
             name: Sky Q
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
-            title: Kitchen/Dining Room
-            card_mod:
-              style: |
-                h1 { font-size: 2em; font-weight: bold; }
+            title: Dining Room
             show_header_toggle: true
             entities:
-              - entity: light.kitchen_dining_room_lights
+              - entity: light.dining_room_lights
                 card_mod:
                   style: |
                     :host { display: none; }
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.dining_room_main_lights
                 name: Spots
-              - show_name: true
-                show_icon: true
-                type: light
+              - show_icon: false
+                type: button
                 tap_action:
-                  action: toggle
-                entity: light.kitchen_pendant_lights
-                name: Pendants
-              - show_name: true
-                show_icon: true
-                type: light
+                  action: none
+                hold_action:
+                  action: none
+              - show_icon: false
+                type: button
                 tap_action:
-                  action: toggle
-                entity: light.kitchen_counter_lights
-                name: Counters
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
-                entity: light.kitchen_plinth_lights
-                name: Plinths
-      - type: custom:vertical-stack-in-card
+                  action: none
+                hold_action:
+                  action: none
+      - type: vertical-stack
         cards:
           - type: entities
             title: Hall/Landing
@@ -129,28 +88,16 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.hall_main_lights
                 name: Hallway
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.landing_stair_lights
                 name: Stairs
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.landing_main_lights
                 name: Landing
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Beauty Room
@@ -165,33 +112,21 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.beauty_room_main_lights
                 name: Main Light
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
+                hold_action:
+                  action: none
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
+                hold_action:
+                  action: none
           - type: thermostat
             entity: climate.beauty_room
             name: ' '
@@ -201,6 +136,33 @@ views:
                   width: 50%;
                   margin: auto;
                 }
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Kitchen
+            show_header_toggle: true
+            entities:
+              - entity: light.kitchen_lights
+                card_mod:
+                  style: |
+                    :host { display: none; }
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+          - type: horizontal-stack
+            cards:
+              - type: light
+                entity: light.kitchen_main_lights
+                name: Spots
+              - type: light
+                entity: light.kitchen_pendant_lights
+                name: Pendants
+              - type: light
+                entity: light.kitchen_counter_lights
+                name: Counters
+              - type: light
+                entity: light.kitchen_plinth_lights
+                name: Plinths
   - title: Bedrooms
     path: bedrooms
     icon: ''
@@ -210,7 +172,7 @@ views:
       - user: 7ed8a054a8134b8e9fe91520719a41ce
     badges: []
     cards:
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Master Suite
@@ -225,66 +187,30 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_bedroom_entrance_lights
                 name: Entrance
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_bedroom_main_lights
                 name: Main Lights
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_bedroom_side_lights
                 name: Floor Lamp
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_dressing_room_main_lights
                 name: Dressing
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_dressing_room_makeup_lights
                 name: Vanity
                 icon: mdi:desk
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_bathroom_main_lights
                 name: Bathroom
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.master_bathroom_shower_light
                 name: Shower
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
           - type: thermostat
             entity: climate.master_bed
             name: ' '
@@ -294,21 +220,13 @@ views:
                   width: 50%;
                   margin: auto;
                 }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
           - type: media-control
             entity: media_player.master_bedroom_tv
             name: TV
           - type: media-control
             entity: media_player.master_bedroom_sky_q
             name: Sky Q
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Jacob's Bedroom
@@ -323,34 +241,18 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.jacob_bedroom_main_lights
                 name: Main Light
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.jacob_bedroom_desk_lights
                 name: Desk Lights
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
+                hold_action:
+                  action: none
           - type: thermostat
             entity: climate.jacob_bed
             name: ' '
@@ -360,18 +262,10 @@ views:
                   width: 50%;
                   margin: auto;
                 }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
           - type: media-control
             entity: media_player.jacob_bedroom_tv
             name: TV
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Joshua's Bedroom
@@ -386,33 +280,21 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.joshua_bedroom_main_lights
                 name: Main Light
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
+                hold_action:
+                  action: none
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
+                hold_action:
+                  action: none
           - type: thermostat
             entity: climate.joshua_bed
             name: ' '
@@ -422,7 +304,7 @@ views:
                   width: 50%;
                   margin: auto;
                 }
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Georgia's Bedroom
@@ -437,35 +319,15 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.georgia_bedroom_main_lights
                 name: Main Light
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.georgia_bedroom_side_lights
                 name: Floor Lamp
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.georgia_bedroom_dressing_room_lights
                 name: Dressing
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
           - type: thermostat
             entity: climate.georgia_bed
             name: ' '
@@ -480,7 +342,7 @@ views:
     icon: ''
     badges: []
     cards:
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Pete's Office
@@ -495,30 +357,18 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
+              - type: light
                 entity: light.office_main_lights
                 name: Main Lights
-              - show_name: true
-                show_icon: true
-                type: light
+              - type: light
                 entity: light.office_wall_lights
                 name: Wall Lights
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
-          - type: entities
-            state_color: true
-            entities:
-              - type: divider
-                style:
-                  width: 80%
-                  margin-left: auto
-                  margin-right: auto
+                hold_action:
+                  action: none
           - type: thermostat
             entity: climate.office
             name: ' '
@@ -534,42 +384,35 @@ views:
                 name: Heating Schedule Enabled
                 icon: mdi:fire
             state_color: true
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Workshop
-            card_mod:
-              style: |
-                h1 { font-size: 2em; font-weight: bold; }
             show_header_toggle: true
             entities:
               - entity: light.workshop_lights
                 card_mod:
                   style: |
                     :host { display: none; }
+            state_color: false
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.workshop_main_lights
                 name: Main Lights
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.workshop_workbench_lights
                 name: Work Bench
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
-                style: |
-                  ha-card { pointer-events: none; }
-      - type: custom:vertical-stack-in-card
+                hold_action:
+                  action: none
+      - type: vertical-stack
         cards:
           - type: entities
             title: Front Garden
@@ -584,28 +427,63 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.front_garden_christmas_lights
                 name: Christmas
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
-                entity: light.front_garden_side_lights
-                name: Side Lights
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
+                entity: light.front_garden_path_lights
+                name: Path Lights
+              - type: light
                 entity: light.front_garden_soffit_lights
                 name: Soffit Lights
-      - type: custom:vertical-stack-in-card
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: false
+                type: button
+                tap_action:
+                  action: none
+                show_state: false
+                hold_action:
+                  action: none
+              - show_name: true
+                show_icon: true
+                type: button
+                entity: sensor.front_garden_path_last_motion
+                name: Last Motion
+                show_state: true
+              - show_name: true
+                show_icon: true
+                type: button
+                entity: sensor.front_garden_soffit_lights_last_motion
+                name: Last Motion
+                show_state: true
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                name: Hall Switch
+                tap_action:
+                  action: toggle
+                entity: input_button.hall_front_garden_light_switch
+              - show_name: true
+                show_icon: true
+                type: button
+                name: Test
+                show_state: false
+                tap_action:
+                  action: toggle
+                entity: input_button.front_garden_path_motion_sensor
+              - show_name: true
+                show_icon: true
+                type: button
+                entity: input_button.front_garden_soffit_lights_motion_sensor
+                name: Test
+                show_state: false
+                tap_action:
+                  action: toggle
+      - type: vertical-stack
         cards:
           - type: entities
             title: Back Garden
@@ -620,34 +498,22 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+              - type: light
                 entity: light.back_garden_house_lights
-                name: House Lights
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+                name: House
+              - type: light
                 entity: light.back_garden_shed_lights
-                name: Shed Lights
-              - show_name: true
-                show_icon: true
-                type: light
-                tap_action:
-                  action: toggle
+                name: Shed
+              - type: light
                 entity: light.back_garden_deck_lights
-                name: Deck Lights
+                name: Deck
   - theme: Backend-selected
     title: Overview
     path: overview
     icon: ''
     badges: []
     cards:
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
           - type: entities
             title: Brampton Road
@@ -662,8 +528,7 @@ views:
                     :host { display: none; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                type: button
+              - type: button
                 entity: binary_sensor.pi_hole_update_available
                 icon: mdi:pi-hole
                 show_state: true
@@ -675,12 +540,14 @@ views:
                 show_state: true
                 tap_action:
                   action: more-info
-              - type: button
+              - show_name: true
+                show_icon: true
+                type: button
                 entity: sensor.hacs
-                name: Home Assistant
                 show_state: true
                 tap_action:
                   action: more-info
+                name: HACS
           - type: horizontal-stack
             cards:
               - type: button
@@ -789,16 +656,17 @@ views:
                   - '#6025a3'
                   - value: 10
                     color: '#6a0096'
-      - type: custom:vertical-stack-in-card
-        title: Kia Sorento
-        card_mod:
-          style: |
-            h1 { font-size: 2em; font-weight: bold; }
+      - type: vertical-stack
         cards:
+          - type: entities
+            title: Kia Sorento
+            entities: []
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
           - type: horizontal-stack
             cards:
-              - show_name: true
-                type: button
+              - type: button
                 entity: sensor.kia_uvo_sorento_mileage
                 name: Mileage
                 show_state: true
@@ -806,53 +674,52 @@ views:
                 entity: sensor.kia_uvo_sorento_range
                 name: Range
                 show_state: true
-                tap_action:
-                  action: more-info
               - type: button
                 entity: sensor.kia_uvo_sorento_fuel_level
                 name: Fuel Level
                 show_state: true
-                tap_action:
-                  action: more-info
               - type: button
                 entity: lock.sorento_door_lock
                 name: Locked
                 icon: mdi:car-door-lock
                 show_state: true
-                tap_action:
-                  action: more-info
-      - type: custom:vertical-stack-in-card
+      - type: vertical-stack
         cards:
-          - type: horizontal-stack
+          - type: entities
             title: Ring
+            entities: []
             card_mod:
               style: |
                 h1 { font-size: 2em; font-weight: bold; }
+          - type: horizontal-stack
             cards:
-              - show_name: true
-                type: button
+              - type: button
                 entity: sensor.front_door_battery
                 show_state: true
                 name: Battery
-              - type: button
-                entity: sensor.front_door_last_motion
-                name: Motion
-                icon: mdi:motion-sensor
-                show_state: true
-                tap_action:
-                  action: more-info
-              - type: button
-                entity: sensor.front_door_last_ding
-                name: Ding
-                icon: mdi:bell-ring
-                show_state: true
-                tap_action:
-                  action: more-info
-          - type: horizontal-stack
-            title: Cat Flap
-            cards:
               - show_name: true
+                show_icon: true
                 type: button
+                entity: sensor.ring_time_since_last_motion
+                name: Motion
+                icon: ''
+                show_state: true
+              - show_name: true
+                show_icon: true
+                type: button
+                entity: sensor.ring_time_since_last_ding
+                name: Ding
+                icon: ''
+                show_state: true
+          - type: entities
+            title: Cat Flap
+            entities: []
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+          - type: horizontal-stack
+            cards:
+              - type: button
                 entity: sensor.pussy_flaps_battery_level
                 show_state: true
                 name: Battery
@@ -860,20 +727,78 @@ views:
                 entity: binary_sensor.home
                 name: SurePet Hub
                 show_state: true
-                tap_action:
-                  action: more-info
               - type: button
                 entity: binary_sensor.beau
                 name: null
                 show_state: true
-                tap_action:
-                  action: more-info
-      - type: custom:vertical-stack-in-card
-        title: Weather
-        card_mod:
-          style: |
-            h1 { font-size: 2em; font-weight: bold; }
+      - type: vertical-stack
         cards:
+          - type: entities
+            title: Weather
+            entities: []
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
           - type: custom:weather-card
             entity: weather.home
             number_of_forecasts: '5'
+  - theme: Backend-selected
+    title: People
+    path: people
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: The Family
+            entities: []
+            card_mod:
+              style: |
+                h1 { font-size: 2em; font-weight: bold; }
+          - type: horizontal-stack
+            cards:
+              - type: picture-glance
+                image: /local/imgs/pete.png
+                entities:
+                  - entity: sensor.peters_iphone_battery_level
+                  - entity: person.peter_cooney
+                entity: device_tracker.peters_iphone
+              - camera_view: auto
+                type: picture-glance
+                image: /local/imgs/sarah.png
+                entities:
+                  - entity: sensor.sarahs_iphone_battery_level
+                  - entity: person.sarah_cooney
+                entity: device_tracker.sarahs_iphone
+          - type: horizontal-stack
+            cards:
+              - camera_view: auto
+                type: picture-glance
+                image: /local/imgs/jacob.png
+                entities: []
+              - camera_view: auto
+                type: picture-glance
+                image: /local/imgs/georgia.png
+                entities: []
+              - camera_view: auto
+                type: picture-glance
+                image: /local/imgs/joshua.png
+                entities: []
+          - type: horizontal-stack
+            cards:
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+              - type: picture-glance
+                image: /local/imgs/beau.png
+                entities: []
+                entity: binary_sensor.beau
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
