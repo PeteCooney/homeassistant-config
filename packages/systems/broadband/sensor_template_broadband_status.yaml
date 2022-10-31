@@ -1,0 +1,38 @@
+template:
+  - binary_sensor:
+    - name: 'Broadband Status'
+      unique_id: broadband_status
+      state:  >
+        {{ is_state('binary_sensor.sky_adsl_router_wan_status', 'on') }}
+      device_class: connectivity
+      attributes:
+        uptime: >
+          {% set connected = (states.sensor.sky_adsl_router_wan_status.state) %}
+          {% set uptime = (states.sensor.sky_adsl_router_uptime.state | int) | int %}
+          {% set minutes = ((uptime % 3600) / 60) | int %}
+          {% set hours = ((uptime % 86400) / 3600) | int %}
+          {% set days = (uptime / 86400) | int %}
+
+          {%- if connected == "Connected" %}
+            {%- if uptime < 60 -%}
+              Less than a minute
+              {%- else -%}
+              {%- if days > 0 -%}
+                {{ days }}d
+                {%- endif -%}
+              {%- if hours > 0 -%}
+                {%- if days > 0 -%}
+                  {{ ' ' }}
+                {%- endif -%}
+                {{ hours }}h
+              {%- endif -%}
+              {%- if minutes > 0 -%}
+                {%- if days > 0 or hours > 0 -%}
+                  {{ ' ' }}
+                {%- endif -%}
+                {{ minutes }}m
+              {%- endif -%}
+            {%- endif -%}
+          {%- else -%}
+            {{ connected }}
+          {%- endif -%}
