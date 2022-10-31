@@ -1,0 +1,4 @@
+sensor:
+- platform: rest
+  resource: http://a0d7b954-wireguard
+  name: wireguard_status
