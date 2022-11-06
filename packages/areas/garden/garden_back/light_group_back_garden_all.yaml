@@ -5,4 +5,4 @@ light:
   entities:
     - light.back_garden_house_lights
     - light.back_garden_shed_lights
-    - light.back_garden_deck_lights
+    - light.back_garden_hot_tub_lights

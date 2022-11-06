@@ -1,16 +1,10 @@
 light:
 - platform: template
   lights:
-    back_garden_deck_lights:
-      friendly_name: Back Garden - Deck Lights
-      unique_id: back_garden_deck_lights
-      icon_template: mdi:wall-sconce-round-variant
-      # value_template: >-
-      #   {% if is_state('light.dummy_light', 'on') %}
-      #     on
-      #   {% else %}
-      #     off
-      #   {% endif %}
+    back_garden_hot_tub_lights:
+      friendly_name: Back Garden - Hot Tub Lights
+      unique_id: back_garden_hot_tub_lights
+      icon_template: mdi:hot-tub
       turn_on:
         service: light.turn_on
         target:
