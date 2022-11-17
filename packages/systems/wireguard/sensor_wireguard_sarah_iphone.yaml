@@ -1,0 +1,10 @@
+- platform: template
+  sensors:
+    wireguard_sarah_iphone:
+      friendly_name: "Sarah's iPhone"
+      value_template: >-
+          {% if state_attr('sensor.wireguard', 'sarahs-iphone').latest_handshake > ( as_timestamp(now()) ) -180 %}
+            Up
+          {% else %}
+            Down
+          {% endif %}
