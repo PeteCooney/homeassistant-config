@@ -1,0 +1,15 @@
+switch:
+- platform: template
+  switches:
+    back_garden_hot_tub_lights_cycle:
+      unique_id: back_garden_hot_tub_lights_cycle
+      friendly_name: Hot Tub Lights - Cycle
+      icon_template: mdi:palette
+      turn_on: 
+        service: switch.turn_on
+        target:
+          entity_id: switch.dummy_switch
+      turn_off:
+        service: switch.turn_off
+        target:
+          entity_id: switch.dummy_switch
