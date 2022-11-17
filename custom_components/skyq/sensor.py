@@ -3,6 +3,7 @@
 import json
 import logging
 from datetime import datetime, timedelta, timezone
+from operator import attrgetter
 from types import SimpleNamespace
 
 from homeassistant.components.sensor import SensorEntity
@@ -12,6 +13,7 @@ from homeassistant.util import Throttle
 
 from .classes.config import Config
 from .const import (
+    CONST_DATE_FORMAT,
     CONST_NONE,
     CONST_SCHEDULED,
     CONST_SCHEDULED_OFF,
@@ -221,44 +223,15 @@ class SkyQSchedule(SkyQEntity, SensorEntity):
     @Throttle(_SCAN_INTERVAL_SCHEDULE)
     async def async_update(self):
         """Get the latest data and update device state."""
-        date_format = "%Y-%m-%dT%H:%M:%S%z"
-        recordings_scheduled = await self.hass.async_add_executor_job(
-            self._remote.get_recordings, "SCHEDULED"
-        )
+        recordings = await self.hass.async_add_executor_job(self._remote.get_recordings)
 
-        if not recordings_scheduled:
+        if not recordings:
             self._scheduled_programme = CONST_SCHEDULED_OFF
             return
         self._available = True
 
-        self._scheduled_programme = CONST_NONE
-        if len(recordings_scheduled.programmes) > 0:
-            self._scheduled_programme = CONST_SCHEDULED
-
-        for recording in recordings_scheduled.programmes:
-            self._schedule_attributes = {
-                CONST_SKYQ_SCHEDULED_START: recording.starttime.strftime(date_format),
-                CONST_SKYQ_SCHEDULED_END: recording.endtime.strftime(date_format),
-                CONST_SKYQ_SCHEDULED_TITLE: recording.title,
-            }
-            break
-
-        recordings_recording = await self.hass.async_add_executor_job(
-            self._remote.get_recordings, "RECORDING"
-        )
-        if len(recordings_recording.programmes) > 0:
-            schedule_data = [
-                {
-                    CONST_SKYQ_RECORDING_START: recording.starttime.strftime(
-                        date_format
-                    ),
-                    CONST_SKYQ_RECORDING_END: recording.endtime.strftime(date_format),
-                    CONST_SKYQ_RECORDING_TITLE: recording.title,
-                }
-                for recording in recordings_recording.programmes
-            ]
-
-            self._schedule_attributes.update({"recordings": schedule_data})
+        self._next_scheduled_programme(recordings)
+        self._recordings_data(recordings)
 
         write_state(
             self._statefile,
@@ -266,3 +239,45 @@ class SkyQSchedule(SkyQEntity, SensorEntity):
             self._config.host,
             self._schedule_attributes,
         )
+
+    def _next_scheduled_programme(self, recordings):
+        recordings_scheduled = _filter_recordings(recordings, "SCHEDULED")
+        self._scheduled_programme = CONST_NONE
+        if len(recordings_scheduled) > 0:
+            self._scheduled_programme = CONST_SCHEDULED
+
+        for recording in recordings_scheduled:
+            self._schedule_attributes = {
+                CONST_SKYQ_SCHEDULED_START: recording.starttime.strftime(
+                    CONST_DATE_FORMAT
+                ),
+                CONST_SKYQ_SCHEDULED_END: recording.endtime.strftime(CONST_DATE_FORMAT),
+                CONST_SKYQ_SCHEDULED_TITLE: recording.title,
+            }
+            break
+
+    def _recordings_data(self, recordings):
+        recordings_recording = _filter_recordings(recordings, "RECORDING")
+        if len(recordings_recording) > 0:
+            schedule_data = [
+                {
+                    CONST_SKYQ_RECORDING_START: recording.starttime.strftime(
+                        CONST_DATE_FORMAT
+                    ),
+                    CONST_SKYQ_RECORDING_END: recording.endtime.strftime(
+                        CONST_DATE_FORMAT
+                    ),
+                    CONST_SKYQ_RECORDING_TITLE: recording.title,
+                }
+                for recording in recordings_recording
+            ]
+
+            self._schedule_attributes.update({"recordings": schedule_data})
+
+
+def _filter_recordings(recordings, status):
+    recordings_filtered = {
+        recording for recording in recordings.recordings if recording.status == status
+    }
+
+    return sorted(recordings_filtered, key=attrgetter("starttime"))
