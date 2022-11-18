@@ -1,0 +1,8 @@
+template:
+  - binary_sensor:
+    - name: "WireGuard - Pete's iPhone"
+      unique_id: wireguard_pete_iphone
+      state:  >
+        {% set sensor = state_attr('sensor.wireguard_status', 'pete_iphone') %}
+        {{ sensor and sensor.latest_handshake > ( as_timestamp(now()) ) }}
+      device_class: connectivity
