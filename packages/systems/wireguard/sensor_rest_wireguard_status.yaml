@@ -1,5 +1,10 @@
 sensor:
 - platform: rest
-  resource: http://a0d7b954-wireguard
+  resource: !secret wireguard_api_url
   name: WireGuard - Status
-  unique_id: wireguard_status
+  unique_id: wireguard_peer_status
+  value_template: "OK"
+  icon: mdi:vpn
+  json_attributes:
+    - pete-iphone
+    - sarah-iphone
