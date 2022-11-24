@@ -1,16 +1,10 @@
 light:
 - platform: template
   lights:
-    jacob_bedroom_desk_lights:
-      friendly_name: Jacob - Desk Lights
-      unique_id: jacob_bedroom_desk_lights
+    jacob_bedroom_spot_lights:
+      friendly_name: Jacob - Spot Lights
+      unique_id: jacob_bedroom_spot_lights
       icon_template: mdi:light-recessed
-      # value_template: >-
-      #   {% if is_state('light.dummy_light', 'on') %}
-      #     on
-      #   {% else %}
-      #     off
-      #   {% endif %}
       turn_on:
         service: light.turn_on
         target:

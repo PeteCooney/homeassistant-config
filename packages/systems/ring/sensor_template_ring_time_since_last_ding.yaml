@@ -12,9 +12,9 @@ sensor:
         {% set days = (seconds / 86400) | int %}
 
         {%- if seconds < 60 -%}
-          Less than a minute ago
+          < 1m
         {%- elif days > 0 -%}
-          Over a day ago
+          > 1d ago
         {%- else -%}
           {%- if hours > 0 -%}
             {{ hours }}h
@@ -25,5 +25,5 @@ sensor:
             {%- endif -%}
             {{ minutes }}m
           {%- endif -%}
-        {{ ' ' }}ago
         {%- endif -%}
+        {{ ' ' }}ago

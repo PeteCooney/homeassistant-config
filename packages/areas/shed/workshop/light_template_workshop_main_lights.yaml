@@ -4,13 +4,7 @@ light:
     workshop_main_lights:
       friendly_name: Workshop - Main Lights
       unique_id: workshop_main_lights
-      icon_template: mdi:wall-sconce-flat
-      # value_template: >-
-      #   {% if is_state('light.dummy_light', 'on') %}
-      #     on
-      #   {% else %}
-      #     off
-      #   {% endif %}
+      icon_template: mdi:lightbulb-fluorescent-tube
       turn_on:
         service: light.turn_on
         target:
