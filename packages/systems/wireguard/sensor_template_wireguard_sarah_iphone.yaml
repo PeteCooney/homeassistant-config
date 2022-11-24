@@ -8,8 +8,8 @@ template:
       attributes:
         Latest Handshake: "{{ (state_attr('sensor.wireguard_peer_status', 'sarah-iphone').latest_handshake) | timestamp_custom('%d/%m/%y %H:%M') }}"
         Endpoint: "{{ state_attr('sensor.wireguard_peer_status', 'sarah-iphone').endpoint }}"
-        Transfer Rx: "{{ ((state_attr('sensor.wireguard_peer_status', 'sarah-iphone').transfer_rx | int) / 1048576) | round(1) }} Mb"
-        Transfer Tx: "{{ ((state_attr('sensor.wireguard_peer_status', 'sarah-iphone').transfer_tx | int) / 1048576) | round(1) }} Mb"
+        Transfer Rx: "{{ ((state_attr('sensor.wireguard_peer_status', 'sarah-iphone').transfer_rx | int) / 1048576) | round(1) }} MB"
+        Transfer Tx: "{{ ((state_attr('sensor.wireguard_peer_status', 'sarah-iphone').transfer_tx | int) / 1048576) | round(1) }} MB"
         Duration: >
           {%- set is_connected = is_state('binary_sensor.wireguard_sarah_iphone', 'on') %}
           {%- set seconds = (as_timestamp(now()) - as_timestamp(states.binary_sensor.wireguard_sarah_iphone.last_changed)) | int  %}
