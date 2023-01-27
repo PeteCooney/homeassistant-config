@@ -49,6 +49,7 @@ from .const import (
     FEATURE_SWITCHES,
     FEATURE_TV_DEVICE_CLASS,
     REMOTE_BUTTONS,
+    SKY_STATE_TEMP_ERROR_CHECK,
     SKYQ_APP,
     SKYQ_ICONS,
     SKYQ_LIVE,
@@ -65,7 +66,12 @@ from .const_homekit import (
     KEY_REWIND,
 )
 from .entity import SkyQEntity
-from .utils import AppImageUrl, async_get_channel_data, get_command
+from .utils import (
+    AppImageUrl,
+    async_get_channel_data,
+    async_get_device_info,
+    get_command,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -122,12 +128,17 @@ async def _async_setup_platform_entry(
         config_item.get(CONF_COUNTRY),
         config_item.get(CONF_TEST_CHANNEL),
     )
-    device_info = await hass.async_add_executor_job(remote.get_device_information)
-    if device_info and not unique_id:
-        unique_id = device_info.used_country_code + "".join(
-            e for e in device_info.serialNumber.casefold() if e.isalnum()
-        )
-    config = Config(unique_id, name, host, device_info, config_item)
+    device_info, gateway_device_info, unique_id = await async_get_device_info(
+        hass, remote, unique_id
+    )
+    config = Config(
+        unique_id,
+        name,
+        host,
+        device_info,
+        config_item,
+        gateway_device_info=gateway_device_info,
+    )
 
     player = SkyQDevice(
         hass,
@@ -188,6 +199,7 @@ class SkyQDevice(SkyQEntity, MediaPlayerEntity):
         self._channel_list = None
         self._use_internal = True
         self._switches_generated = False
+        self._old_state = None
 
     @property
     def device_info(self):
@@ -365,7 +377,13 @@ class SkyQDevice(SkyQEntity, MediaPlayerEntity):
             self._channel_list = await self._async_get_channel_list()
 
         if self._config.device_info:
-            await self._async_update_state()
+            error_state = await self._async_update_state()
+        if error_state:
+            return
+
+        if self._old_state != self._state:
+            _LOGGER.debug("D0010 - State changed to '%s' - %s", self._state, self.name)
+            self._old_state = self._state
 
         if self._state != MediaPlayerState.OFF:
             await self._async_update_current_programme()
@@ -502,12 +520,14 @@ class SkyQDevice(SkyQEntity, MediaPlayerEntity):
             self._entity_attr.skyq_media_type = SKYQ_OFF
             self._state = MediaPlayerState.OFF
             self._entity_attr.skyq_transport_status = DEFAULT_TRANSPORT_STATE
-            return
+            return False
+        if power_state == SKY_STATE_TEMP_ERROR_CHECK:
+            return True
         if power_state != SKY_STATE_ON:
             self._entity_attr.skyq_media_type = SKYQ_UNKNOWN
             self._state = MediaPlayerState.OFF
             self._entity_attr.skyq_transport_status = None
-            return
+            return False
 
         response = await self.hass.async_add_executor_job(
             self._remote.get_current_state
@@ -523,6 +543,8 @@ class SkyQDevice(SkyQEntity, MediaPlayerEntity):
             self._state = MediaPlayerState.OFF
         else:
             self._state = MediaPlayerState.PLAYING
+
+        return False
 
     async def _async_update_current_programme(self):
 

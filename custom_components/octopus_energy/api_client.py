@@ -60,6 +60,7 @@ account_query = '''query {{
 				mprn
 				meters(includeInactive: false) {{
 					serialNumber
+          consumptionUnits
 				}}
 				agreements {{
 					validFrom
@@ -146,18 +147,19 @@ class OctopusEnergyApiClient:
               "agreements": list(map(lambda a: {
                 "valid_from": a["validFrom"],
                 "valid_to": a["validTo"],
-                "tariff_code": a["tariff"]["tariffCode"] if "tariffCode" in a["tariff"] else None,
+                "tariff_code": a["tariff"]["tariffCode"] if "tariff" in a and "tariffCode" in a["tariff"] else None,
               }, mp["meterPoint"]["agreements"]))
             }, account_response_body["data"]["account"]["electricityAgreements"])),
             "gas_meter_points": list(map(lambda mp: {
               "mprn": mp["meterPoint"]["mprn"],
               "meters": list(map(lambda m: {
                 "serial_number": m["serialNumber"],
+                "consumption_units": m["consumptionUnits"],
               }, mp["meterPoint"]["meters"])),
               "agreements": list(map(lambda a: {
                 "valid_from": a["validFrom"],
                 "valid_to": a["validTo"],
-                "tariff_code": a["tariff"]["tariffCode"] if "tariffCode" in a["tariff"] else None,
+                "tariff_code": a["tariff"]["tariffCode"] if "tariff" in a and "tariffCode" in a["tariff"] else None,
               }, mp["meterPoint"]["agreements"]))
             }, account_response_body["data"]["account"]["gasAgreements"])),
           }

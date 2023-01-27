@@ -2,6 +2,10 @@ from datetime import timedelta
 import logging
 from custom_components.octopus_energy.utils import apply_offset
 
+import re
+import voluptuous as vol
+
+from homeassistant.core import callback
 from homeassistant.util.dt import (utcnow, now)
 from homeassistant.helpers.update_coordinator import (
   CoordinatorEntity
@@ -10,6 +14,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.helpers.restore_state import RestoreEntity
+from homeassistant.helpers import config_validation as cv, entity_platform, service
 from .const import (
   CONFIG_TARGET_OFFSET,
   DOMAIN,
@@ -22,6 +27,10 @@ from .const import (
   CONFIG_TARGET_END_TIME,
   CONFIG_TARGET_MPAN,
   CONFIG_TARGET_ROLLING_TARGET,
+  
+  REGEX_HOURS,
+  REGEX_TIME,
+  REGEX_OFFSET_PARTS,
 
   DATA_ELECTRICITY_RATES_COORDINATOR,
   DATA_SAVING_SESSIONS_COORDINATOR,
@@ -50,6 +59,26 @@ async def async_setup_entry(hass, entry, async_add_entities):
     await async_setup_season_sensors(hass, entry, async_add_entities)
   elif CONFIG_TARGET_NAME in entry.data:
     await async_setup_target_sensors(hass, entry, async_add_entities)
+
+  platform = entity_platform.async_get_current_platform()
+  platform.async_register_entity_service(
+    "update_target_config",
+    vol.All(
+      vol.Schema(
+        {
+          vol.Required("target_hours"): str,
+          vol.Optional("target_start_time"): str,
+          vol.Optional("target_end_time"): str,
+          vol.Optional("target_offset"): str,
+        },
+        extra=vol.ALLOW_EXTRA,
+      ),
+      cv.has_at_least_one_key(
+        "target_hours", "target_start_time", "target_end_time", "target_offset"
+      ),
+    ),
+    "async_update_config",
+  )
 
   return True
 
@@ -98,7 +127,12 @@ class OctopusEnergyTargetRate(CoordinatorEntity, BinarySensorEntity):
     self._config = config
     self._is_export = is_export
     self._attributes = self._config.copy()
+    self._is_export = is_export
     self._attributes["is_target_export"] = is_export
+    is_rolling_target = True
+    if CONFIG_TARGET_ROLLING_TARGET in self._config:
+      is_rolling_target = self._config[CONFIG_TARGET_ROLLING_TARGET]
+    self._attributes[CONFIG_TARGET_ROLLING_TARGET] = is_rolling_target
     self._target_rates = []
 
   @property
@@ -109,7 +143,7 @@ class OctopusEnergyTargetRate(CoordinatorEntity, BinarySensorEntity):
   @property
   def name(self):
     """Name of the sensor."""
-    return f"Octopus Energy Target Export {self._config[CONFIG_TARGET_NAME]}"
+    return f"Octopus Energy Target {self._config[CONFIG_TARGET_NAME]}"
 
   @property
   def icon(self):
@@ -207,8 +241,71 @@ class OctopusEnergyTargetRate(CoordinatorEntity, BinarySensorEntity):
       self._attributes["next_time"] = apply_offset(active_result["next_time"], offset)
     else:
       self._attributes["next_time"] = active_result["next_time"]
+    
+    self._attributes["current_duration_in_hours"] = active_result["current_duration_in_hours"]
+    self._attributes["next_duration_in_hours"] = active_result["next_duration_in_hours"]
 
     return active_result["is_active"]
+
+  @callback
+  def async_update_config(self, target_start_time=None, target_end_time=None, target_hours=None, target_offset=None):
+    """Update sensors config"""
+
+    config = dict(self._config)
+    
+    if target_hours is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_hours = target_hours.strip('\"')
+      matches = re.search(REGEX_HOURS, trimmed_target_hours)
+      if matches == None:
+        raise vol.Invalid(f"Target hours of '{trimmed_target_hours}' must be in half hour increments.")
+      else:
+        trimmed_target_hours = float(trimmed_target_hours)
+        if trimmed_target_hours % 0.5 != 0:
+          raise vol.Invalid(f"Target hours of '{trimmed_target_hours}' must be in half hour increments.")
+        else:
+          config.update({
+            CONFIG_TARGET_HOURS: trimmed_target_hours
+          })
+
+    if target_start_time is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_start_time = target_start_time.strip('\"')
+      matches = re.search(REGEX_TIME, trimmed_target_start_time)
+      if matches == None:
+        raise vol.Invalid("Start time must be in the format HH:MM")
+      else:
+        config.update({
+          CONFIG_TARGET_START_TIME: trimmed_target_start_time
+        })
+
+    if target_end_time is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_end_time = target_end_time.strip('\"')
+      matches = re.search(REGEX_TIME, trimmed_target_end_time)
+      if matches == None:
+        raise vol.Invalid("End time must be in the format HH:MM")
+      else:
+        config.update({
+          CONFIG_TARGET_END_TIME: trimmed_target_end_time
+        })
+
+    if target_offset is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_offset = target_offset.strip('\"')
+      matches = re.search(REGEX_OFFSET_PARTS, trimmed_target_offset)
+      if matches == None:
+        raise vol.Invalid("Offset must be in the form of HH:MM:SS with an optional negative symbol")
+      else:
+        config.update({
+          CONFIG_TARGET_OFFSET: trimmed_target_offset
+        })
+
+    self._config = config
+    self._attributes = self._config.copy()
+    self._attributes["is_target_export"] = self._is_export
+    self._target_rates = []
+    self.async_write_ha_state()
 
 class OctopusEnergySavingSessions(CoordinatorEntity, BinarySensorEntity, RestoreEntity):
   """Sensor for determining if a saving session is active."""
@@ -256,12 +353,18 @@ class OctopusEnergySavingSessions(CoordinatorEntity, BinarySensorEntity, Restore
     
     self._attributes = {
       "joined_events": self._events,
-      "next_joined_event_start": None
+      "next_joined_event_start": None,
+      "next_joined_event_end": None,
+      "next_joined_event_duration_in_minutes": None
     }
 
     current_date = now()
     self._state = is_saving_sessions_event_active(current_date, self._events)
-    self._attributes["next_joined_event_start"] = get_next_saving_sessions_event(current_date, self._events)
+    next_event = get_next_saving_sessions_event(current_date, self._events)
+    if (next_event is not None):
+      self._attributes["next_joined_event_start"] = next_event["start"]
+      self._attributes["next_joined_event_end"] = next_event["end"]
+      self._attributes["next_joined_event_duration_in_minutes"] = next_event["duration_in_minutes"]
 
     return self._state
 

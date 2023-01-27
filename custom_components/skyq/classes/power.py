@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, timedelta, timezone
 
 import pytz
+
 from pyskyqremote.const import DEVICE_MULTIROOMSTB, SKY_STATE_OFF
 
 from ..const import (
@@ -13,6 +14,7 @@ from ..const import (
     QUIET_START,
     REBOOT_MAIN_TIMEOUT,
     REBOOT_MINI_TIMEOUT,
+    SKY_STATE_TEMP_ERROR_CHECK,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -32,33 +34,41 @@ class SkyQPower:  # pylint: disable=too-few-public-methods
         self._error_time = None
         self._startup_setup = False
         self._utc_now = None
+        self._power_state = None
 
     async def async_get_power_status(self):
         """Get the power status."""
-        self._utc_now = datetime.now(tz=timezone.utc)
         power_state = await self._hass.async_add_executor_job(self._remote.power_status)
-
         self._set_power_status(power_state)
-        return power_state
+        return self._power_state
 
-    def _set_power_status(self, power_status):
-        if power_status == SKY_STATE_OFF:
+    def _set_power_status(self, power_state):
+        self._utc_now = datetime.now(tz=timezone.utc)
+        if power_state == SKY_STATE_OFF:
             self._power_status_off_handling()
         else:
+            self._power_state = power_state
             self._power_status_on_handling()
 
     def _power_status_off_handling(self):
-
         if not self._error_time:
             self._error_time = self._utc_now
         error_time_target, reboot_time_target = self._target_times()
         self._error_time_debug(error_time_target)
 
+        if self._utc_now > error_time_target:
+            self._power_state = SKY_STATE_OFF
+        else:
+            self._power_state = SKY_STATE_TEMP_ERROR_CHECK
+
         if not self._quiet_period():
             self._power_off_standard_hours(error_time_target)
             return
 
-        if self._config.device_info.wakeReason == ECO_WAKEREASON:
+        if self._config.device_info.wakeReason == ECO_WAKEREASON or (
+            self._config.gateway_device_info
+            and self._config.gateway_device_info.wakeReason == ECO_WAKEREASON
+        ):
             self._power_off_eco(error_time_target)
             return
 
@@ -70,7 +80,7 @@ class SkyQPower:  # pylint: disable=too-few-public-methods
         ) and self._utc_now > error_time_target:
             self.available = False
             self._quiet_time_error = False
-            self._reboot_check = True
+            self._reboot_check = False
             _LOGGER.warning("W0010 - Device is not available: %s", self._config.name)
 
     def _power_off_eco(self, error_time_target):
@@ -79,10 +89,8 @@ class SkyQPower:  # pylint: disable=too-few-public-methods
             and self._utc_now > error_time_target
             and self.available
         ):
-            self.available = False
-            self._quiet_time_error = True
-            _LOGGER.info(
-                "I0030 - Device is not available. ECO sleep?: %s", self._config.name
+            self._quiet_time_error_log(
+                "I0030 - Device is not available. ECO sleep?: %s"
             )
 
     def _power_off_other(self, error_time_target, reboot_time_target):
@@ -91,10 +99,8 @@ class SkyQPower:  # pylint: disable=too-few-public-methods
             and self._utc_now > error_time_target
             and self.available
         ):
-            self.available = False
-            _LOGGER.info(
-                "I0040 - Device is not available. Nightly reboot?: %s",
-                self._config.name,
+            self._quiet_time_error_log(
+                "I0040 - Device is not available. Nightly reboot?: %s"
             )
             return
 
@@ -106,6 +112,11 @@ class SkyQPower:  # pylint: disable=too-few-public-methods
             self._reboot_check = False
             _LOGGER.warning("W0020 - Device is not available: %s", self._config.name)
             return
+
+    def _quiet_time_error_log(self, error_message):
+        self.available = False
+        self._quiet_time_error = True
+        _LOGGER.info(error_message, self._config.name)
 
     def _power_status_on_handling(self):
         self._quiet_time_error = False

@@ -54,6 +54,7 @@ CONST_SKYQ_SCHEDULED_START = "skyq_scheduled_start"
 CONST_SKYQ_SCHEDULED_END = "skyq_scheduled_end"
 CONST_SKYQ_SCHEDULED_TITLE = "skyq_scheduled_title"
 CONST_SKYQ_TRANSPORT_STATUS = "skyq_transport_status"
+CONST_STATEFILE = ".storage/skyq.restore_state"
 CONST_DEFAULT = "Default"
 CONST_DEFAULT_EPGCACHELEN = 20
 LIST_EPGCACHELEN = [10, 20, 30, 50, 999]
@@ -92,17 +93,6 @@ SKYQ_LIVEREC = "liverecord"
 SKYQ_OFF = "off"
 SKYQ_PVR = "pvr"
 SKYQ_UNKNOWN = "unknown"
-SKYQ_ICONS = {
-    SKYQ_APP: "mdi:application-outline",
-    SKYQ_LIVE: "mdi:satellite-variant",
-    SKYQ_LIVEREC: "mdi:record-rec",
-    SKYQ_OFF: "mdi:television",
-    SKYQ_PVR: "mdi:movie-open",
-    SKYQ_UNKNOWN: "mdi:alert-circle-outline",
-    CONST_SKYQ_STORAGE_USED: "mdi:database",
-    CONST_SKYQ_SCHEDULED: "mdi:clock-outline",
-}
-
 
 APP_IMAGE_URL_BASE = f"/api/{DOMAIN}/static"
 
@@ -139,3 +129,16 @@ STORAGE_SENSOR_SCHEDULE = "schedule"
 STATE_NONE = "none"
 STATE_RECORDING = "recording"
 STATE_SCHEDULED = "scheduled"
+SKY_STATE_TEMP_ERROR_CHECK = "error_check"
+
+SKYQ_ICONS = {
+    SKYQ_APP: "mdi:application-outline",
+    SKYQ_LIVE: "mdi:satellite-variant",
+    SKYQ_LIVEREC: "mdi:record-rec",
+    SKYQ_OFF: "mdi:television",
+    SKYQ_PVR: "mdi:movie-open",
+    SKYQ_UNKNOWN: "mdi:alert-circle-outline",
+    CONST_SKYQ_STORAGE_USED: "mdi:database",
+    STATE_SCHEDULED: "mdi:clock-outline",
+    STATE_RECORDING: "mdi:record-rec",
+}
