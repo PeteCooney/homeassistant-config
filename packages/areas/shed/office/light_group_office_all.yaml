@@ -4,4 +4,3 @@ light:
   unique_id: light_group_office_all
   entities:
     - light.office_main_lights
-    - light.office_wall_lights
