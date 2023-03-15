@@ -3,17 +3,17 @@ template:
     - name: 'Broadband Status'
       unique_id: broadband_status
       state:  >
-        {{ is_state('binary_sensor.sky_adsl_router_wan_status', 'on') }}
+        {{ is_state('binary_sensor.vodafone_wi_fi_hub_wan_status', 'on') }}
       device_class: connectivity
       attributes:
         uptime: >
-          {% set connected = (states.sensor.sky_adsl_router_wan_status.state) %}
-          {% set uptime = (states.sensor.sky_adsl_router_uptime.state | int) | int %}
+          {% set connected = (states.binary_sensor.vodafone_wi_fi_hub_wan_status.state) %}
+          {% set uptime = (states.sensor.vodafone_wi_fi_hub_uptime.state | int) | int %}
           {% set minutes = ((uptime % 3600) / 60) | int %}
           {% set hours = ((uptime % 86400) / 3600) | int %}
           {% set days = (uptime / 86400) | int %}
 
-          {%- if connected == "Connected" %}
+          {%- if connected == "on" %}
             {%- if uptime < 60 -%}
               Less than a minute
               {%- else -%}
