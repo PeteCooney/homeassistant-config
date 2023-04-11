@@ -8,6 +8,8 @@ from homeassistant.helpers.update_coordinator import (
   DataUpdateCoordinator
 )
 
+from homeassistant.helpers import issue_registry as ir
+
 from .const import (
   DOMAIN,
 
@@ -32,6 +34,8 @@ from .api_client import OctopusEnergyApiClient
 from .utils import (
   get_active_tariff_code
 )
+
+from .utils.check_tariff import (async_check_valid_tariff)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -68,12 +72,31 @@ async def async_setup_entry(hass, entry):
 
   return True
 
-async def async_get_current_electricity_agreement_tariff_codes(client: OctopusEnergyApiClient, account_id: str):
-  account_info = await client.async_get_account(account_id)
+async def async_get_current_electricity_agreement_tariff_codes(hass, client: OctopusEnergyApiClient, account_id: str):
+  account_info = None
+  try:
+    account_info = await client.async_get_account(account_id)
+  except:
+    # count exceptions as failure to retrieve account
+    _LOGGER.debug('Failed to retrieve account')
+
+  if account_info is None:
+    ir.async_create_issue(
+      hass,
+      DOMAIN,
+      f"account_not_found_{account_id}",
+      is_fixable=False,
+      severity=ir.IssueSeverity.ERROR,
+      learn_more_url="https://github.com/BottlecapDave/HomeAssistant-OctopusEnergy/blob/develop/_docs/repairs/account_not_found.md",
+      translation_key="account_not_found",
+      translation_placeholders={ "account_id": account_id },
+    )
+  else:
+    ir.async_delete_issue(hass, DOMAIN, f"account_not_found_{account_id}")
 
   tariff_codes = {}
   current = now()
-  if len(account_info["electricity_meter_points"]) > 0:
+  if account_info is not None and len(account_info["electricity_meter_points"]) > 0:
     for point in account_info["electricity_meter_points"]:
       active_tariff_code = get_active_tariff_code(current, point["agreements"])
       # The type of meter (ie smart vs dumb) can change the tariff behaviour, so we
@@ -84,6 +107,7 @@ async def async_get_current_electricity_agreement_tariff_codes(client: OctopusEn
           key = (point["mpan"], is_smart_meter)
           if key not in tariff_codes:
             tariff_codes[(point["mpan"], is_smart_meter)] = active_tariff_code
+            await async_check_valid_tariff(hass, client, active_tariff_code, True)
   
   return tariff_codes
 
@@ -118,6 +142,7 @@ def setup_rates_coordinator(hass, account_id: str):
   hass.data[DOMAIN][DATA_RATES] = []
 
   if DATA_ELECTRICITY_RATES_COORDINATOR in hass.data[DOMAIN]:
+    _LOGGER.info("Rates coordinator has already been configured, so skipping")
     return
   
   async def async_update_electricity_rates_data():
@@ -127,7 +152,7 @@ def setup_rates_coordinator(hass, account_id: str):
     client: OctopusEnergyApiClient = hass.data[DOMAIN][DATA_CLIENT]
     if (DATA_RATES not in hass.data[DOMAIN] or (current.minute % 30) == 0 or len(hass.data[DOMAIN][DATA_RATES]) == 0):
 
-      tariff_codes = await async_get_current_electricity_agreement_tariff_codes(client, account_id)
+      tariff_codes = await async_get_current_electricity_agreement_tariff_codes(hass, client, account_id)
       _LOGGER.debug(f'tariff_codes: {tariff_codes}')
 
       period_from = as_utc(current.replace(hour=0, minute=0, second=0, microsecond=0))
