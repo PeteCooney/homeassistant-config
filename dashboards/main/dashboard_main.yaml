@@ -1,3 +1,7 @@
+swipe_nav:
+  wrap: false
+  animate: swipe
+  swipe_amount: 30
 views:
   - path: home
     title: Home
@@ -24,13 +28,20 @@ views:
             cards:
               - type: light
                 entity: light.lounge_main_lights
-                name: Main Lights
+                name: Spots
               - type: light
                 entity: light.lounge_floor_lamps
-                name: Floor Lamps
-              - type: light
-                entity: light.lounge_table_lamp
-                name: Table Lamp
+                name: Floor
+                icon: ''
+              - type: conditional
+                conditions:
+                  - entity: light.lounge_table_lamp
+                    state_not: unavailable
+                card:
+                  type: light
+                  entity: light.lounge_table_lamp
+                  name: Lamp
+                  icon: ''
               - type: conditional
                 conditions:
                   - entity: light.lounge_christmas_tree
@@ -38,6 +49,7 @@ views:
                 card:
                   type: light
                   entity: light.lounge_christmas_tree
+                  name: Tree
           - type: thermostat
             entity: climate.lounge
             name: ' '
@@ -69,6 +81,71 @@ views:
       - type: vertical-stack
         cards:
           - type: custom:room-card
+            title: Kitchen
+            entity: light.kitchen_lights
+            entities: []
+            tap_action:
+              action: toggle
+            double_tap_action:
+              action: none
+            styles:
+              '--mdc-icon-size': 40px
+            card_mod:
+              style: |
+                .title { font-weight: bold; font-size: 1.1em; }
+                .card-header { height: 48px; }
+          - type: horizontal-stack
+            cards:
+              - type: light
+                entity: light.kitchen_main_lights
+                name: Spots
+              - type: light
+                entity: light.kitchen_counter_lights
+                name: Counters
+              - type: button
+                show_icon: false
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: none
+                entity: binary_sensor.dishwasher_liquid_detergent_low
+                name: Detergent Low
+                icon: fas:soap
+                hold_action:
+                  action: none
+                show_state: true
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: none
+                entity: binary_sensor.dishwasher_warning_no_rinse_aid
+                name: Rinse Aid Low
+                icon: fapro:dishwasher-rinse-aid
+                hold_action:
+                  action: none
+                show_state: true
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: none
+                entity: binary_sensor.dishwasher_warning_no_salt
+                name: Salt Low
+                icon: mdi:dishwasher
+                hold_action:
+                  action: none
+                show_state: true
+      - type: vertical-stack
+        cards:
+          - type: custom:room-card
             title: Dining Room
             entity: light.dining_room_lights
             entities: []
@@ -87,12 +164,9 @@ views:
               - type: light
                 entity: light.dining_room_main_lights
                 name: Spots
-              - show_icon: false
-                type: button
-                tap_action:
-                  action: none
-                hold_action:
-                  action: none
+              - type: light
+                entity: light.kitchen_pendant_lights
+                name: Pendants
               - show_icon: false
                 type: button
                 tap_action:
@@ -168,36 +242,6 @@ views:
                   width: 50%;
                   margin: auto;
                 }
-      - type: vertical-stack
-        cards:
-          - type: custom:room-card
-            title: Kitchen
-            entity: light.kitchen_lights
-            entities: []
-            tap_action:
-              action: toggle
-            double_tap_action:
-              action: none
-            styles:
-              '--mdc-icon-size': 40px
-            card_mod:
-              style: |
-                .title { font-weight: bold; font-size: 1.1em; }
-                .card-header { height: 48px; }
-          - type: horizontal-stack
-            cards:
-              - type: light
-                entity: light.kitchen_main_lights
-                name: Spots
-              - type: light
-                entity: light.kitchen_pendant_lights
-                name: Pendants
-              - type: light
-                entity: light.kitchen_counter_lights
-                name: Counters
-              - type: light
-                entity: light.kitchen_plinth_lights
-                name: Plinths
   - title: Bedrooms
     path: bedrooms
     icon: ''
@@ -230,10 +274,10 @@ views:
                 name: Entrance
               - type: light
                 entity: light.master_bedroom_main_lights
-                name: Main Lights
+                name: Main
               - type: light
                 entity: light.master_bedroom_side_lights
-                name: Floor Lamp
+                name: Side
           - type: horizontal-stack
             cards:
               - type: light
@@ -297,10 +341,10 @@ views:
             cards:
               - type: light
                 entity: light.jacob_bedroom_main_lights
-                name: Main Light
+                name: Main
               - type: light
-                entity: light.jacob_bedroom_desk_lights
-                name: Desk Lights
+                entity: light.jacob_bedroom_spot_lights
+                name: Spots
               - type: button
                 show_icon: false
                 tap_action:
@@ -339,7 +383,7 @@ views:
             cards:
               - type: light
                 entity: light.joshua_bedroom_main_lights
-                name: Main Light
+                name: Main
               - type: button
                 show_icon: false
                 tap_action:
@@ -381,10 +425,10 @@ views:
             cards:
               - type: light
                 entity: light.georgia_bedroom_main_lights
-                name: Main Light
+                name: Main
               - type: light
                 entity: light.georgia_bedroom_side_lights
-                name: Floor Lamp
+                name: Side
               - type: light
                 entity: light.georgia_bedroom_dressing_room_lights
                 name: Dressing
@@ -422,10 +466,14 @@ views:
             cards:
               - type: light
                 entity: light.office_main_lights
-                name: Main Lights
-              - type: light
-                entity: light.office_wall_lights
-                name: Wall Lights
+                name: Spots
+              - show_name: true
+                show_icon: false
+                type: button
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
               - show_name: true
                 show_icon: false
                 type: button
@@ -468,16 +516,43 @@ views:
             cards:
               - type: light
                 entity: light.workshop_main_lights
-                name: Main Lights
+                name: Main
               - type: light
                 entity: light.workshop_workbench_lights
-                name: Work Bench
+                name: Bench
               - type: button
                 show_icon: false
                 tap_action:
                   action: none
                 hold_action:
                   action: none
+      - type: vertical-stack
+        cards:
+          - type: custom:room-card
+            title: Back Garden
+            entity: light.back_garden_lights
+            entities: []
+            tap_action:
+              action: toggle
+            double_tap_action:
+              action: none
+            styles:
+              '--mdc-icon-size': 40px
+            card_mod:
+              style: |
+                .title { font-weight: bold; font-size: 1.1em; }
+                .card-header { height: 48px; }
+          - type: horizontal-stack
+            cards:
+              - type: light
+                entity: light.back_garden_house_lights
+                name: House
+              - type: light
+                entity: light.back_garden_shed_lights
+                name: Shed
+              - type: light
+                entity: light.back_garden_hot_tub_lights
+                name: Hot Tub
       - type: vertical-stack
         cards:
           - type: custom:room-card
@@ -498,13 +573,13 @@ views:
             cards:
               - type: light
                 entity: light.front_garden_christmas_lights
-                name: Christmas Lights
+                name: Christmas
               - type: light
                 entity: light.front_garden_path_lights
-                name: Path Lights
+                name: Path
               - type: light
                 entity: light.front_garden_soffit_lights
-                name: Soffit Lights
+                name: Soffits
           - type: horizontal-stack
             cards:
               - show_name: true
@@ -552,10 +627,54 @@ views:
                 show_state: false
                 tap_action:
                   action: toggle
+      - type: vertical-stack
+        cards:
           - type: custom:room-card
-            title: Ring
+            title: Cat Flap
             entity: null
-            show_icon: false
+            show_icon: true
+            icon: fapro:surepetcare
+            styles:
+              '--mdc-icon-size': 40px
+            entities: []
+            card_mod:
+              style: |
+                .title { font-weight: bold; font-size: 1.1em; }
+                .card-header { height: 48px; }
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                entity: binary_sensor.sure_petcare_hub
+                show_state: true
+                icon: mdi:access-point-network
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: more-info
+                entity: binary_sensor.pussy_flaps_connectivity
+                icon: fapro:petflap-open
+                show_state: true
+                name: Flap
+              - type: button
+                entity: sensor.pussy_flaps_battery_level
+                show_state: true
+                name: Battery
+              - type: button
+                entity: binary_sensor.beau
+                name: null
+                show_state: true
+      - type: vertical-stack
+        cards:
+          - type: custom:room-card
+            title: Front Door
+            entity: null
+            show_icon: true
+            icon: fapro:ring
+            styles:
+              '--mdc-icon-size': 40px
             entities: []
             card_mod:
               style: |
@@ -581,78 +700,6 @@ views:
                 name: Ding
                 icon: ''
                 show_state: true
-      - type: vertical-stack
-        cards:
-          - type: custom:room-card
-            title: Back Garden
-            entity: light.back_garden_lights
-            entities: []
-            tap_action:
-              action: toggle
-            double_tap_action:
-              action: none
-            styles:
-              '--mdc-icon-size': 40px
-            card_mod:
-              style: |
-                .title { font-weight: bold; font-size: 1.1em; }
-                .card-header { height: 48px; }
-          - type: horizontal-stack
-            cards:
-              - type: light
-                entity: light.back_garden_house_lights
-                name: House
-              - type: light
-                entity: light.back_garden_shed_lights
-                name: Shed
-              - type: light
-                entity: light.back_garden_deck_lights
-                name: Deck
-          - type: custom:room-card
-            title: Cat Flap
-            entity: null
-            show_icon: false
-            entities: []
-            card_mod:
-              style: |
-                .title { font-weight: bold; font-size: 1.1em; }
-                .card-header { height: 48px; }
-          - type: horizontal-stack
-            cards:
-              - show_name: true
-                show_icon: true
-                type: button
-                entity: binary_sensor.sure_petcare_hub
-                show_state: true
-                icon: mdi:access-point-network
-              - type: custom:button-card
-                entity: binary_sensor.pussy_flaps_connectivity
-                name: Flap
-                show_entity_picture: true
-                entity_picture: /local/custom_icons/petflap-open.svg
-                show_label: true
-                label: |
-                  [[[
-                    var connected = states['binary_sensor.pussy_flaps_connectivity'].state;
-                    return connected == 'on' ? "Connected" : "Disconnected"
-                  ]]]
-                styles:
-                  label:
-                    - font-size: 0.9rem
-                    - color: var(--secondary-text-color)
-                    - margin-bottom: 3px
-                  card:
-                    - height: 100%
-                  name:
-                    - margin-bottom: 3px
-              - type: button
-                entity: sensor.pussy_flaps_battery_level
-                show_state: true
-                name: Battery
-              - type: button
-                entity: binary_sensor.beau
-                name: null
-                show_state: true
   - theme: Backend-selected
     title: Overview
     path: overview
@@ -664,6 +711,8 @@ views:
           - type: custom:room-card
             title: Brampton Road
             entity: light.all_lights
+            icon: mdi:home
+            show_icon: true
             entities: []
             tap_action:
               action: toggle
@@ -677,11 +726,15 @@ views:
                 .card-header { height: 48px; }
           - type: horizontal-stack
             cards:
-              - type: button
+              - show_name: true
+                show_icon: true
+                type: button
                 entity: binary_sensor.pi_hole_update_available
                 icon: mdi:pi-hole
                 show_state: true
                 name: Pi-Hole
+                tap_action:
+                  action: toggle
               - type: button
                 entity: binary_sensor.home_assistant_website_update_available
                 name: Home Assistant
@@ -749,78 +802,106 @@ views:
                   - '#c73800'
                   - value: 50
                     color: '#d50000'
+          - type: custom:mod-card
+            card_mod:
+              style:
+                hui-horizontal-stack-card $: |
+                  mini-graph-card:nth-of-type(1) {
+                    flex-grow: 2 !important; 
+                  }
+            card:
+              type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.broadband_status
+                  name: Internet
+                  aspect_ratio: null
+                  icon: mdi:check-network-outline
+                  show_label: true
+                  label: |
+                    [[[
+                      return states['binary_sensor.broadband_status'].attributes.uptime;
+                    ]]]
+                  styles:
+                    label:
+                      - font-size: 0.9rem
+                      - color: var(--secondary-text-color)
+                      - padding: 3pt
+                    card:
+                      - height: 100%
+                    icon:
+                      - top: '-3px'
+                - type: custom:mini-graph-card
+                  entities:
+                    - entity: sensor.speedtest_download
+                      name: Download
+                      color: '#a977ed'
+                    - entity: sensor.speedtest_upload
+                      name: Upload
+                      color: '#39b48e'
+                  font_size: 50
+                  name: Network Speed
+                  show:
+                    name: true
+                    legend: false
+                    icon: true
+                    labels: false
           - type: horizontal-stack
             cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                entity: binary_sensor.wireguard_running
+                icon: ''
+                show_state: true
+                name: WireGuard
               - type: custom:button-card
-                entity: binary_sensor.broadband_status
-                name: Internet
+                entity: binary_sensor.wireguard_pete_iphone
+                name: Pete's iPhone
+                icon: mdi:cellphone-nfc
                 aspect_ratio: null
-                icon: mdi:check-network-outline
                 show_label: true
                 label: |
                   [[[
-                    return states['binary_sensor.broadband_status'].attributes.uptime;
+                    return states['binary_sensor.wireguard_pete_iphone'].attributes.Duration;
                   ]]]
                 styles:
                   label:
                     - font-size: 0.9rem
                     - color: var(--secondary-text-color)
+                    - padding: 3pt
                   card:
                     - height: 100%
-              - type: custom:mini-graph-card
-                entities:
-                  - entity: sensor.speedtest_download
-                font_size: 50
-                name: Down
-                icon: mdi:speedometer
-                show:
-                  name: true
-                  legend: true
-                  icon: true
-                  labels: false
-                color_thresholds:
-                  - value: 15
-                    color: '#008cd5'
-                  - '#008cce'
-                  - '#008cc2'
-                  - '#008ab0'
-                  - '#00879a'
-                  - '#008381'
-                  - '#007d65'
-                  - '#007848'
-                  - '#007129'
-                  - value: 40
-                    color: '#006a00'
-              - type: custom:mini-graph-card
-                entities:
-                  - entity: sensor.speedtest_upload
-                font_size: 50
-                name: Up
-                icon: mdi:speedometer
-                show:
-                  name: true
-                  legend: true
-                  icon: true
-                  labels: false
-                color_thresholds:
-                  - value: 5
-                    color: '#008cd5'
-                  - '#0082d3'
-                  - '#0078d1'
-                  - '#156dcd'
-                  - '#2961c8'
-                  - '#3a55c1'
-                  - '#4848b9'
-                  - '#5538af'
-                  - '#6025a3'
-                  - value: 10
-                    color: '#6a0096'
+                  icon:
+                    - top: '-3px'
+              - type: custom:button-card
+                entity: binary_sensor.wireguard_sarah_iphone
+                name: Sarah's iPhone
+                icon: mdi:cellphone-nfc
+                aspect_ratio: null
+                show_label: true
+                label: |
+                  [[[
+                    return states['binary_sensor.wireguard_sarah_iphone'].attributes.Duration;
+                  ]]]
+                styles:
+                  label:
+                    - font-size: 0.9rem
+                    - color: var(--secondary-text-color)
+                    - padding: 3pt
+                  card:
+                    - height: 100%
+                  icon:
+                    - top: '-3px'
       - type: vertical-stack
         cards:
           - type: custom:room-card
             title: Sorento
             entity: null
-            show_icon: false
+            show_icon: true
+            icon: fapro:kia
+            styles:
+              '--mdc-icon-size': 40px
             entities: []
             card_mod:
               style: |
@@ -838,7 +919,7 @@ views:
               - show_name: true
                 show_icon: true
                 type: button
-                entity: sensor.sorento_range_by_fuel
+                entity: sensor.sorento_fuel_driving_range
                 name: Range
                 show_state: true
                 icon: mdi:map-marker-distance
@@ -846,12 +927,14 @@ views:
                 show_icon: true
                 type: button
                 entity: sensor.sorento_fuel_level
-                name: Fuel Level
+                name: Fuel
                 show_state: true
                 icon: mdi:gas-station
-              - type: button
+              - show_name: true
+                show_icon: true
+                type: button
                 entity: lock.sorento_door_lock
-                name: Locked
+                name: Doors
                 icon: mdi:car-door-lock
                 show_state: true
       - type: vertical-stack
@@ -859,7 +942,10 @@ views:
           - type: custom:room-card
             title: Weather
             entity: null
-            show_icon: false
+            show_icon: true
+            icon: mdi:weather-partly-cloudy
+            styles:
+              '--mdc-icon-size': 40px
             entities: []
             card_mod:
               style: |
@@ -878,7 +964,10 @@ views:
           - type: custom:room-card
             title: The Family
             entity: null
-            show_icon: false
+            show_icon: true
+            icon: mdi:account-multiple
+            styles:
+              '--mdc-icon-size': 40px
             entities: []
             card_mod:
               style: |
@@ -886,12 +975,14 @@ views:
                 .card-header { height: 48px; }
           - type: horizontal-stack
             cards:
-              - type: picture-glance
+              - camera_view: auto
+                type: picture-glance
                 image: /local/imgs/pete.png
                 entities:
                   - entity: sensor.peters_iphone_battery_level
                   - entity: person.peter_cooney
                 entity: device_tracker.peters_iphone
+                title: Pete
               - camera_view: auto
                 type: picture-glance
                 image: /local/imgs/sarah.png
@@ -899,20 +990,24 @@ views:
                   - entity: sensor.sarahs_iphone_battery_level
                   - entity: person.sarah_cooney
                 entity: device_tracker.sarahs_iphone
+                title: Sez
           - type: horizontal-stack
             cards:
               - camera_view: auto
                 type: picture-glance
                 image: /local/imgs/jacob.png
                 entities: []
+                title: Jacob
               - camera_view: auto
                 type: picture-glance
                 image: /local/imgs/georgia.png
                 entities: []
+                title: Georgia
               - camera_view: auto
                 type: picture-glance
                 image: /local/imgs/joshua.png
                 entities: []
+                title: Joshua
           - type: horizontal-stack
             cards:
               - type: button
@@ -921,10 +1016,12 @@ views:
                   action: none
                 hold_action:
                   action: none
-              - type: picture-glance
+              - camera_view: auto
+                type: picture-glance
                 image: /local/imgs/beau.png
                 entities: []
                 entity: binary_sensor.beau
+                title: Beau
               - type: button
                 show_icon: false
                 tap_action:

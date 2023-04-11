@@ -1,0 +1,13 @@
+template:
+  - sensor:
+    - name: "Network - Wired Clients"
+      unique_id: network_wired_clients
+      icon: "mdi:lan"
+      state: >
+        {{ states.device_tracker | selectattr('state', 'eq', "home") | selectattr('attributes.is_wired', 'defined') | selectattr('attributes.is_wired', 'eq', true) | list | count }}
+      attributes:
+        clients: >
+          {% set clients = states.device_tracker | selectattr('state', 'eq', "home") | selectattr('attributes.is_wired', 'defined') | selectattr('attributes.is_wired', 'eq', true) | list %}
+          {%- for client in clients %}
+            - {{ client["name"] }}
+          {% endfor %}
