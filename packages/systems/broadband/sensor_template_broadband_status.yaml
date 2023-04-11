@@ -2,7 +2,7 @@ template:
   - binary_sensor:
     - name: 'Broadband Status'
       unique_id: broadband_status
-      state:  >
+      state: >
         {{ is_state('binary_sensor.vodafone_wi_fi_hub_wan_status', 'on') }}
       device_class: connectivity
       attributes:

@@ -11,10 +11,10 @@ template:
         Transfer Rx: "{{ ((state_attr('sensor.wireguard_peer_status', 'pete-iphone').transfer_rx | int) / 1048576) | round(1) }} MB"
         Transfer Tx: "{{ ((state_attr('sensor.wireguard_peer_status', 'pete-iphone').transfer_tx | int) / 1048576) | round(1) }} MB"
         Duration: >
-          {%- set is_connected = is_state('binary_sensor.wireguard_pete_iphone', 'on') %}
-          {%- set seconds = (as_timestamp(now()) - as_timestamp(states.binary_sensor.wireguard_pete_iphone.last_changed)) | int  %}
-          {%- set minutes = ((seconds % 3600) / 60) | int %}
-          {%- set hours = ((seconds % 86400) / 3600) | int %}
+          {% set is_connected = is_state('binary_sensor.wireguard_pete_iphone', 'on') %}
+          {% set seconds = (as_timestamp(now()) - as_timestamp(states.binary_sensor.wireguard_pete_iphone.last_changed)) | int  %}
+          {% set minutes = ((seconds % 3600) / 60) | int %}
+          {% set hours = ((seconds % 86400) / 3600) | int %}
           {% set days = (seconds / 86400) | int %}
 
           {%- if is_connected -%}
