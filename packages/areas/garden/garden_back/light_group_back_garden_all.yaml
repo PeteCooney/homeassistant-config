@@ -3,6 +3,7 @@ light:
   name: Back Garden - Lights
   unique_id: light_group_back_garden_all
   entities:
+    - light.back_garden_hot_tub_lights
     - light.back_garden_house_lights
     - light.back_garden_shed_lights
-    - light.back_garden_hot_tub_lights
+    - light.back_garden_wall_lights

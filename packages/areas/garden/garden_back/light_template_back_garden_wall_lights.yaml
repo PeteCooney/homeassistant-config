@@ -1,10 +1,10 @@
 light:
 - platform: template
   lights:
-    back_garden_house_lights:
-      friendly_name: Back Garden - House Lights
-      unique_id: back_garden_house_lights
-      icon_template: mdi:light-flood-down
+    back_garden_wall_lights:
+      friendly_name: Back Garden - Wall Lights
+      unique_id: back_garden_wall_lights
+      icon_template: mdi:post-lamp
       turn_on:
         service: light.turn_on
         target:
