@@ -464,17 +464,16 @@ views:
                 .card-header { height: 48px; }
           - type: horizontal-stack
             cards:
-              - type: light
+              - features:
+                  - type: light-brightness
+                type: tile
                 entity: light.office_main_lights
                 name: Spots
-              - show_name: true
-                show_icon: false
-                type: button
-                tap_action:
-                  action: none
-                hold_action:
-                  action: none
-              - show_name: true
+                vertical: false
+                show_entity_picture: false
+                icon_tap_action:
+                  action: toggle
+              - show_name: false
                 show_icon: false
                 type: button
                 tap_action:
@@ -514,18 +513,13 @@ views:
                 .card-header { height: 48px; }
           - type: horizontal-stack
             cards:
-              - type: light
+              - type: tile
                 entity: light.workshop_main_lights
                 name: Main
-              - type: light
+                vertical: false
+              - type: tile
                 entity: light.workshop_workbench_lights
                 name: Bench
-              - type: button
-                show_icon: false
-                tap_action:
-                  action: none
-                hold_action:
-                  action: none
       - type: vertical-stack
         cards:
           - type: custom:room-card
@@ -544,15 +538,26 @@ views:
                 .card-header { height: 48px; }
           - type: horizontal-stack
             cards:
-              - type: light
-                entity: light.back_garden_house_lights
-                name: House
-              - type: light
+              - type: tile
                 entity: light.back_garden_shed_lights
                 name: Shed
-              - type: light
+              - type: tile
+                entity: light.back_garden_house_lights
+                name: House
+                features:
+                  - type: light-brightness
+          - type: horizontal-stack
+            cards:
+              - type: tile
                 entity: light.back_garden_hot_tub_lights
                 name: Hot Tub
+                features:
+                  - type: light-brightness
+              - type: tile
+                entity: light.back_garden_wall_lights
+                name: Wall Lights
+                features:
+                  - type: light-brightness
       - type: vertical-stack
         cards:
           - type: custom:room-card
@@ -658,10 +663,12 @@ views:
                 icon: fapro:petflap-open
                 show_state: true
                 name: Flap
-              - type: button
+              - show_name: true
+                show_icon: true
+                type: button
                 entity: sensor.pussy_flaps_battery_level
-                show_state: true
                 name: Battery
+                show_state: true
               - type: button
                 entity: binary_sensor.beau
                 name: null
@@ -682,7 +689,9 @@ views:
                 .card-header { height: 48px; }
           - type: horizontal-stack
             cards:
-              - type: button
+              - show_name: true
+                show_icon: true
+                type: button
                 entity: sensor.front_door_battery
                 show_state: true
                 name: Battery
@@ -752,15 +761,18 @@ views:
                 name: HACS
           - type: horizontal-stack
             cards:
-              - type: button
+              - show_name: true
+                show_icon: true
+                type: button
                 entity: switch.pi_hole
                 name: Pi-Hole
                 show_state: true
               - type: custom:mini-graph-card
                 entities:
                   - entity: sensor.titan_cpu_load_cpu_total
+                    name: CPU Load
                 font_size: 50
-                name: Titan
+                name: Titan CPU
                 icon: mdi:chart-line
                 show:
                   name: true
@@ -783,8 +795,9 @@ views:
               - type: custom:mini-graph-card
                 entities:
                   - entity: sensor.titan_cpu_temperatures_cpu_package
+                    name: CPU Temp
                 font_size: 50
-                name: Titan
+                name: Titan CPU
                 show:
                   name: true
                   legend: true
@@ -846,6 +859,17 @@ views:
                     legend: false
                     icon: true
                     labels: false
+          - type: horizontal-stack
+            cards:
+              - type: tile
+                entity: sensor.network_wired_clients
+                name: Wired
+              - type: tile
+                entity: sensor.network_wireless_clients_main
+                name: Brampton
+              - type: tile
+                entity: sensor.network_wireless_clients_iot
+                name: IoT
           - type: horizontal-stack
             cards:
               - show_name: true
