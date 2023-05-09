@@ -9,21 +9,15 @@ sensor:
         {%- set seconds = (as_timestamp(now()) - as_timestamp(states.sensor.front_door_last_motion.last_changed)) | int  %}
         {%- set minutes = ((seconds % 3600) / 60) | int %}
         {%- set hours = ((seconds % 86400) / 3600) | int %}
-        {% set days = (seconds / 86400) | int %}
+        {%- set days = (seconds / 86400) | int %}
 
-        {%- if seconds < 60 -%}
-          < 1m
-        {%- elif days > 0 -%}
-          > 1d ago
+        {%- if days > 0 -%}
+          > 1d
+        {%- elif hours > 0 -%}
+          {{ hours }}h {{ minutes }}m
+        {%- elif minutes > 0 -%}
+          {{ minutes }}m
         {%- else -%}
-          {%- if hours > 0 -%}
-            {{ hours }}h
-          {%- endif -%}
-          {%- if minutes > 0 -%}
-            {%- if hours > 0 -%}
-              {{ ' ' }}
-            {%- endif -%}
-            {{ minutes }}m
-          {%- endif -%}
+          < 1m
         {%- endif -%}
         {{ ' ' }}ago
