@@ -5,12 +5,6 @@ light:
       friendly_name: Back Garden - Shed Lights
       unique_id: back_garden_shed_lights
       icon_template: mdi:outdoor-lamp
-      # value_template: >-
-      #   {% if is_state('light.dummy_light', 'on') %}
-      #     on
-      #   {% else %}
-      #     off
-      #   {% endif %}
       turn_on:
         service: light.turn_on
         target:

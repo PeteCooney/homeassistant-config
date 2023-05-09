@@ -5,12 +5,6 @@ light:
       friendly_name: Downstairs Bathroom - Shower Alcove Light
       unique_id: downstairs_bathroom_shower_alcove_light
       icon_template: mdi:shower-head
-      # value_template: >-
-      #   {% if is_state('light.dummy_light', 'on') %}
-      #     on
-      #   {% else %}
-      #     off
-      #   {% endif %}
       turn_on:
         service: light.turn_on
         target:

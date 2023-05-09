@@ -5,12 +5,6 @@ light:
       friendly_name: Landing Main Lights
       unique_id: landing_main_lights
       icon_template: mdi:light-recessed
-      # value_template: >-
-      #   {% if is_state('light.dummy_light', 'on') %}
-      #     on
-      #   {% else %}
-      #     off
-      #   {% endif %}
       turn_on:
         service: light.turn_on
         target:
@@ -19,3 +13,8 @@ light:
         service: light.turn_off
         target:
           entity_id: light.dummy_light
+      set_level:
+        service: input_number.set_value
+        entity_id: input_number.dummy_input_number
+        data:
+          brightness: "{{ brightness }}"
