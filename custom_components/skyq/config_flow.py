@@ -4,10 +4,13 @@ import contextlib
 import json
 import logging
 from operator import attrgetter
+from typing import Any
+from urllib.parse import urlparse
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant import config_entries, exceptions
+from homeassistant.components import ssdp
 from homeassistant.const import CONF_HOST, CONF_NAME
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import AbortFlow, FlowResult
@@ -18,6 +21,7 @@ from pyskyqremote.skyq_remote import SkyQRemote
 from .const import (
     CHANNEL_DISPLAY,
     CHANNEL_SOURCES_DISPLAY,
+    CONF_ADD_BACKUP,
     CONF_ADVANCED_OPTIONS,
     CONF_CHANNEL_SOURCES,
     CONF_COUNTRY,
@@ -32,8 +36,11 @@ from .const import (
     CONF_VOLUME_ENTITY,
     CONST_DEFAULT,
     CONST_DEFAULT_EPGCACHELEN,
+    DEFAULT_ENTITY_NAME,
+    DEFAULT_MINI,
     DOMAIN,
     LIST_EPGCACHELEN,
+    MR_DEVICE,
     SKYQREMOTE,
 )
 from .schema import DATA_SCHEMA
@@ -82,6 +89,7 @@ class SkyqConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def _async_setuniqueid(self, host):
+        self._async_abort_entries_match({CONF_HOST: host})
         remote = await self.hass.async_add_executor_job(SkyQRemote, host)
         if not remote.device_setup:
             raise CannotConnect()
@@ -100,6 +108,57 @@ class SkyqConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             + "".join(e for e in device_info.serialNumber.casefold() if e.isalnum())
         )
         self._abort_if_unique_id_configured()
+
+    async def async_step_ssdp(self, discovery_info: ssdp.SsdpServiceInfo) -> FlowResult:
+        """Handle a discovered device."""
+        host = str(urlparse(discovery_info.ssdp_location).hostname)
+        _LOGGER.debug("D0020 - Discovered device: %s", host)
+        try:
+            await self._async_setuniqueid(host)
+            name = discovery_info.ssdp_server
+
+            context = self.context
+            context[CONF_HOST] = host
+            context[CONF_NAME] = name
+            return await self.async_step_confirm()
+        except CannotConnect:
+            _LOGGER.warning("W0020 - Failed to connect - Skipping Device: %s", host)
+
+    async def async_step_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Handle user-confirmation of discovered node."""
+        context = self.context
+        errors = {}
+        name = context[CONF_NAME]
+        host = context[CONF_HOST]
+        devicetype = None
+        try:
+            devicetype = name.split("/")[0]
+        finally:
+            title = DEFAULT_ENTITY_NAME
+            if devicetype == MR_DEVICE:
+                title = f"{title} {DEFAULT_MINI}"
+
+        placeholders = {
+            CONF_NAME: name,
+            CONF_HOST: host,
+        }
+        context["title_placeholders"] = placeholders
+        if user_input is not None:
+            try:
+                await self._async_setuniqueid(host)
+            except CannotConnect:
+                errors["base"] = "cannot_connect"
+            else:
+                user_input = {CONF_HOST: host, CONF_NAME: title}
+                return self.async_create_entry(title=title, data=user_input)
+
+        return self.async_show_form(
+            step_id="confirm",
+            description_placeholders=placeholders,
+            errors=errors,
+        )
 
 
 class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
@@ -138,6 +197,7 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
         self._epg_cache_len = config_entry.options.get(
             CONF_EPG_CACHE_LEN, CONST_DEFAULT_EPGCACHELEN
         )
+        self._add_backup = config_entry.options.get(CONF_ADD_BACKUP, False)
         self._advanced_options = config_entry.options.get(CONF_ADVANCED_OPTIONS, False)
         self._channel_display = []
         self._channel_list = []
@@ -241,7 +301,6 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
         self._channel_sources_display = user_input[CHANNEL_SOURCES_DISPLAY]
         user_input.pop(CHANNEL_SOURCES_DISPLAY)
         if len(self._channel_sources_display) > 0:
-
             channelitems = []
             for channel in self._channel_sources_display:
                 channel_data = next(
@@ -292,7 +351,7 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
             sources_list = convert_sources_json(sources_json=self._sources)
             for source in sources_list:
                 _validate_commands(source)
-
+        self._add_backup = user_input.get(CONF_ADD_BACKUP)
         return user_input
 
     def _fake_advanced_input(self):
@@ -302,6 +361,7 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
         advanced_input[CONF_EPG_CACHE_LEN] = self._epg_cache_len
         if self._sources:
             advanced_input[CONF_SOURCES] = self._sources
+        advanced_input[CONF_ADD_BACKUP] = self._add_backup
         return advanced_input
 
     async def async_step_retry(
@@ -348,6 +408,7 @@ class SkyQOptionsFlowHandler(config_entries.OptionsFlow):
             vol.Optional(
                 CONF_SOURCES, description={"suggested_value": self._sources}
             ): str,
+            vol.Optional(CONF_ADD_BACKUP, default=self._add_backup): bool,
         }
 
 

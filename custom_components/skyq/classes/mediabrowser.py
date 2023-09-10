@@ -1,9 +1,9 @@
 """Media Browser class for Sky Q."""
 
-from datetime import datetime
-
 from homeassistant.components.media_player import BrowseMedia, MediaClass
 from homeassistant.components.media_player.errors import BrowseError
+from homeassistant.util import dt
+
 from pyskyqremote.classes.programme import Programme
 
 from ..const import DOMAINBROWSER
@@ -67,7 +67,12 @@ class MediaBrowser:
         return channels
 
     async def _async_get_channel_info(self, hass, channel_list, source):
-        command = get_command(self._config.custom_sources, channel_list, source)
+        command = get_command(
+            self._config.custom_sources,
+            channel_list,
+            source,
+            self._config.enabled_features,
+        )
         if command[0] == "backup":
             command.remove("backup")
         channelno = "".join(command)
@@ -81,7 +86,7 @@ class MediaBrowser:
                 "title": source,
             }
         else:
-            query_date = datetime.now()
+            query_date = dt.utcnow()
             programme = await hass.async_add_executor_job(
                 self._remote.get_programme_from_epg,
                 channel_info.channelsid,

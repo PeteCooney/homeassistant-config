@@ -3,15 +3,17 @@ import logging
 
 from homeassistant.core import HomeAssistant
 
-from homeassistant.util.dt import (utcnow)
+from homeassistant.util.dt import (now)
 from homeassistant.helpers.update_coordinator import (
   CoordinatorEntity
 )
 from homeassistant.components.sensor import (
-    SensorDeviceClass
+    SensorDeviceClass,
+    SensorStateClass
 )
 
 from .base import (OctopusEnergyElectricitySensor)
+from ..utils.rate_information import (get_previous_rate_information)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,6 +29,16 @@ class OctopusEnergyElectricityPreviousRate(CoordinatorEntity, OctopusEnergyElect
     self._state = None
     self._last_updated = None
 
+    self._attributes = {
+      "mpan": self._mpan,
+      "serial_number": self._serial_number,
+      "is_export": self._is_export,
+      "is_smart_meter": self._is_smart_meter,
+      "applicable_rates": [],
+      "valid_from": None,
+      "valid_to": None,
+    }
+
   @property
   def unique_id(self):
     """The id of the sensor."""
@@ -36,6 +48,11 @@ class OctopusEnergyElectricityPreviousRate(CoordinatorEntity, OctopusEnergyElect
   def name(self):
     """Name of the sensor."""
     return f"Electricity {self._serial_number} {self._mpan}{self._export_name_addition} Previous Rate"
+
+  @property
+  def state_class(self):
+    """The state class of sensor"""
+    return SensorStateClass.TOTAL
 
   @property
   def device_class(self):
@@ -56,39 +73,44 @@ class OctopusEnergyElectricityPreviousRate(CoordinatorEntity, OctopusEnergyElect
   def extra_state_attributes(self):
     """Attributes of the sensor."""
     return self._attributes
-
+  
   @property
   def state(self):
-    """The state of the sensor."""
+    """Retrieve the previous rate."""
     # Find the previous rate. We only need to do this every half an hour
-    now = utcnow()
-    if (self._last_updated is None or self._last_updated < (now - timedelta(minutes=30)) or (now.minute % 30) == 0):
+    current = now()
+    if (self._last_updated is None or self._last_updated < (current - timedelta(minutes=30)) or (current.minute % 30) == 0):
       _LOGGER.debug(f"Updating OctopusEnergyElectricityPreviousRate for '{self._mpan}/{self._serial_number}'")
 
-      target = now - timedelta(minutes=30)
+      target = current
+      rate_information = get_previous_rate_information(self.coordinator.data[self._mpan] if self.coordinator is not None and self._mpan in self.coordinator.data else None, target)
 
-      previous_rate = None
-      if self.coordinator.data != None:
-        rate = self.coordinator.data[self._mpan] if self._mpan in self.coordinator.data else None
-        if rate != None:
-          for period in rate:
-            if target >= period["valid_from"] and target <= period["valid_to"]:
-              previous_rate = period
-              break
-
-      if previous_rate != None:
+      if rate_information is not None:
         self._attributes = {
-          "rate": previous_rate,
+          "mpan": self._mpan,
+          "serial_number": self._serial_number,
           "is_export": self._is_export,
-          "is_smart_meter": self._is_smart_meter
+          "is_smart_meter": self._is_smart_meter,
+          "valid_from": rate_information["previous_rate"]["valid_from"],
+          "valid_to": rate_information["previous_rate"]["valid_to"],
+          "applicable_rates": rate_information["applicable_rates"],
         }
 
-        self._state = previous_rate["value_inc_vat"] / 100
+        self._state = rate_information["previous_rate"]["value_inc_vat"] / 100
       else:
-        self._state = None
-        self._attributes = {}
+        self._attributes = {
+          "mpan": self._mpan,
+          "serial_number": self._serial_number,
+          "is_export": self._is_export,
+          "is_smart_meter": self._is_smart_meter,
+          "valid_from": None,
+          "valid_to": None,
+          "applicable_rates": [],
+        }
 
-      self._last_updated = now
+        self._state = None
+
+      self._last_updated = current
 
     return self._state
 

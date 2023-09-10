@@ -15,6 +15,9 @@
         },
         "description": "Imposta l'integrazione Sky Q. In caso di problemi con la configurazione, visitare: https://github.com/RogerSelwyn/Home_Assistant_SkyQ_MediaPlayer \n\nAccertarsi che la casella Sky Q sia accesa.",
         "title": "Sky Q"
+      },
+      "confirm": {
+        "description": "Vuoi installare {host}?"
       }
     }
   },
@@ -44,7 +47,8 @@
           "tv_device_class": "Classe dispositivo TV (disabilita per ricevitore)",
           "country": "Sostituisci paese",
           "epg_cache_len": "Longitud de la caché de EPG para Media Browser",
-          "sources": "Fonti personalizzate - leggi Github"
+          "sources": "Fonti personalizzate - leggi Github",
+          "add_backup": "Aggiungi 'backup' all'inizio delle fonti del canale"
         },
         "title": "Sky Q",
         "description": "Opzioni di configurazione avanzate per {name}"
@@ -53,6 +57,18 @@
         "data": {},
         "title": "Riavvia la casella Sky Q e riprova"
       }
+    }
+  },
+  "device_automation": {
+    "action_type": {
+      "pause": "Metti in pausa {entity_name}",
+      "play": "Gioca a {entity_name}",
+      "next_track": "Avanti veloce {entity_name}",
+      "previous_track": "Riavvolgi {entity_name}",
+      "turn_on": "Attiva {entity_name}",
+      "turn_off": "Spegnere {entity_name}",
+      "select_source": "Seleziona la sorgente per {entity_name}",
+      "play_media": "Inserisci i pulsanti su {entity_name}"
     }
   }
 }

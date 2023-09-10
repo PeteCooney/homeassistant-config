@@ -1,5 +1,5 @@
 """Constants for SkyQ."""
-import datetime as dt
+from datetime import datetime, timedelta
 
 from homeassistant.components.media_player import MediaPlayerEntityFeature
 
@@ -15,12 +15,20 @@ from .const_homekit import (
     KEY_SELECT,
 )
 
+DEFAULT_ENTITY_NAME = "Sky Q"
+DEFAULT_MINI = "Mini"
 DOMAIN = "skyq"
 DOMAINBROWSER = "skyq_browser"
+MR_DEVICE = "MR-Device"
 SKYQREMOTE = "skyqremote"
 UNDO_UPDATE_LISTENER = "undo_update_listener"
+SCAN_INTERVAL = timedelta(seconds=10)
+SCAN_INTERVAL_STORAGE = timedelta(minutes=5)
+SCAN_INTERVAL_SCHEDULE = timedelta(minutes=5)
+
 
 CONF_ADVANCED_OPTIONS = "advanced_options"
+CONF_ADD_BACKUP = "add_backup"
 CONF_TV_DEVICE_CLASS = "tv_device_class"
 CONF_SOURCES = "sources"
 CONF_CHANNEL_SOURCES = "channel_sources"
@@ -65,17 +73,18 @@ FEATURE_LIVE_TV = 4
 FEATURE_SWITCHES = 8
 FEATURE_GET_LIVE_RECORD = 16
 FEATURE_TV_DEVICE_CLASS = 32
+FEATURE_ADD_BACKUP = 64
 
 FEATURE_BASE = (
     MediaPlayerEntityFeature.TURN_OFF
     | MediaPlayerEntityFeature.TURN_ON
     | MediaPlayerEntityFeature.PAUSE
     | MediaPlayerEntityFeature.PLAY
-    | MediaPlayerEntityFeature.STOP
+    # | MediaPlayerEntityFeature.STOP
     | MediaPlayerEntityFeature.NEXT_TRACK
     | MediaPlayerEntityFeature.PREVIOUS_TRACK
     | MediaPlayerEntityFeature.SELECT_SOURCE
-    | MediaPlayerEntityFeature.SEEK
+    # | MediaPlayerEntityFeature.SEEK
     | MediaPlayerEntityFeature.PLAY_MEDIA
 )
 
@@ -83,8 +92,8 @@ TIMEOUT = 2
 ERROR_TIMEOUT = 10
 REBOOT_MAIN_TIMEOUT = 180
 REBOOT_MINI_TIMEOUT = 360
-QUIET_START = dt.datetime.strptime("0045", "%H%M").time()
-QUIET_END = dt.datetime.strptime("0600", "%H%M").time()
+QUIET_START = datetime.strptime("0045", "%H%M").time()
+QUIET_END = datetime.strptime("0600", "%H%M").time()
 ECO_WAKEREASON = "ECO"
 
 SKYQ_APP = "app"

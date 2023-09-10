@@ -2,7 +2,6 @@
 
 import json
 import logging
-from datetime import timedelta
 from types import SimpleNamespace
 
 from homeassistant.components.sensor import SensorEntity
@@ -31,6 +30,8 @@ from .const import (
     CONST_SKYQ_STORAGE_PERCENT,
     CONST_SKYQ_STORAGE_USED,
     DOMAIN,
+    SCAN_INTERVAL_SCHEDULE,
+    SCAN_INTERVAL_STORAGE,
     SKYQ_ICONS,
     SKYQREMOTE,
     STATE_NONE,
@@ -43,9 +44,6 @@ from .entity import SkyQEntity
 from .utils import none_aware_attrgetter, read_state, write_state
 
 _LOGGER = logging.getLogger(__name__)
-
-_SCAN_INTERVAL_STORAGE = timedelta(minutes=5)
-_SCAN_INTERVAL_SCHEDULE = timedelta(minutes=5)
 
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
@@ -72,6 +70,7 @@ class SkyQUsedStorage(SkyQEntity, SensorEntity):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_entity_registry_enabled_default = False
     _attr_native_unit_of_measurement = DATA_GIGABYTES
+    _attr_has_entity_name = True
 
     def __init__(self, hass, remote, config):
         """Initialize the used storage sensor."""
@@ -97,7 +96,7 @@ class SkyQUsedStorage(SkyQEntity, SensorEntity):
     @property
     def name(self):
         """Get the name of the devices."""
-        return f"{self._config.name} Used Storage"
+        return "Used Storage"
 
     @property
     def unique_id(self):
@@ -136,9 +135,12 @@ class SkyQUsedStorage(SkyQEntity, SensorEntity):
         """Suggest the display precision as 1."""
         return 1
 
-    @Throttle(_SCAN_INTERVAL_STORAGE)
+    @Throttle(SCAN_INTERVAL_STORAGE)
     async def async_update(self):
         """Get the latest data and update device state."""
+        if not self._config.device_info:
+            await self._async_get_device_info(self.hass)
+
         resp = await self.hass.async_add_executor_job(self._remote.get_quota)
 
         if not resp:
@@ -160,6 +162,7 @@ class SkyQSchedule(SkyQEntity, SensorEntity):
 
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_entity_registry_enabled_default = False
+    _attr_has_entity_name = True
 
     def __init__(self, hass, remote, config):
         """Initialize the used storage sensor."""
@@ -192,7 +195,7 @@ class SkyQSchedule(SkyQEntity, SensorEntity):
     @property
     def name(self):
         """Get the name of the devices."""
-        return f"{self._config.name} Schedule"
+        return "Schedule"
 
     @property
     def unique_id(self):
@@ -219,9 +222,12 @@ class SkyQSchedule(SkyQEntity, SensorEntity):
         """Return entity specific state attributes."""
         return self._schedule_attributes
 
-    @Throttle(_SCAN_INTERVAL_SCHEDULE)
+    @Throttle(SCAN_INTERVAL_SCHEDULE)
     async def async_update(self):
         """Get the latest data and update device state."""
+        if not self._config.device_info:
+            await self._async_get_device_info(self.hass)
+
         recordings = await self.hass.async_add_executor_job(self._remote.get_recordings)
 
         if not recordings:
