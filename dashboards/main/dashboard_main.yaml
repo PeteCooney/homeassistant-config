@@ -361,7 +361,7 @@ views:
                   margin: auto;
                 }
           - type: media-control
-            entity: media_player.jacob_bedroom_tv
+            entity: media_player.jacob_tv
             name: TV
       - type: vertical-stack
         cards:
@@ -405,6 +405,9 @@ views:
                   width: 50%;
                   margin: auto;
                 }
+          - type: media-control
+            entity: media_player.jacob_tv
+            name: TV
       - type: vertical-stack
         cards:
           - type: custom:room-card
@@ -651,9 +654,10 @@ views:
               - show_name: true
                 show_icon: true
                 type: button
-                entity: binary_sensor.sure_petcare_hub
+                entity: binary_sensor.home
                 show_state: true
                 icon: mdi:access-point-network
+                name: Hub
               - show_name: true
                 show_icon: true
                 type: button
@@ -978,77 +982,3 @@ views:
           - type: custom:weather-card
             entity: weather.home
             number_of_forecasts: '5'
-  - theme: Backend-selected
-    title: People
-    path: people
-    badges: []
-    cards:
-      - type: vertical-stack
-        cards:
-          - type: custom:room-card
-            title: The Family
-            entity: null
-            show_icon: true
-            icon: mdi:account-multiple
-            styles:
-              '--mdc-icon-size': 40px
-            entities: []
-            card_mod:
-              style: |
-                .title { font-weight: bold; font-size: 1.1em; }
-                .card-header { height: 48px; }
-          - type: horizontal-stack
-            cards:
-              - camera_view: auto
-                type: picture-glance
-                image: /local/imgs/pete.png
-                entities:
-                  - entity: sensor.peters_iphone_battery_level
-                  - entity: person.peter_cooney
-                entity: device_tracker.peters_iphone
-                title: Pete
-              - camera_view: auto
-                type: picture-glance
-                image: /local/imgs/sarah.png
-                entities:
-                  - entity: sensor.sarahs_iphone_battery_level
-                  - entity: person.sarah_cooney
-                entity: device_tracker.sarahs_iphone
-                title: Sez
-          - type: horizontal-stack
-            cards:
-              - camera_view: auto
-                type: picture-glance
-                image: /local/imgs/jacob.png
-                entities: []
-                title: Jacob
-              - camera_view: auto
-                type: picture-glance
-                image: /local/imgs/georgia.png
-                entities: []
-                title: Georgia
-              - camera_view: auto
-                type: picture-glance
-                image: /local/imgs/joshua.png
-                entities: []
-                title: Joshua
-          - type: horizontal-stack
-            cards:
-              - type: button
-                show_icon: false
-                tap_action:
-                  action: none
-                hold_action:
-                  action: none
-              - camera_view: auto
-                type: picture-glance
-                image: /local/imgs/beau.png
-                entities: []
-                entity: binary_sensor.beau
-                title: Beau
-              - type: button
-                show_icon: false
-                tap_action:
-                  action: none
-                hold_action:
-                  action: none
