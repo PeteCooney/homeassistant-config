@@ -34,5 +34,5 @@
 token_file
 
 # Stop tracking HACS components
-/custom_components
-/www/community
+/custom_components/
+/www/community/
