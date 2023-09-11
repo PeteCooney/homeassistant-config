@@ -1,6 +1,6 @@
 template:
   - sensor:
-    - name: "Network - Wireless Clients (Main)"
+    - name: "Network Wireless Clients (Main)"
       unique_id: network_wireless_clients_main
       icon: "mdi:access-point-network"
       state: >

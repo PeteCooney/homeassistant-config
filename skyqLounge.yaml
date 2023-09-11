@@ -42,14 +42,14 @@
             seconds: 10
       turn_off:
         stop:
-    skyq_bbconehdlounge:
+    skyq_bbconesthhdlounge:
       value_template: '{{"off"}}'
-      friendly_name: 'BBC One HD in the Lounge'
+      friendly_name: 'BBC One Sth HD in the Lounge'
       turn_on:
         - service: media_player.select_source
           data:
             entity_id: media_player.lounge_sky_q
-            source: 'BBC One HD'
+            source: 'BBC One Sth HD'
         - delay:
             seconds: 10
       turn_off:
@@ -66,50 +66,14 @@
             seconds: 10
       turn_off:
         stop:
-    skyq_itvhdlounge:
+    skyq_itv1hdlounge:
       value_template: '{{"off"}}'
-      friendly_name: 'ITV HD in the Lounge'
+      friendly_name: 'ITV1 HD in the Lounge'
       turn_on:
         - service: media_player.select_source
           data:
             entity_id: media_player.lounge_sky_q
-            source: 'ITV HD'
-        - delay:
-            seconds: 10
-      turn_off:
-        stop:
-    skyq_itv2hdlounge:
-      value_template: '{{"off"}}'
-      friendly_name: 'ITV2 HD in the Lounge'
-      turn_on:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.lounge_sky_q
-            source: 'ITV2 HD'
-        - delay:
-            seconds: 10
-      turn_off:
-        stop:
-    skyq_itv3hdlounge:
-      value_template: '{{"off"}}'
-      friendly_name: 'ITV3 HD in the Lounge'
-      turn_on:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.lounge_sky_q
-            source: 'ITV3 HD'
-        - delay:
-            seconds: 10
-      turn_off:
-        stop:
-    skyq_itv4hdlounge:
-      value_template: '{{"off"}}'
-      friendly_name: 'ITV4 HD in the Lounge'
-      turn_on:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.lounge_sky_q
-            source: 'ITV4 HD'
+            source: 'ITV1 HD'
         - delay:
             seconds: 10
       turn_off:
@@ -138,18 +102,6 @@
             seconds: 10
       turn_off:
         stop:
-    skyq_skyonehdlounge:
-      value_template: '{{"off"}}'
-      friendly_name: 'Sky One HD in the Lounge'
-      turn_on:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.lounge_sky_q
-            source: 'Sky One HD'
-        - delay:
-            seconds: 10
-      turn_off:
-        stop:
     skyq_skyatlantichdlounge:
       value_template: '{{"off"}}'
       friendly_name: 'Sky Atlantic HD in the Lounge'
@@ -162,14 +114,26 @@
             seconds: 10
       turn_off:
         stop:
-    skyq_cbbchdlounge:
+    skyq_itv2hdlounge:
       value_template: '{{"off"}}'
-      friendly_name: 'CBBC HD in the Lounge'
+      friendly_name: 'ITV2 HD in the Lounge'
       turn_on:
         - service: media_player.select_source
           data:
             entity_id: media_player.lounge_sky_q
-            source: 'CBBC HD'
+            source: 'ITV2 HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_skysci_fihdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'Sky Sci-Fi HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'Sky Sci-Fi HD'
         - delay:
             seconds: 10
       turn_off:
@@ -186,14 +150,26 @@
             seconds: 10
       turn_off:
         stop:
-    skyq_citvlounge:
+    skyq_cbbchdlounge:
       value_template: '{{"off"}}'
-      friendly_name: 'CITV in the Lounge'
+      friendly_name: 'CBBC HD in the Lounge'
       turn_on:
         - service: media_player.select_source
           data:
             entity_id: media_player.lounge_sky_q
-            source: 'CITV'
+            source: 'CBBC HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_itv3hdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV3 HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'ITV3 HD'
         - delay:
             seconds: 10
       turn_off:

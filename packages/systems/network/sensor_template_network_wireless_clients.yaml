@@ -2,7 +2,7 @@ sensor:
 - platform: template
   sensors:
     network_wireless_clients:
-      friendly_name: "Network - Wireless Clients"
+      friendly_name: "Network Wireless Clients"
       unique_id: "network_wireless_clients"
       icon_template: "mdi:access-point-network"
       value_template: >

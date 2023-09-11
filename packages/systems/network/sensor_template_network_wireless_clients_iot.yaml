@@ -1,6 +1,6 @@
 template:
   - sensor:
-    - name: "Network - Wireless Clients (IoT)"
+    - name: "Network Wireless Clients (IoT)"
       unique_id: network_wireless_clients_iot
       icon: "mdi:access-point-network"
       state: >

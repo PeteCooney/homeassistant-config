@@ -1,6 +1,6 @@
 template:
   - sensor:
-    - name: "Network - Wired Clients"
+    - name: "Network Wired Clients"
       unique_id: network_wired_clients
       icon: "mdi:lan"
       state: >

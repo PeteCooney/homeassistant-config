@@ -13,8 +13,3 @@ light:
         service: light.turn_off
         target:
           entity_id: light.dummy_light
-      set_level:
-        service: input_number.set_value
-        entity_id: input_number.dummy_input_number
-        data:
-          brightness: "{{ brightness }}"
