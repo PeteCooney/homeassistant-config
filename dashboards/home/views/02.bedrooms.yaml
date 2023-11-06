@@ -1,0 +1,211 @@
+title: Bedrooms
+path: bedrooms
+#icon: mdi:weather-night
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:room-card
+        title: Master Suite
+        entity: light.master_suite_lights
+        entities: []
+        tap_action:
+          action: toggle
+        double_tap_action:
+          action: none
+        styles:
+          '--mdc-icon-size': 40px
+        card_mod:
+          style: |
+            .title { font-weight: bold; font-size: 1.1em; }
+            .card-header { height: 48px; }
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.master_bedroom_entrance_lights
+            name: Entrance
+          - type: light
+            entity: light.master_bedroom_main_lights
+            name: Main
+          - type: light
+            entity: light.master_bedroom_side_lights
+            name: Side
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.master_dressing_room_main_lights
+            name: Dressing
+          - type: light
+            entity: light.master_dressing_room_makeup_lights
+            name: Vanity
+            icon: mdi:desk
+          - type: light
+            entity: light.master_bathroom_main_lights
+            name: Bathroom
+          - type: light
+            entity: light.master_bathroom_shower_light
+            name: Shower
+      - type: thermostat
+        entity: climate.master_bed
+        name: ' '
+        card_mod:
+          style: |
+            .content {
+              width: 50%;
+              margin: auto;
+            }
+      - type: custom:mod-card
+        card_mod:
+          style:
+            hui-horizontal-stack-card $: |
+              hui-media-control-card:nth-of-type(1) {
+                flex-grow: 1 !important; 
+              }
+              hui-conditional-card {
+                flex-grow: 2 !important; 
+              }
+        card:
+          type: horizontal-stack
+          cards:
+            - type: media-control
+              entity: media_player.master_bedroom_tv
+              name: TV
+            - type: conditional
+              conditions:
+                - entity: media_player.plex_master_bedroom
+                  state: unavailable
+              card:
+                type: media-control
+                entity: media_player.master_bedroom_sky_q
+                name: Skq Q
+            - type: conditional
+              conditions:
+                - entity: media_player.plex_master_bedroom
+                  state_not: unavailable
+              card:
+                type: media-control
+                entity: media_player.plex_master_bedroom
+                name: Plex
+  - type: vertical-stack
+    cards:
+      - type: custom:room-card
+        title: Jacob's Bedroom
+        entity: light.jacob_bedroom_lights
+        entities: []
+        tap_action:
+          action: toggle
+        double_tap_action:
+          action: none
+        styles:
+          '--mdc-icon-size': 40px
+        card_mod:
+          style: |
+            .title { font-weight: bold; font-size: 1.1em; }
+            .card-header { height: 48px; }
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.jacob_bedroom_main_lights
+            name: Main
+          - type: light
+            entity: light.jacob_bedroom_spot_lights
+            name: Spots
+          - type: button
+            show_icon: false
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+      - type: thermostat
+        entity: climate.jacob_bed
+        name: ' '
+        card_mod:
+          style: |
+            .content {
+              width: 50%;
+              margin: auto;
+            }
+      - type: media-control
+        entity: media_player.jacob_tv
+        name: TV
+  - type: vertical-stack
+    cards:
+      - type: custom:room-card
+        title: Joshua's Bedroom
+        entity: light.joshua_bedroom_lights
+        entities: []
+        tap_action:
+          action: toggle
+        double_tap_action:
+          action: none
+        styles:
+          '--mdc-icon-size': 40px
+        card_mod:
+          style: |
+            .title { font-weight: bold; font-size: 1.1em; }
+            .card-header { height: 48px; }
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.joshua_bedroom_main_lights
+            name: Main
+          - type: button
+            show_icon: false
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+          - type: button
+            show_icon: false
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+      - type: thermostat
+        entity: climate.joshua_bed
+        name: ' '
+        card_mod:
+          style: |
+            .content {
+              width: 50%;
+              margin: auto;
+            }
+      - type: media-control
+        entity: media_player.jacob_tv
+        name: TV
+  - type: vertical-stack
+    cards:
+      - type: custom:room-card
+        title: Georgia's Bedroom
+        entity: light.georgia_bedroom_lights
+        entities: []
+        tap_action:
+          action: toggle
+        double_tap_action:
+          action: none
+        styles:
+          '--mdc-icon-size': 40px
+        card_mod:
+          style: |
+            .title { font-weight: bold; font-size: 1.1em; }
+            .card-header { height: 48px; }
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.georgia_bedroom_main_lights
+            name: Main
+          - type: light
+            entity: light.georgia_bedroom_side_lights
+            name: Side
+          - type: light
+            entity: light.georgia_bedroom_dressing_room_lights
+            name: Dressing
+      - type: thermostat
+        entity: climate.georgia_bed
+        name: ' '
+        card_mod:
+          style: |
+            .content {
+              width: 50%;
+              margin: auto;
+            }

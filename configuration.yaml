@@ -11,6 +11,38 @@ http:
 frontend:
   themes: !include_dir_merge_named themes
 
+lovelace:
+  mode: storage
+  dashboards:
+    ui-home:
+      mode: yaml
+      filename: ui-home.yaml
+      title: Home
+      icon: mdi:home
+      show_in_sidebar: false
+      require_admin: false
+  resources:
+    - url: '/www/community/button-card/button-card.js'
+      type: module
+    - url: '/www/community/hass-swipe-navigation/swipe-navigation.js'
+      type: module
+    - url: '/www/community/kiosk-mode/kiosk-mode.js'
+      type: module
+    - url: '/www/community/lovelace-card-mod/card-mod.js'
+      type: module
+    - url: '/www/community/lovelace-layout-card/layout-card.js'
+      type: module
+    - url: '/www/community/lovelace-layout-card/rollup.config.js'
+      type: module
+    - url: '/www/community/mini-graph-card/mini-graph-card-bundle.js'
+      type: module
+    - url: '/www/community/room-card/room-card.js'
+      type: module
+    - url: '/www/community/weather-card/weather-card-editor.js'
+      type: module
+    - url: '/www/community/weather-card/weather-card.js'
+      type: module
+
 # Import Entity Configuration Files
 automation: !include automations.yaml
 script: !include scripts.yaml
@@ -18,3 +50,4 @@ scene: !include scenes.yaml
 
 homeassistant:
   packages: !include_dir_named packages
+  currency: GBP
