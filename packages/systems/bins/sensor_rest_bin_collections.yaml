@@ -1,0 +1,48 @@
+rest:
+  - scan_interval: 600
+    resource: !secret bcp_bin_collection_url
+    sensor:
+      - name: "Next Garden Waste Collection"
+        unique_id: next_garden_waste_collection
+        icon: mdi:delete-empty
+        value_template: "{{ value_json[0].Next }}"
+        json_attributes_path: "$[0]"
+        json_attributes:
+        - BinType
+        - PdfLink
+        - Next
+        - Subsequent
+      - name: "Next Recycling Collection"
+        unique_id: next_recycling_collection
+        icon: mdi:delete-empty
+        value_template: "{{ value_json[1].Next }}"
+        json_attributes_path: "$[1]"
+        json_attributes:
+        - BinType
+        - PdfLink
+        - Next
+        - Subsequent
+      - name: "Next Rubbish Collection"
+        unique_id: next_rubbish_collection
+        icon: mdi:delete-empty
+        value_template: "{{ value_json[2].Next }}"
+        json_attributes_path: "$[2]"
+        json_attributes:
+        - BinType
+        - PdfLink
+        - Next
+        - Subsequent
+      - name: "Next Bin Collection"
+        unique_id: next_bin_collection
+        icon: mdi:delete-empty
+        value_template: >-
+          {% set rubbish = value_json[2].Next %}
+          {% set rubbish_dt = strptime(rubbish, "%m/%d/%Y %H:%M:%S %p") %}
+          {% set recycling = value_json[1].Next %}
+          {% set recycling_dt = strptime(recycling, "%m/%d/%Y %H:%M:%S %p") %}
+
+          {% if rubbish_dt < recycling_dt %}
+            Rubbish - {{ as_timestamp(rubbish_dt) | timestamp_custom('%d/%m/%Y') }}
+          {% else %}
+            Recycling - {{ as_timestamp(recycling_dt) | timestamp_custom('%d/%m/%Y') }}
+          {% endif %}
