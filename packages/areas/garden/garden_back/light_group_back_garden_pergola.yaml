@@ -1,7 +1,7 @@
 light:
 - platform: group
-  name: Back Garden - Hot Tub Lights
-  unique_id: light_group_back_garden_hot_tub
+  name: Back Garden - Pergola Lights
+  unique_id: light_group_back_garden_pergola
   entities:
     - light.hot_tub_1
     - light.hot_tub_2
