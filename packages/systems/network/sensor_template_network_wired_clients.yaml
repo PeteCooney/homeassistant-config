@@ -4,10 +4,9 @@ template:
       unique_id: network_wired_clients
       icon: "mdi:lan"
       state: >
-        {{ states.device_tracker | selectattr('state', 'eq', "home") | selectattr('attributes.is_wired', 'defined') | selectattr('attributes.is_wired', 'eq', true) | list | count }}
+        {{ states.device_tracker | selectattr('state', 'eq', "home") | selectattr('attributes.essid', 'undefined') | selectattr('attributes.source_type', 'defined') | selectattr('attributes.source_type', 'eq', 'router') | list | count }}
       attributes:
         clients: >
-          {% set clients = states.device_tracker | selectattr('state', 'eq', "home") | selectattr('attributes.is_wired', 'defined') | selectattr('attributes.is_wired', 'eq', true) | list %}
-          {%- for client in clients %}
-            - {{ client["name"] }}
+          {% set clients = states.device_tracker | selectattr('state', 'eq', "home") | selectattr('attributes.essid', 'undefined') | selectattr('attributes.source_type', 'defined') | selectattr('attributes.source_type', 'eq', 'router') | list %}
+          {%- for client in clients %}- {{ client["name"] }}
           {% endfor %}
