@@ -1,10 +1,10 @@
 light:
 - platform: template
   lights:
-    back_garden_wall_lights:
-      friendly_name: Back Garden - Wall Lights
-      unique_id: back_garden_wall_lights
-      icon_template: mdi:post-lamp
+    back_garden_pergola_strips:
+      friendly_name: Back Garden - Pergola Strips
+      unique_id: back_garden_pergola_strips
+      icon_template: mdi:led-strip-variant
       turn_on:
         service: light.turn_on
         target:

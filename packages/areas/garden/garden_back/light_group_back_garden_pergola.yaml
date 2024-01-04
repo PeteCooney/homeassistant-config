@@ -1,9 +1,0 @@
-light:
-- platform: group
-  name: Back Garden - Pergola Lights
-  unique_id: light_group_back_garden_pergola
-  entities:
-    - light.hot_tub_1
-    - light.hot_tub_2
-    - light.hot_tub_3
-    - light.hot_tub_4
