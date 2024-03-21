@@ -7,8 +7,6 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [ ] Alexa
   - Voice assistant of choice
   - Planning on setting up once enough devices are implemented in Home Assistant
-- [x] Duck DNS
-  - Dynamic DNS utility
 - [ ] ESPHome
   - Planned for local control of smart devices such as NSPanels
 - [x] FontAwesome
@@ -52,6 +50,8 @@ My Home Assistant Configuration for reference and restorative purposes.
   - Monitoring of Plex server
 - [x] Radarr
   - Monitoring of Radarr media getter
+- [x] REST
+  - Monitoring local authority's API to display bin collection days
 - [x] Ring
   - Integration with Ring doorbell
 - [ ] Rotospa
@@ -70,11 +70,12 @@ My Home Assistant Configuration for reference and restorative purposes.
   - Intending to replace with Shelly devices anyway
 - [x] SpeedTest
   - Automated internet speed monitoring/reporting
+  - Ideally want to transition to using UniFi's speed test results, however not yet clear how these can be surfaced in Home Assistant.
 - [x] Sun
   - Out of box monitoring of sun rise/sun set
 - [x] Sure Petcare
   - Monitoring of smart cat flap and its hub
-- [x] Tautulli
+- [ ] Tautulli
   - Detailed telemetry for Plex server
 - [ ] TrueNAS
   - Planned new home server OS
@@ -83,18 +84,30 @@ My Home Assistant Configuration for reference and restorative purposes.
   - RGB light bulbs that can't/haven't been flashed with ESPHome/Tasmota/wled
 - [x] UniFi Network
   - Monitoring of local network devices, switches & access points
-- [x] UniFi Protect
+  - [x] UniFi Cloud Gateway Ultra
+  - [x] 2x U6 Pro Access Points
+  - [x] USW-8-Lite-PoE Switch
+  - [ ] USW-16-Lite-PoE Switch
+- [ ] UniFi Protect
   - Planned CCTV camera solution
+  - [ ] NVR (TBC)
 - [x] UPnP/IGD
   - Router monitoring
   - Internet connection uptime
 - [x] WireGuard
   - VPN server to provide local access while on the go
+  - Transitioning to using UniFi's WireGuard server however having issues with GL-iNet travel router connecting to UniFi
+- [x] WLED
+  - [x] Pergola LEDs
+  - [ ] Back Garden Edging
+  - [ ] Christmas lights
 
 ## Former Integrations
 
 - [x] Hot Tub
-  - Lay-Z-Spa, replaced by Rotospa but retained in this repository for historical purposes.
+  - Old Lay-Z-Spa hot tub. Replaced by Rotospa but retained in this repository for historical purposes.
+- [x] Duck DNS
+  - Dynamic DNS utility. Replaced by UniFi native ddns management (still using Duck DNS as the provider)
 
 ## HACS Add-ins
 
