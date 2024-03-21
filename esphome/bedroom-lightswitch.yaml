@@ -1,0 +1,99 @@
+esphome:
+  name: bedroom-lightswitch
+  friendly_name: Bedroom Light Switch
+
+esp8266:
+  board: esp01_1m
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "Z0C9lpti6SiUJhkwtDJEc+a22L36PrLcbG2rO99ZsB8="
+
+wifi:
+  ssid: !secret iot_ssid
+  password: !secret iot_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Bedroom-Lightswitch"
+    password: "uGVPrkwLKtEV"
+
+captive_portal:
+
+ota:
+  password: "784abcb7a274df82de741a4da2f90f1f"
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_1
+    on_press:
+      then:
+        - light.toggle: light_1
+
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_2
+    on_press:
+      then:
+        - light.toggle: light_2
+
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_3
+    on_press:
+      then:
+        - light.toggle: light_3
+
+  - platform: status
+    name: "T3 Status"
+
+output:
+  - platform: gpio
+    pin: GPIO12
+    id: relay_1
+
+  - platform: gpio
+    pin: GPIO5
+    id: relay_2
+
+  - platform: gpio
+    pin: GPIO4
+    id: relay_3
+
+light:
+  - platform: binary
+    name: "T3 L1"
+    id: light_1
+    output: relay_1
+
+  - platform: binary
+    name: "T3 L2"
+    id: light_2
+    output: relay_2
+
+  - platform: binary
+    name: "T3 L3"
+    id: light_3
+    output: relay_3
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes
