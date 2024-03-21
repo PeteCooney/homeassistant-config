@@ -30,3 +30,20 @@
       title: Car Doors Locked
       message: Car doors were left unlocked. They have now been locked
   mode: single
+- id: '1710761994420'
+  alias: Test
+  description: ''
+  trigger:
+  - type: powered
+    platform: device
+    device_id: ce44a29189b77d8240a77787adcae8c4
+    entity_id: af1c1be7092dfe3b309e15916b733ec9
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.back_garden_pergola_lights
+  mode: single
