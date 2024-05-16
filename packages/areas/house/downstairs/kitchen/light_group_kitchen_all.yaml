@@ -1,9 +1,0 @@
-light:
-- platform: group
-  name: Kitchen - Lights
-  unique_id: light_group_kitchen_all
-  entities:
-    - light.kitchen_main_lights
-    - light.kitchen_pendant_lights
-    - light.kitchen_counter_lights
-    - light.kitchen_plinth_lights

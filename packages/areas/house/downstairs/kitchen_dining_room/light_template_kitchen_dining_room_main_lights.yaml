@@ -1,9 +1,9 @@
 light:
 - platform: template
   lights:
-    dining_room_main_lights:
-      friendly_name: Dining Room - Main Lights
-      unique_id: dining_room_main_lights
+    kitchen_dining_room_main_lights:
+      friendly_name: Kitchen/Dining Room - Main Lights
+      unique_id: kitchen_dining_room_main_lights
       icon_template: mdi:light-recessed
       turn_on:
         service: light.turn_on
