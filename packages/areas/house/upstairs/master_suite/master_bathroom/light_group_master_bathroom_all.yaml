@@ -4,4 +4,4 @@ light:
   unique_id: light_group_master_bathroom_all
   entities:
     - light.master_bathroom_main_lights
-    - light.master_bathroom_shower_light
+    - light.master_bathroom_shower_lights

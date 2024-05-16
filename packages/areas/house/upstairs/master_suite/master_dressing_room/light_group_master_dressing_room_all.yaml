@@ -4,4 +4,4 @@ light:
   unique_id: light_group_master_dressing_room_all
   entities:
     - light.master_dressing_room_main_lights
-    - light.master_dressing_room_makeup_lights
+    - light.master_dressing_room_vanity_lights

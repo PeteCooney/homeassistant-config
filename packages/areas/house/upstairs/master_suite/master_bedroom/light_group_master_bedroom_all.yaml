@@ -5,4 +5,4 @@ light:
   entities:
     - light.master_bedroom_main_lights
     - light.master_bedroom_entrance_lights
-    - light.master_bedroom_side_lights
+    - light.master_bedroom_accent_lights
