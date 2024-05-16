@@ -31,19 +31,118 @@
       message: Car doors were left unlocked. They have now been locked
   mode: single
 - id: '1710761994420'
-  alias: Test
+  alias: Back Garden - Toggle Pergola Spots
   description: ''
   trigger:
-  - type: powered
-    platform: device
-    device_id: ce44a29189b77d8240a77787adcae8c4
-    entity_id: af1c1be7092dfe3b309e15916b733ec9
-    domain: binary_sensor
+  - platform: state
+    entity_id:
+    - binary_sensor.back_garden_light_switches_2
   condition: []
   action:
   - service: light.toggle
     metadata: {}
     data: {}
     target:
-      entity_id: light.back_garden_pergola_lights
+      entity_id: light.back_garden_pergola_spots
+  mode: single
+- id: '1711124179398'
+  alias: Back Garden - Toggle Pergola LED Strips
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.back_garden_light_switches_1
+  condition: []
+  action:
+  - service: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.back_garden_pergola_leds
+  mode: single
+- id: '1714217337731'
+  alias: Lounge - TV Power Off at 03:00
+  description: ''
+  trigger:
+  - platform: time
+    at: 03:00:00
+  condition: []
+  action:
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.lounge_tv
+  mode: single
+- id: '1714217372835'
+  alias: Lounge - TV Power On at 07:00
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.lounge_tv
+  mode: single
+- id: '1714292450273'
+  alias: 'Heating On/Off Based on Temperature '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - weather.home
+    attribute: temperature
+  condition: []
+  action:
+  - if:
+    - condition: numeric_state
+      entity_id: weather.home
+      attribute: temperature
+      above: input_number.heating_threshold
+    then:
+    - service: climate.turn_off
+      metadata: {}
+      data: {}
+      target:
+        floor_id:
+        - upstairs
+        - downstairs
+    else:
+    - service: climate.turn_on
+      metadata: {}
+      data: {}
+      target:
+        floor_id:
+        - upstairs
+        - downstairs
+  mode: single
+- id: '1714569976687'
+  alias: Lounge TV Power Schedule
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.lounge_tv_power_schedule
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.lounge_tv_power_schedule
+      state: 'on'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.plug_3_mss210_main_channel
+    else:
+    - service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.plug_3_mss210_main_channel
   mode: single
