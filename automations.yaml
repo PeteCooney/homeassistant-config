@@ -60,34 +60,6 @@
     target:
       entity_id: light.back_garden_pergola_leds
   mode: single
-- id: '1714217337731'
-  alias: Lounge - TV Power Off at 03:00
-  description: ''
-  trigger:
-  - platform: time
-    at: 03:00:00
-  condition: []
-  action:
-  - service: switch.turn_off
-    metadata: {}
-    data: {}
-    target:
-      entity_id: switch.lounge_tv
-  mode: single
-- id: '1714217372835'
-  alias: Lounge - TV Power On at 07:00
-  description: ''
-  trigger:
-  - platform: time
-    at: 07:00:00
-  condition: []
-  action:
-  - service: switch.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: switch.lounge_tv
-  mode: single
 - id: '1714292450273'
   alias: 'Heating On/Off Based on Temperature '
   description: ''
@@ -138,11 +110,85 @@
       metadata: {}
       data: {}
       target:
-        entity_id: switch.plug_3_mss210_main_channel
+        entity_id: switch.lounge_tv_power
     else:
     - service: switch.turn_off
       metadata: {}
       data: {}
       target:
-        entity_id: switch.plug_3_mss210_main_channel
+        entity_id: switch.lounge_tv_power
+  mode: single
+- id: '1719415346866'
+  alias: Jacob TV Power Schedule
+  description: ''
+  triggers:
+  - entity_id:
+    - schedule.jacob_tv_power
+    trigger: state
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: schedule.jacob_tv_power
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id: switch.jacob_tv_power
+      action: switch.turn_on
+    else:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id: switch.jacob_tv_power
+      action: switch.turn_off
+  mode: single
+- id: '1734035589543'
+  alias: Dishwasher Detergent Low
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.dishwasher_detergent
+    to: Low
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Dishwasher
+      message: Dishwasher detergent low
+  mode: single
+- id: '1734035665274'
+  alias: Dishwasher Salt Low
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.dishwasher_salt
+    to: Low
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Dishwasher
+      message: Dishwasher salt low
+  mode: single
+- id: '1734035721862'
+  alias: Dishwasher Rinseaid Low
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.dishwasher_rinseaid
+    to: Low
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Dishwasher
+      message: Dishwasher rinseaid low
   mode: single

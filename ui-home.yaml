@@ -1,7 +1,0 @@
-swipe_nav:
-  wrap: false
-  animate: swipe
-  swipe_amount: 30
-background: center / cover no-repeat url("/local/imgs/backgrounds/purple-waves.png") fixed
-views:
-  !include_dir_list dashboards/home/views
