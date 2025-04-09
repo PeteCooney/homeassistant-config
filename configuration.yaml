@@ -1,33 +1,25 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
 # Text to speech
 tts:
   - platform: google_translate
-
 http:
-  server_port: 80
-
+  server_port: 8123
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.16.0.0/16
+    - 10.62.0.5
 frontend:
   themes: !include_dir_merge_named themes
-
-lovelace:
-  mode: storage
-  resources:
-    - url: '/www/community/hass-swipe-navigation/swipe-navigation.js'
-      type: module
-    - url: '/www/community/kiosk-mode/kiosk-mode.js'
-      type: module
-    - url: '/www/community/lovelace-card-mod/card-mod.js'
-      type: module
-    - url: '/www/community/mini-graph-card/mini-graph-card-bundle.js'
-      type: module
-
+  extra_module_url:
+    - /www/community/hass-swipe-navigation/swipe-navigation.js
+    - /www/community/kiosk-mode/kiosk-mode.js
+    - /www/community/lovelace-card-mod/card-mod.js
+    - /www/community/mini-graph-card/mini-graph-card-bundle.js
 # Import Entity Configuration Files
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-
 homeassistant:
   packages: !include_dir_named packages
   currency: GBP

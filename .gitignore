@@ -32,6 +32,7 @@
 /zones.yaml
 /platerecogniser/
 token_file
+/backups
 
 # Stop tracking HACS components
 /custom_components/

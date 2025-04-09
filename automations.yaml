@@ -192,3 +192,71 @@
       title: Dishwasher
       message: Dishwasher rinseaid low
   mode: single
+- id: '1738665559707'
+  alias: PC Turned on While Away from Home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.petes_pc
+    from:
+    to: home
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Pete's PC
+      message: PC turned on
+  mode: single
+- id: '1741645268451'
+  alias: Radarr - New Download
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    local_only: true
+    webhook_id: radarr-import
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Radarr - Movie Downloaded
+      message: "\U0001F37F{{trigger['json']['movie']['title']}}\U0001F37F"
+  mode: single
+- id: '1741645973523'
+  alias: Radarr - Upgrade
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    local_only: true
+    webhook_id: radarr-upgrade
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Radarr - Movie Upgraded
+      message: "\U0001F37F{{trigger['json']['movie']['title']}}\U0001F37F"
+  mode: single
+- id: '1741646218522'
+  alias: Sonarr - New Download
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    local_only: true
+    webhook_id: sonarr-import
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Sonarr - Series Downloaded
+      message: "\U0001F37F{{trigger['json']['series']['title']}}\U0001F37F"
+  mode: single

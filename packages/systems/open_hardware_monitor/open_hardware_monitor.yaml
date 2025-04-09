@@ -1,3 +1,0 @@
-sensor:
-  - platform: openhardwaremonitor
-    host: !secret titan_ip_address

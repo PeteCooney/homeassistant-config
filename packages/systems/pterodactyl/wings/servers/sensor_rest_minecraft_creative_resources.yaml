@@ -1,0 +1,18 @@
+rest:
+  - resource: !secret creative_resource
+    method: GET
+    verify_ssl: true
+    headers:
+      Authorization: !secret client_bearer
+      Accept: application/json
+      Content-Type: application/json
+    sensor:
+      - name: "Minecraft (Creative) - Resource Utilisation"
+        unique_id: minecraft_creative_resources
+        icon: mdi:list-status
+        json_attributes_path: $.attributes.resources
+        json_attributes:
+        - cpu_absolute
+        - memory_bytes
+        - disk_bytes
+        - uptime
