@@ -1,9 +1,0 @@
-automation:
-- id: hot_tub_off_at_2300
-  alias: Hot Tub - Switch pump & heater off at 11:00pm
-  trigger:
-    platform: time
-    at: "23:00"
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.hot_tub_filter # Turning off the filter turns the heater off too

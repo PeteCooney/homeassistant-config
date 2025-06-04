@@ -192,23 +192,6 @@
       title: Dishwasher
       message: Dishwasher rinseaid low
   mode: single
-- id: '1738665559707'
-  alias: PC Turned on While Away from Home
-  description: ''
-  triggers:
-  - trigger: state
-    entity_id:
-    - device_tracker.petes_pc
-    from:
-    to: home
-  conditions: []
-  actions:
-  - action: notify.mobile_app_peters_iphone
-    metadata: {}
-    data:
-      title: Pete's PC
-      message: PC turned on
-  mode: single
 - id: '1741645268451'
   alias: Radarr - New Download
   description: ''
@@ -224,7 +207,7 @@
     metadata: {}
     data:
       title: Radarr - Movie Downloaded
-      message: "\U0001F37F{{trigger['json']['movie']['title']}}\U0001F37F"
+      message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
   mode: single
 - id: '1741645973523'
   alias: Radarr - Upgrade
@@ -241,7 +224,7 @@
     metadata: {}
     data:
       title: Radarr - Movie Upgraded
-      message: "\U0001F37F{{trigger['json']['movie']['title']}}\U0001F37F"
+      message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
   mode: single
 - id: '1741646218522'
   alias: Sonarr - New Download
@@ -258,5 +241,72 @@
     metadata: {}
     data:
       title: Sonarr - Series Downloaded
-      message: "\U0001F37F{{trigger['json']['series']['title']}}\U0001F37F"
+      message: "\U0001F4FA{{trigger['json']['series']['title']}}\U0001F4FA"
+  mode: single
+- id: '1745664235460'
+  alias: Sonarr - Upgrade
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    local_only: true
+    webhook_id: sonarr-upgrade
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Sonarr - Series Upgraded
+      message: "\U0001F4FA{{trigger['json']['series']['title']}}\U0001F4FA"
+  mode: single
+- id: '1745831097069'
+  alias: TrueNAS App Update(s) Available
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.truenas_apps_updates_available
+    to: 'on'
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: App Update(s) Available
+      message: App Update(s) Available
+  mode: single
+- id: '1746094422405'
+  alias: Radarr 4k - New Download
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    local_only: true
+    webhook_id: radarr4k-import
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Radarr - 4k Movie Downloaded
+      message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
+  mode: single
+- id: '1746094589584'
+  alias: Radarr 4k - Upgrade
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    local_only: true
+    webhook_id: radarr4k-upgrade
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Radarr - 4k Movie Upgraded
+      message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
   mode: single
