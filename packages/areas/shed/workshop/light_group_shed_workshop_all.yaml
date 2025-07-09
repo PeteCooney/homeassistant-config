@@ -1,0 +1,7 @@
+light:
+- platform: group
+  name: Shed Workshop - Lights
+  unique_id: light_group_shed_workshop_all
+  entities:
+    - light.shed_workshop_main_lights
+    - light.shed_workshop_workbench_lights

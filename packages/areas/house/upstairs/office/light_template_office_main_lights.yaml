@@ -1,9 +1,9 @@
 light:
 - platform: template
   lights:
-    beauty_room_main_lights:
-      friendly_name: Beauty Room - Main Lights
-      unique_id: beauty_room_main_lights
+    office_main_lights:
+      friendly_name: Office - Main Lights
+      unique_id: office_main_lights
       icon_template: mdi:wall-sconce
       turn_on:
         service: light.turn_on

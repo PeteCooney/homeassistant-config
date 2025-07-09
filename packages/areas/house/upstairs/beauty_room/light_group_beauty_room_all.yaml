@@ -1,6 +1,0 @@
-light:
-- platform: group
-  name: Beauty Room - Lights
-  unique_id: light_group_beauty_room_all
-  entities:
-    - light.beauty_room_main_lights

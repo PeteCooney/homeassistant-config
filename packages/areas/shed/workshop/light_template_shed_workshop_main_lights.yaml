@@ -1,9 +1,9 @@
 light:
 - platform: template
   lights:
-    workshop_main_lights:
+    shed_workshop_main_lights:
       friendly_name: Workshop - Main Lights
-      unique_id: workshop_main_lights
+      unique_id: shed_workshop_main_lights
       icon_template: mdi:lightbulb-fluorescent-tube
       turn_on:
         service: light.turn_on

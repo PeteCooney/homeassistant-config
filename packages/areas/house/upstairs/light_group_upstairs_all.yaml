@@ -4,7 +4,7 @@ light:
   unique_id: light_group_upstairs_all
   entities:
     - light.georgia_bedroom_lights
-    - light.beauty_room_lights
+    - light.spare_room_lights
     - light.landing_lights
     - light.master_suite_lights
     - light.upstairs_bathroom_lights

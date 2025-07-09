@@ -3,6 +3,7 @@
 **/secrets.yaml.disabled
 **/*.log*
 **/*.db*
+**/*.token*
 /!not used custom components
 /.HA_VERSION
 /.cloud

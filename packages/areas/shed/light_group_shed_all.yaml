@@ -3,5 +3,5 @@ light:
   name: Shed - All Lights
   unique_id: light_group_shed_all
   entities:
-    - light.office_lights
-    - light.workshop_lights
+    - light.shed_office_all_lights
+    - light.shed_workshop_all_lights

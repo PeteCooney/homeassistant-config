@@ -1,9 +1,0 @@
-automation:
-- id: front_garden_christmas_lights_off_at_x_time
-  alias: Front Garden - Christmas Lights Off At 11:00pm
-  trigger:
-    platform: time
-    at: "23:00:00"
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.front_garden_christmas_lights

@@ -1,8 +1,0 @@
-climate:
-  - platform: generic_thermostat
-    unique_id: office
-    name: Office
-    heater: switch.office_heater
-    target_sensor: sensor.office_thermostat_temperature
-    precision: 0.5
-    initial_hvac_mode: heat

@@ -31,34 +31,34 @@
       message: Car doors were left unlocked. They have now been locked
   mode: single
 - id: '1710761994420'
-  alias: Back Garden - Toggle Pergola Spots
+  alias: Back Garden Toggle Pergola Spots
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - binary_sensor.back_garden_light_switches_2
-  condition: []
-  action:
-  - service: light.toggle
-    metadata: {}
+    trigger: state
+  conditions: []
+  actions:
+  - metadata: {}
     data: {}
     target:
       entity_id: light.back_garden_pergola_spots
+    action: light.toggle
   mode: single
 - id: '1711124179398'
-  alias: Back Garden - Toggle Pergola LED Strips
+  alias: Back Garden Toggle Pergola LED Strips
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - binary_sensor.back_garden_light_switches_1
-  condition: []
-  action:
-  - service: light.toggle
-    metadata: {}
+    trigger: state
+  conditions: []
+  actions:
+  - metadata: {}
     data: {}
     target:
       entity_id: light.back_garden_pergola_leds
+    action: light.toggle
   mode: single
 - id: '1714292450273'
   alias: 'Heating On/Off Based on Temperature '
@@ -93,33 +93,33 @@
         - downstairs
   mode: single
 - id: '1714569976687'
-  alias: Lounge TV Power Schedule
+  alias: Lounge TV Power
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.lounge_tv_power_schedule
-  condition: []
-  action:
+  triggers:
+  - entity_id:
+    - binary_sensor.lounge_tv_power
+    trigger: state
+  conditions: []
+  actions:
   - if:
     - condition: state
-      entity_id: binary_sensor.lounge_tv_power_schedule
+      entity_id: binary_sensor.lounge_tv_power
       state: 'on'
     then:
-    - service: switch.turn_on
-      metadata: {}
+    - metadata: {}
       data: {}
       target:
         entity_id: switch.lounge_tv_power
+      action: switch.turn_on
     else:
-    - service: switch.turn_off
-      metadata: {}
+    - metadata: {}
       data: {}
       target:
         entity_id: switch.lounge_tv_power
+      action: switch.turn_off
   mode: single
 - id: '1719415346866'
-  alias: Jacob TV Power Schedule
+  alias: Jacob TV Power
   description: ''
   triggers:
   - entity_id:
@@ -193,7 +193,7 @@
       message: Dishwasher rinseaid low
   mode: single
 - id: '1741645268451'
-  alias: Radarr - New Download
+  alias: Radarr New Download
   description: ''
   triggers:
   - trigger: webhook
@@ -210,7 +210,7 @@
       message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
   mode: single
 - id: '1741645973523'
-  alias: Radarr - Upgrade
+  alias: Radarr Upgrade
   description: ''
   triggers:
   - trigger: webhook
@@ -227,7 +227,7 @@
       message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
   mode: single
 - id: '1741646218522'
-  alias: Sonarr - New Download
+  alias: Sonarr New Download
   description: ''
   triggers:
   - trigger: webhook
@@ -244,7 +244,7 @@
       message: "\U0001F4FA{{trigger['json']['series']['title']}}\U0001F4FA"
   mode: single
 - id: '1745664235460'
-  alias: Sonarr - Upgrade
+  alias: Sonarr Upgrade
   description: ''
   triggers:
   - trigger: webhook
@@ -277,7 +277,7 @@
       message: App Update(s) Available
   mode: single
 - id: '1746094422405'
-  alias: Radarr 4k - New Download
+  alias: Radarr 4k New Download
   description: ''
   triggers:
   - trigger: webhook
@@ -294,7 +294,7 @@
       message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
   mode: single
 - id: '1746094589584'
-  alias: Radarr 4k - Upgrade
+  alias: Radarr 4k Upgrade
   description: ''
   triggers:
   - trigger: webhook
@@ -309,4 +309,127 @@
     data:
       title: Radarr - 4k Movie Upgraded
       message: "\U0001F3AC{{trigger['json']['movie']['title']}}\U0001F3AC"
+  mode: single
+- id: '1749111163747'
+  alias: Joshua TV Power
+  description: ''
+  triggers:
+  - entity_id:
+    - schedule.joshua_tv_power
+    trigger: state
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: schedule.joshua_tv_power
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      action: switch.turn_on
+      target:
+        entity_id: switch.joshua_tv_power
+    else:
+    - metadata: {}
+      data: {}
+      action: switch.turn_off
+      target:
+        entity_id: switch.joshua_tv_power
+  mode: single
+- id: '1749111373871'
+  alias: Lounge Sky Q Switch off Automatically
+  description: ''
+  triggers:
+  - entity_id: media_player.lounge_tv
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: switch.lounge_sky_q
+    state: 'on'
+  actions:
+  - entity_id: media_player.lounge_sky_q
+    action: media_player.turn_off
+  mode: single
+- id: '1749112014664'
+  alias: Front Garden Christmas Lights Off At 11:00pm
+  description: ''
+  triggers:
+  - at: '23:00:00'
+    trigger: time
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.front_garden_christmas_lights
+  mode: single
+- id: '1749112083129'
+  alias: Front Garden Christmas Lights On At Dusk
+  description: ''
+  triggers:
+  - event: sunset
+    offset: +00:15:00
+    trigger: sun
+  conditions: []
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.front_garden_christmas_lights
+  mode: single
+- id: '1749113941527'
+  alias: Hall - Front Garden Light Switch Pressed
+  description: ''
+  triggers:
+  - entity_id:
+    - input_button.hall_front_garden_light_switch
+    trigger: state
+  conditions: []
+  actions:
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: light.front_garden_path_lights
+        state: 'on'
+      - condition: state
+        entity_id: light.front_garden_soffit_lights
+        state: 'on'
+    then:
+    - target:
+        entity_id:
+        - light.front_garden_path_lights
+        - light.front_garden_soffit_lights
+      action: light.turn_off
+      data: {}
+    else:
+    - target:
+        entity_id:
+        - light.front_garden_path_lights
+        - light.front_garden_soffit_lights
+      action: light.turn_on
+      data: {}
+  mode: single
+- id: '1749216727855'
+  alias: Cat Flap Batteries Low
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.cat_flap_battery_level_adjusted
+    below: 25
+    attribute: value
+    trigger: numeric_state
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      message: Batteries Low
+      title: Cat Flap
   mode: single

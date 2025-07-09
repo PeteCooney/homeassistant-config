@@ -1,0 +1,6 @@
+light:
+- platform: group
+  name: Shed Office - Lights
+  unique_id: light_group_shed_office
+  entities:
+    - light.shed_office_main_lights
