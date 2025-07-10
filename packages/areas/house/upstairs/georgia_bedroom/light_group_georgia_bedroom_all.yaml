@@ -1,8 +1,0 @@
-light:
-- platform: group
-  name: Georgia - Bedroom Lights
-  unique_id: light_group_georgia_bedroom_all
-  entities:
-    - light.georgia_bedroom_main_lights
-    - light.georgia_bedroom_side_lights
-    - light.georgia_bedroom_dressing_room_lights

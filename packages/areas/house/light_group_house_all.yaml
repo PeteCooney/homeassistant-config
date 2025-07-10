@@ -1,7 +1,0 @@
-light:
-- platform: group
-  name: House - All Lights
-  unique_id: light_group_brampton_road_all
-  entities:
-    - light.house_downstairs_lights
-    - light.house_upstairs_lights

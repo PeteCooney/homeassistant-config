@@ -1,8 +1,0 @@
-light:
-- platform: group
-  name: Master Bedroom - Lights
-  unique_id: light_group_master_bedroom_all
-  entities:
-    - light.master_bedroom_main_lights
-    - light.master_bedroom_entrance_lights
-    - light.master_bedroom_accent_lights

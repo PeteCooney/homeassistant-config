@@ -1,8 +1,0 @@
-light:
-- platform: group
-  name: Front Garden - Lights
-  unique_id: light_group_front_garden_all
-  entities:
-    - light.front_garden_christmas_lights
-    - light.front_garden_soffit_lights
-    - light.front_garden_path_lights

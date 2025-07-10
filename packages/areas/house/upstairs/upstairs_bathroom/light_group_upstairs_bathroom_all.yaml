@@ -1,6 +1,0 @@
-light:
-- platform: group
-  name: Upstairs Bathroom - Lights
-  unique_id: light_group_upstairs_bathroom_all
-  entities:
-    - light.upstairs_bathroom_main_lights

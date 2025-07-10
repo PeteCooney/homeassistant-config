@@ -2,7 +2,7 @@ light:
 - platform: template
   lights:
     shed_workshop_workbench_lights:
-      friendly_name: Shed Workshop - Workbench Lights
+      friendly_name: Shed Workshop Workbench Lights
       unique_id: shed_workshop_workbench_lights
       icon_template: mdi:wall-sconce-flat
       # value_template: >-

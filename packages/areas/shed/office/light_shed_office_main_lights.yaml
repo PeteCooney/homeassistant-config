@@ -2,7 +2,7 @@ light:
 - platform: template
   lights:
     shed_office_main_lights:
-      friendly_name: Shed Office - Main Lights
+      friendly_name: Shed Office Main Lights
       unique_id: shed_office_main_lights
       icon_template: mdi:light-recessed
       turn_on:

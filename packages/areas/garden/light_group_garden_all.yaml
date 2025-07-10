@@ -1,7 +1,0 @@
-light:
-- platform: group
-  name: Garden - All Lights
-  unique_id: light_group_garden_all
-  entities:
-    - light.back_garden_lights
-    - light.front_garden_lights

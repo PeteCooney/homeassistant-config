@@ -1,9 +1,0 @@
-light:
-- platform: group
-  name: Kitchen/Dining Room - Lights
-  unique_id: light_group_kitchen_dining_room_all
-  entities:
-    - light.kitchen_dining_room_main_lights
-    - light.kitchen_pendant_lights
-    - light.kitchen_counter_lights
-    

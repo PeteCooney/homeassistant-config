@@ -1,6 +1,0 @@
-light:
-- platform: group
-  name: Hall - Lights
-  unique_id: light_group_hall_all
-  entities:
-    - light.hall_main_lights

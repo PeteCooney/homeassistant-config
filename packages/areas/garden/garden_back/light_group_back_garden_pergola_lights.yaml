@@ -1,7 +1,0 @@
-light:
-- platform: group
-  name: Back Garden - Pergola Lights
-  unique_id: light_group_back_garden_pergola_lights
-  entities:
-    - light.back_garden_pergola_strips
-    - light.back_garden_pergola_spots

@@ -1,8 +1,0 @@
-light:
-- platform: group
-  name: Lounge - Lights
-  unique_id: light_group_lounge_all
-  entities:
-    - light.lounge_main_lights
-    - light.lounge_floor_lamps
-    - light.lounge_table_lamp
