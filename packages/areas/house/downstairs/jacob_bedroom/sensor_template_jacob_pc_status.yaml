@@ -1,0 +1,20 @@
+template:
+  - sensor:
+      - name: "Jacob PC Status"
+        unique_id: jacob_pc_status
+        state: >
+          {% if is_state('sensor.jacob_pc_state', 'Locked') %}
+            Locked
+          {% elif is_state('sensor.jacob_pc_state', 'Unlocked') %}
+            Unlocked
+          {% else %}
+            Offline
+          {% endif %}
+        icon: >
+          {% if is_state('sensor.jacob_pc_state', 'Locked') %}
+            mdi:lock
+          {% elif is_state('sensor.jacob_pc_state', 'Unlocked') %}
+            mdi:desktop-tower-monitor
+          {% else %}
+            fapro:desktop_offline
+          {% endif %}

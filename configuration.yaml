@@ -23,7 +23,3 @@ scene: !include scenes.yaml
 homeassistant:
   packages: !include_dir_named packages
   currency: GBP
-recorder:
-  purge_keep_days: 30
-  commit_interval: 3
-  db_url: postgresql://home-assistant:pa%24%24w0rd@postgres:5432/home-assistant?sslmode=disable
