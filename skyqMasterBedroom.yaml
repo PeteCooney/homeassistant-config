@@ -1,0 +1,136 @@
+    skyq_pausemasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'pause in the Master Bedroom'
+      turn_on:
+        service: media_player.media_pause
+        data:
+          entity_id: media_player.bedroom_sky_q
+      turn_off:
+        service: script.placeholder
+    skyq_playmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'play in the Master Bedroom'
+      turn_on:
+        service: media_player.media_play
+        data:
+          entity_id: media_player.bedroom_sky_q
+      turn_off:
+        service: script.placeholder
+    skyq_ffmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'fastforward in the Master Bedroom'
+      turn_on:
+        service: media_player.media_next_track
+        data:
+          entity_id: media_player.bedroom_sky_q
+      turn_off:
+        service: script.placeholder
+    skyq_rwmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'rewind in the Master Bedroom'
+      turn_on:
+        service: media_player.media_previous_track
+        data:
+          entity_id: media_player.bedroom_sky_q
+      turn_off:
+        service: script.placeholder
+    skyq_bbctwohdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'BBC Two HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'BBC Two HD'
+      turn_off:
+        service: script.placeholder
+    skyq_itvhdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'ITV HD'
+      turn_off:
+        service: script.placeholder
+    skyq_itv2hdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV2 HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'ITV2 HD'
+      turn_off:
+        service: script.placeholder
+    skyq_itv3hdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV3 HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'ITV3 HD'
+      turn_off:
+        service: script.placeholder
+    skyq_channel4hdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'Channel 4 HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'Channel 4 HD'
+      turn_off:
+        service: script.placeholder
+    skyq_channel5hdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'Channel 5 HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'Channel 5 HD'
+      turn_off:
+        service: script.placeholder
+    skyq_skyonehdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'Sky One HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'Sky One HD'
+      turn_off:
+        service: script.placeholder
+    skyq_skyatlantichdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'Sky Atlantic HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'Sky Atlantic HD'
+      turn_off:
+        service: script.placeholder
+    skyq_cbbchdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'CBBC HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'CBBC HD'
+      turn_off:
+        service: script.placeholder
+    skyq_cbeebieshdmasterbedroom:
+      value_template: '{{"off"}}'
+      friendly_name: 'CBeebies HD in the Master Bedroom'
+      turn_on:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.bedroom_sky_q
+          source: 'CBeebies HD'
+      turn_off:
+        service: script.placeholder
