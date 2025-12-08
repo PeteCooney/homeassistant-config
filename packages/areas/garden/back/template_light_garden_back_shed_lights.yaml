@@ -1,0 +1,9 @@
+template:
+- light:
+  - unique_id: garden_back_shed_template
+    name: Back Garden Shed (Template)
+    icon: mdi:outdoor-lamp
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script

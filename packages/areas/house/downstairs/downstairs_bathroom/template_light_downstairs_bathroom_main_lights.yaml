@@ -1,0 +1,9 @@
+template:
+- light:
+  - unique_id: downstairs_bathroom_main_template
+    name: Downstairs Bathroom Main Lights (Template)
+    icon: mdi:light-recessed
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script

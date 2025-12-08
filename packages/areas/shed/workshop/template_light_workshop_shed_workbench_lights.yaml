@@ -1,0 +1,9 @@
+template:
+- light:
+  - unique_id: shed_workshop_workbench_template
+    name: Shed Workshop Workbench (Template)
+    icon: mdi:wall-sconce-flat
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script

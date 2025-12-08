@@ -1,0 +1,4 @@
+input_button:
+  front_garden_soffit_lights_motion_sensor:
+    name: Front Garden - Soffit Lights Motion Sensor
+    icon: mdi:light-switch

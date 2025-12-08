@@ -1,0 +1,6 @@
+dummy_script:
+  sequence:
+  - if: []
+    then: []
+  alias: Dummy Script
+  description: ''

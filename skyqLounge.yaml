@@ -1,0 +1,176 @@
+    skyq_pauselounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'pause in the Lounge'
+      turn_on:
+        - service: media_player.media_pause
+          data:
+            entity_id: media_player.lounge_sky_q
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_playlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'play in the Lounge'
+      turn_on:
+        - service: media_player.media_play
+          data:
+            entity_id: media_player.lounge_sky_q
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_fflounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'fastforward in the Lounge'
+      turn_on:
+        - service: media_player.media_next_track
+          data:
+            entity_id: media_player.lounge_sky_q
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_rwlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'rewind in the Lounge'
+      turn_on:
+        - service: media_player.media_previous_track
+          data:
+            entity_id: media_player.lounge_sky_q
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_bbconesthhdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'BBC One Sth HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'BBC One Sth HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_bbctwohdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'BBC Two HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'BBC Two HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_itv1hdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV1 HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'ITV1 HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_channel4hdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'Channel 4 HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'Channel 4 HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_channel5hdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'Channel 5 HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'Channel 5 HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_skyatlantichdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'Sky Atlantic HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'Sky Atlantic HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_itv2hdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV2 HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'ITV2 HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_skysci_fihdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'Sky Sci-Fi HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'Sky Sci-Fi HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_cbeebieshdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'CBeebies HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'CBeebies HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_cbbchdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'CBBC HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'CBBC HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:
+    skyq_itv3hdlounge:
+      value_template: '{{"off"}}'
+      friendly_name: 'ITV3 HD in the Lounge'
+      turn_on:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.lounge_sky_q
+            source: 'ITV3 HD'
+        - delay:
+            seconds: 10
+      turn_off:
+        stop:

@@ -1,0 +1,9 @@
+template:
+- light:
+  - unique_id: lounge_floor_lamps_template
+    name: Lounge Floor Lamps (Template)
+    icon: mdi:floor-lamp-dual
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script

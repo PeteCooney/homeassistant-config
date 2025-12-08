@@ -1,0 +1,22 @@
+template:
+- sensor:
+  - unique_id: garden_front_path_last_motion
+    default_entity_id: sensor.garden_front_path_last_motion
+    icon: mdi:motion-sensor
+    name: Front Garden Path Last Motion
+    state: >
+      {%- set seconds = (as_timestamp(now()) - as_timestamp(states.input_button.front_garden_soffit_lights_motion_sensor.last_changed)) | int  %}
+      {%- set minutes = ((seconds % 3600) / 60) | int %} 
+      {%- set hours = ((seconds % 86400) / 3600) | int %}
+      {%- set days = (seconds / 86400) | int %}
+      
+      {%- if days > 0 -%}
+      > 1d
+      {%- elif hours > 0 -%}
+      {{ hours }}h {{ minutes }}m
+      {%- elif minutes > 0 -%}
+      {{ minutes }}m
+      {%- else -%}
+      < 1m
+      {%- endif -%}
+      {{ ' ' }}ago"

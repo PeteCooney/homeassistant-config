@@ -1,0 +1,13 @@
+template:
+- light:
+  - unique_id: landing_stair_lights_template
+    name: Stair Lights (Template)
+    icon: mdi:chandelier
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script
+    set_level:
+      action: script.dummy_script
+      data:
+        brightness: '{{ brightness }}'

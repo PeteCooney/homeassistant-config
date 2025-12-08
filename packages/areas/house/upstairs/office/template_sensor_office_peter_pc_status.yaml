@@ -1,0 +1,20 @@
+template:
+- sensor:
+    - name: "Peter Status"
+      unique_id: peter_status
+      state: >
+        {% if is_state('sensor.peter_state', 'Locked') %}
+          Locked
+        {% elif is_state('sensor.peter_state', 'Unlocked') %}
+          Unlocked
+        {% else %}
+          Offline
+        {% endif %}
+      icon: >
+        {% if is_state('sensor.peter_state', 'Locked') %}
+          mdi:lock
+        {% elif is_state('sensor.peter_state', 'Unlocked') %}
+          mdi:desktop-tower-monitor
+        {% else %}
+          mdi:sleep
+        {% endif %}

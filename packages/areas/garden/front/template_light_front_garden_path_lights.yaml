@@ -1,0 +1,9 @@
+template:
+- light:
+  - unique_id: garden_front_path_template
+    name: Front Garden Path (Template)
+    icon: mdi:outdoor-lamp
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script

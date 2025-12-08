@@ -1,0 +1,9 @@
+template:
+- light:
+  - unique_id: shed_workshop_main_template
+    name: Shed Workshop Main Lights (Template)
+    icon: mdi:lightbulb-fluorescent-tube
+    turn_on:
+      action: script.dummy_script
+    turn_off:
+      action: script.dummy_script
