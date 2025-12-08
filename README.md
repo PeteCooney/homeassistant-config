@@ -15,7 +15,7 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Cloudflare
   - Sync public IP for web-facing applications
 - [x] Custom Icons
-   - Extend the default icon set
+  - Extend the default icon set
 - [x] HACS
   - Community extensions
 - [ ] HomeKit Bridge
