@@ -36,6 +36,7 @@ token_file
 /backups
 .ha_run.lock
 .HA_VERSION
+ions.yam
 .yam
 yam
 
