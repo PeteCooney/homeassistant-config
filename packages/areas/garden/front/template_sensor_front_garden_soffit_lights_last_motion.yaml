@@ -1,7 +1,6 @@
 template:
 - sensor:
   - unique_id: garden_front_soffits_last_motion
-    default_entity_id: sensor.garden_front_soffits_last_motion
     icon: mdi:motion-sensor
     name: Front Garden Soffit Lights Last Motion
     state: >

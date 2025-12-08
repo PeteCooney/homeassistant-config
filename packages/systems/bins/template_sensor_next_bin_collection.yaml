@@ -1,0 +1,45 @@
+template:
+- sensor:
+  - unique_id: next_bin_collection
+    name: Next Bin Collection
+    icon: >
+      {% set recycling = as_timestamp(states('sensor.recycling_next_collection')) | timestamp_local %}
+      {% set rubbish = as_timestamp(states('sensor.rubbish_next_collection')) | timestamp_local %}
+      {% if recycling  < rubbish %}
+      mdi:recycle
+      {% else %}
+      mdi:delete-empty
+      {% endif %}
+    state: >
+        {% set recycling = as_timestamp(states('sensor.recycling_next_collection')) | timestamp_local %}
+        {% set rubbish = as_timestamp(states('sensor.rubbish_next_collection')) | timestamp_local  %}
+        {% if recycling  < rubbish %}
+        Recycling - {{ as_datetime(recycling).strftime('%d %b') }}
+        {% else %}
+        Rubbish - {{ as_datetime(rubbish).strftime('%d %b') }}
+        {% endif %}
+    attributes:
+      date: >
+        {% set recycling = as_timestamp(states('sensor.recycling_next_collection')) | timestamp_local %}
+        {% set rubbish = as_timestamp(states('sensor.rubbish_next_collection')) | timestamp_local %}
+        {% if recycling  < rubbish %}
+        {{ recycling }}
+        {% else %}
+        {{ rubbish }}
+        {% endif %}
+      short_date: >
+        {% set recycling = as_timestamp(states('sensor.recycling_next_collection')) | timestamp_local %}
+        {% set rubbish = as_timestamp(states('sensor.rubbish_next_collection')) | timestamp_local  %}
+        {% if recycling  < rubbish %}
+        {{ as_datetime(recycling).strftime('%d %b') }}
+        {% else %}
+        {{ as_datetime(rubbish).strftime('%d %b') }}
+        {% endif %}
+      bin: >
+        {% set recycling = as_timestamp(states('sensor.recycling_next_collection')) | timestamp_local %}
+        {% set rubbish = as_timestamp(states('sensor.rubbish_next_collection')) | timestamp_local %}
+        {% if recycling  < rubbish %}
+        Recycling
+        {% else %}
+        Rubbish
+        {% endif %}
