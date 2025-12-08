@@ -1,4 +1,0 @@
-input_button:
-  front_garden_path_motion_sensor:
-    name: Front Garden - Path Motion Sensor
-    icon: mdi:light-switch
