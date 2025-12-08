@@ -34,6 +34,10 @@
 /platerecogniser/
 token_file
 /backups
+.ha_run.lock
+.HA_VERSION
+.yam
+yam
 
 # Stop tracking HACS components
 /custom_components/
