@@ -638,3 +638,59 @@
           entity_id: switch.unifi_network_block_youtube
       alias: On for 24 hours
   mode: single
+- id: '1766410178085'
+  alias: Kitchen Pendants
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.lounge_5_kitchen_pendants
+      - switch.lounge_1_kitchen_pendants
+- id: '1766410233397'
+  alias: Kitchen Counters
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.kitchen_counters
+      - switch.lounge_1_kitchen_counters
+      - switch.lounge_5_kitchen_counters
+- id: '1766410285382'
+  alias: Kitchen/Dining Room Main Lights
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.kitchen_dining_room_main_lights
+      - switch.lounge_4_kitchen_dining_room_main_lights
+- id: '1766410311241'
+  alias: Lounge Floor Lamps
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.lounge_2_floor_lamps
+      - switch.lounge_3_lounge_floor_lamps
+- id: '1766410341615'
+  alias: Lounge Main Lights
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.lounge_main_lights
+      - switch.lounge_4_lounge_main_lights
+- id: '1766410842509'
+  alias: Hot Tub LEDs
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.back_garden_pergola_leds
+      - switch.lounge_2_hot_tub_leds
+      - switch.lounge_3_hot_tub_leds
