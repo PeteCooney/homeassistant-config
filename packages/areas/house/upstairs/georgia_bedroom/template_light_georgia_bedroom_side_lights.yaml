@@ -1,9 +1,0 @@
-template:
-- light:
-  - unique_id: georgia_bedroom_side_lights_template
-    name: Georgia Side Lights (Template)
-    icon: mdi:floor-lamp-dual
-    turn_on:
-      action: script.dummy_script
-    turn_off:
-      action: script.dummy_script

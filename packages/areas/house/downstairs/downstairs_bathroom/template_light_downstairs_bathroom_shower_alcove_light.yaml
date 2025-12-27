@@ -1,9 +1,0 @@
-template:
-- light:
-  - unique_id: downstairs_bathroom_shower_alcove_template
-    name: Downstairs Bathroom Shower Alcove (Template)
-    icon: mdi:shower-head
-    turn_on:
-      action: script.dummy_script
-    turn_off:
-      action: script.dummy_script

@@ -694,3 +694,55 @@
       - light.back_garden_pergola_leds
       - switch.lounge_2_hot_tub_leds
       - switch.lounge_3_hot_tub_leds
+- id: '1766852853058'
+  alias: Hall Lights
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - switch.hall_1_switch_1
+      - switch.hall_3_switch_1
+      - switch.hall_4_switch_1
+      - switch.landing_1_switch_2
+- id: '1766859907257'
+  alias: Stair Lights
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.stairs
+      - switch.hall_2_stair_lights
+- id: '1766860064180'
+  alias: Landing Lights
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.landing
+      - switch.hall_1_switch_2
+- id: '1766860586598'
+  alias: Lights on When Home Late
+  description: Automatically turn the lights on when Peter returns home after sunset
+  triggers:
+  - trigger: zone
+    entity_id: person.peter_cooney
+    zone: zone.home
+    event: enter
+  conditions:
+  - condition: sun
+    after: sunset
+  - condition: state
+    entity_id: light.stairs
+    state:
+    - 'off'
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data:
+      brightness_pct: 10
+    target:
+      entity_id: light.stairs
+  mode: single
