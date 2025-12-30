@@ -746,3 +746,23 @@
     target:
       entity_id: light.stairs
   mode: single
+- id: '1767103225162'
+  alias: Jacob Spots
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.jacob_spots
+      - switch.jacob_2_switch_1
+      - switch.jacob_3_switch_1
+- id: '1767103303040'
+  alias: Jacob Main Lights
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - light.jacob_main_lights
+      - switch.jacob_1_switch_2
+      - switch.jacob_2_switch_2

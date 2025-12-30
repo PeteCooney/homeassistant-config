@@ -1,9 +1,0 @@
-template:
-- light:
-  - unique_id: jacob_bedroom_spot_lights_template
-    name: Jacob Spots (Template)
-    icon: mdi:light-recessed
-    turn_on:
-      action: script.dummy_script
-    turn_off:
-      action: script.dummy_script
