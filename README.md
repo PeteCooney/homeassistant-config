@@ -6,8 +6,12 @@ My Home Assistant Configuration for reference and restorative purposes.
 
 - [x] Alexa Devices
   - Local monitoring of Alexa devices
+- [x] Andersen EV
+  - Charge-point monitoring
 - [x] Backup
   - Manage automated HA backups
+- [x] Bambu Lab
+  - Monitoring of 3D printer
 - [x] Blink
   - Video doorbell (limited functionality)
 - [x] Browser mod
@@ -26,12 +30,14 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Honeywell Home Total Comfort Connect
   - evohome heating control application
   - *YAML configuration only*
-- [x] Hyundai/Kia Connect
-  - Read details frm my Kia Sorento
 - [x] Immich
   - Self-hosted photo library
 - [x] Internet Printing Protocol (IPP)
   - Epson ET-4800 printer monitoring
+- [x] Mealie
+  - Self-hosted recipe tracking
+- [x] MercedesME 2020
+  - EV monitoring/tracking
 - [x] Meross LAN
   - Local control of Meross smart plugs
 - [x] Meteorologisk institutt (Met.no)
@@ -48,10 +54,10 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Octopus Energy
   - Home energy monitoring
   - Awaiting delivery of Octopus Home Mini
-- [x] Overseerr
-  - Media request manager
 - [x] Peblibro
   - Monitoring of cat feeder & water fountain
+- [x] Philips Hue
+  - Smart lights
 - [x] Pi-hole
   - Network wide ad-blocking
 - [x] Plex Media Server
@@ -59,11 +65,14 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] Pterodactly
   - Monitoring of Pterodactyl game server (Minecraft hosting platform)
 - [x] Radarr
-  - Monitoring of Radarr media getter
+  - Monitoring of Radarr media getter (Movies)
+  - Separate instances for HD & UDH media
 - [x] RESTful
   - Monitoring local authority's API to display bin collection days
 - [x] Samsung Smart TV
   - Control/monitoring of TVs & soundbars
+- [x] Seerr
+  - Media request manager
 - [x] Shelly
   - Local control of Shelly devices
   - Currently limited usage but planning to add Shelly devices to most light switches over time
@@ -72,7 +81,7 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [x] SmartThings
   - Monitoring of Samsung washing machine
 - [x] Sonarr
-  - Monitoring of Sonarr media getter
+  - Monitoring of Sonarr media getter (TV series)
 - [x] Spook
   - A scary powerful toolbox for Home Assistant
 - [x] Spotify
@@ -89,6 +98,9 @@ My Home Assistant Configuration for reference and restorative purposes.
   - Home server OS
 - [x] Tuya
   - Light switches etc
+- [x] Tuya Local
+  - Light switches etc
+  - Long-term intention to migrate all Tuya devices to local control but need to move HA back to a VM first
 - [x] UniFi Network
   - Monitoring of local network devices, switches & access points
 - [ ] UniFi Protect
@@ -107,6 +119,8 @@ My Home Assistant Configuration for reference and restorative purposes.
   - Dynamic DNS utility. Replaced by UniFi native ddns management & Cloudflare
 - Hot Tub
   - Old Lay-Z-Spa hot tub. Replaced by Rotospa but retained in this repository for historical purposes.
+- Hyundai/Kia Connect
+  - Read details frm my Kia Sorento
 - Ring
   - Replaced with Blink
 - Sonoff
@@ -115,14 +129,16 @@ My Home Assistant Configuration for reference and restorative purposes.
   - Now managed via UniFi
 
 ## HACS Add-ins
-
+- [Andersen EV](https://github.com/HA-AndersenEV/hassio-andersen-ev)
 - [auto-entities](https://github.com/thomasloven/lovelace-auto-entities)
+- [Bambu Lab](https://github.com/greghesp/ha-bambulab)
 - [browser_mod](https://github.com/thomasloven/hass-browser_mod)
 - [card-mod](https://github.com/thomasloven/lovelace-card-mod)
+- [Custom Features for Home Assistant Cards](https://github.com/Nerwyn/custom-card-features)
 - [Custom Icons](https://github.com/thomasloven/hass-custom_icons)
 - [Home Assistant Swipe Navigation](https://github.com/zanna-37/hass-swipe-navigation)
 - [HomeWhiz](https://github.com/home-assistant-HomeWhiz/home-assistant-HomeWhiz)
-- [Kia Uvo/Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo)
+- [MercedesME 2020](https://github.com/ReneNulschDE/mbapi2020)
 - [Meross LAN](https://github.com/krahabb/meross_lan)
 - [Microsoft 365 - Calendar](https://github.com/RogerSelwyn/MS365-Calendar)
 - [mini-graph-card](https://github.com/kalkih/mini-graph-card)
@@ -131,3 +147,4 @@ My Home Assistant Configuration for reference and restorative purposes.
 - [SkyQ](https://github.com/RogerSelwyn/Home_Assistant_SkyQ_MediaPlayer)
 - [Spook](https://github.com/frenck/spook)
 - [TrueNAS](https://github.com/tomaae/homeassistant-truenas)
+- [Tuya Local](https://github.com/make-all/tuya-local)

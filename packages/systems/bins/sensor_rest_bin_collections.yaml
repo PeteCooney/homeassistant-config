@@ -33,3 +33,12 @@ rest:
         - wasteContainerDescription
         - scheduleDateRange
         - wasteContainerDomesticschedule
+      - name: "Food Waste"
+        unique_id: "food_waste"
+        value_template: ""
+        json_attributes_path: $.data[3]
+        json_attributes:
+        - wasteContainerUsageTypeDescription
+        - wasteContainerDescription
+        - scheduleDateRange
+        - wasteContainerDomesticschedule

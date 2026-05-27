@@ -1,41 +1,36 @@
 - id: '1698309392080'
   alias: Lock Car
   description: Check if the car doors have been left unlocked and, if so, lock them.
-  trigger:
-  - platform: time
-    at: '22:00:00'
-  condition:
+  triggers:
+  - at: '22:00:00'
+    trigger: time
+  conditions:
   - condition: device
-    device_id: fb121cea7fb34311eb0a8efb22bcf012
+    device_id: 99c181430108d9826da0804f3b4de3ae
     domain: device_tracker
-    entity_id: 69391f83a00c4d0edb7499199bd368bc
+    entity_id: b4d4f54a9173c0ac77c0942d446c222a
     type: is_home
   - condition: device
-    device_id: fb121cea7fb34311eb0a8efb22bcf012
+    device_id: 99c181430108d9826da0804f3b4de3ae
     domain: lock
-    entity_id: e843dc9038c5b77bfd4717f5d1f52960
+    entity_id: 1c25427a90cec362833e377b922ec57a
     type: is_unlocked
-  - type: is_off
-    condition: device
-    device_id: fb121cea7fb34311eb0a8efb22bcf012
-    entity_id: b3c196afb02b85e136bfebde3c55ea91
-    domain: binary_sensor
-  action:
-  - service: lock.lock
-    data: {}
+  actions:
+  - data: {}
     target:
-      device_id: fb121cea7fb34311eb0a8efb22bcf012
-  - service: notify.mobile_app_peters_iphone
-    data:
+      device_id: 99c181430108d9826da0804f3b4de3ae
+    action: lock.lock
+  - data:
       title: Car Doors Locked
       message: Car doors were left unlocked. They have now been locked
+    action: notify.mobile_app_peters_iphone
   mode: single
 - id: '1710761994420'
   alias: Back Garden Toggle Pergola Spots
   description: ''
   triggers:
   - entity_id:
-    - binary_sensor.back_garden_light_switches_2
+    - binary_sensor.back_garden_pergola_switches_pergola_spots
     trigger: state
   conditions: []
   actions:
@@ -50,7 +45,7 @@
   description: ''
   triggers:
   - entity_id:
-    - binary_sensor.back_garden_light_switches_1
+    - binary_sensor.back_garden_pergola_switches_hot_tub_leds
     trigger: state
   conditions: []
   actions:
@@ -241,7 +236,8 @@
     metadata: {}
     data:
       title: Sonarr - Series Downloaded
-      message: "\U0001F4FA{{trigger['json']['series']['title']}}\U0001F4FA"
+      message: "\U0001F4FA{{trigger.json.series.title}} (s{{\"%02d\"%trigger.json.episodes[0].seasonNumber}}e{{\"%02d\"%trigger.json.episodes[0].episodeNumber}}
+        - '{{trigger.json.episodes[0].title}}')\U0001F4FA"
   mode: single
 - id: '1745664235460'
   alias: Sonarr Upgrade
@@ -252,13 +248,16 @@
     - POST
     local_only: true
     webhook_id: sonarr-upgrade
-  conditions: []
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.json.eventType == ''Upgrade'' }}'
   actions:
   - action: notify.mobile_app_peters_iphone
     metadata: {}
     data:
       title: Sonarr - Series Upgraded
-      message: "\U0001F4FA{{trigger['json']['series']['title']}}\U0001F4FA"
+      message: "\U0001F4FA{{trigger.json.series.title}} (s{{\"%02d\"%trigger.json.episodes[0].seasonNumber}}e{{\"%02d\"%trigger.json.episodes[0].episodeNumber}}
+        - '{{trigger.json.episodes[0].title}}')\U0001F4FA"
   mode: single
 - id: '1745831097069'
   alias: TrueNAS App Update(s) Available
@@ -454,12 +453,12 @@
           entity_id: '{{ repeat.item }}'
   mode: single
 - id: '1759760292813'
-  alias: Overseerr - Pending Request
+  alias: Seerr - Pending Request
   description: ''
   triggers:
   - trigger: state
     entity_id:
-    - event.overseerr_last_media_event
+    - event.seerr_last_media_event
     attribute: event_type
     to: pending
   conditions: []
@@ -468,12 +467,11 @@
     metadata: {}
     data:
       title: Overseerr - New Request
-      message: '{% set subject = state_attr(''event.overseerr_last_media_event'',
-        ''subject'') %} {% set requestedBy = state_attr(''event.overseerr_last_media_event'',
-        ''request'').requested_by_username %}  {{ subject }} was requested by {{ requestedBy
-        }}'
+      message: '{% set subject = state_attr(''event.seerr_last_media_event'', ''subject'')
+        %} {% set requestedBy = state_attr(''event.seerr_last_media_event'', ''request'').requested_by_username
+        %}  {{ subject }} was requested by {{ requestedBy }}'
       data:
-        url: https://overseerr.pcooney.uk/requests
+        url: https://seerr.pcooney.uk/requests
   mode: single
 - id: '1759859494623'
   alias: Bedroom Lights When Home Late
@@ -766,3 +764,38 @@
       - light.jacob_main_lights
       - switch.jacob_1_switch_2
       - switch.jacob_2_switch_2
+- id: '1769969713463'
+  alias: Beau Water Fountain Low
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.dockstream_2_smart_cordless_fountain_remaining_water_2
+    below: number.dockstream_2_smart_cordless_fountain_water_low_threshold
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Beau’s Fountain
+      message: The water level in Beau’s fountain is low
+  mode: single
+- id: '1772839132307'
+  alias: Bambu Lab P2S - Printing Complete
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.bambu_p2s_current_stage
+    from:
+    - printing
+    to:
+    - idle
+  conditions: []
+  actions:
+  - action: notify.mobile_app_peters_iphone
+    metadata: {}
+    data:
+      title: Bambu Lab P2S
+      message: Printing complete
+  mode: single

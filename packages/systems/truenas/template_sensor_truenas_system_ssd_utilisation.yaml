@@ -1,0 +1,30 @@
+template:
+- sensor:
+  - unique_id: truenas_system_nvme_utilisation
+    name: NVMe Utilisation
+    icon: mdi:database-settings
+    state: >
+      {% set used = state_attr('sensor.truenas_datasets_nvme', 'Used') %}
+      {% set available = state_attr('sensor.truenas_datasets_nvme', 'Available') %}
+      {% if used is number and available is number %}
+        {{ (used / (used+available) * 100) | float | round(1, "ceil") }}
+      {% else %}
+        {{ states('sensor.truenas_system_nvme_used_percentage') }}
+      {% endif %}
+    unit_of_measurement: '%'
+    attributes:
+      free_capacity: >
+        {% set available = state_attr('sensor.truenas_datasets_nvme', 'Available') %}
+        {{ available | float | filesizeformat(binary=true) }}
+      used_capacity: >
+        {% set used = state_attr('sensor.truenas_datasets_nvme', 'Used') %}
+        {{ used | float | filesizeformat(binary=true) }}
+      total_capacity: >
+        {% set used = state_attr('sensor.truenas_datasets_nvme', 'Used') %}
+        {% set available = state_attr('sensor.truenas_datasets_nvme', 'Available') %}
+        {{ (used + available) | filesizeformat(binary=true) }}
+      usage: >
+        {% set used = state_attr('sensor.truenas_datasets_nvme', 'Used') %}
+        {% set available = state_attr('sensor.truenas_datasets_nvme', 'Available') %}
+        {% set total = (used + available) | float | round(0) %}
+        {{ used | filesizeformat(binary=true) | string + ' / ' + total | filesizeformat(binary=true) | string }}
